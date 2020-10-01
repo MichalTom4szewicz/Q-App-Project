@@ -50,9 +50,9 @@ const App: React.FC = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      loginService.setToken(user.token)   
+      loginService.setToken(user.token)
     }
-    
+
   }, [])
 
   const handleLogin = async (event) => {
@@ -65,13 +65,13 @@ const App: React.FC = () => {
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
       )
-      
+
 
       loginService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
-      
+
     } catch (exception) {
       setUsername('')
       setPassword('')
@@ -97,7 +97,7 @@ const App: React.FC = () => {
       setTimeout(() => {
         setErrorMsg(null)
       }, 5000)
-      
+
     } catch (exception) {
         setUsername('')
         setName('')
@@ -111,7 +111,7 @@ const App: React.FC = () => {
         }, 5000)
     }
   }
- 
+
   const loginForm = () => {
     return (
         <LoginForm
@@ -125,7 +125,7 @@ const App: React.FC = () => {
   }
 
   const registerForm = (props) => {
-    
+
     return (
       <RegisterForm
         username={username}
@@ -135,7 +135,7 @@ const App: React.FC = () => {
         handleNameChange={({ target }) => setName(target.value)}
         handlePasswordChange={({ target }) => setPassword(target.value)}
         handleRSubmit={handleRegistration}
-    />
+      />
     )
   }
 
@@ -151,7 +151,7 @@ const App: React.FC = () => {
             <Route path="/page/:name" component={Page} exact />
             <Route path='/quizchoice' component={Quizchoice} exact />
             <Route path='/quizchoice/:id' component={Quiz} exact />
-            <Route path="/quizcreate" component={Quizcreate} exact={true} /> 
+            <Route path="/quizcreate" component={Quizcreate} exact={true} />
             <Redirect from="/" to="/page/Main" exact />
           </IonRouterOutlet>
         </IonSplitPane>

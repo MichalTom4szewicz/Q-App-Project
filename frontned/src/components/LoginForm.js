@@ -21,7 +21,7 @@ const LoginForm = ({
    return (
      <>
        {/*<h2>Login</h2>*/}
- 
+
        <form onSubmit={handleSubmit}>
          <div>
            username
@@ -43,5 +43,5 @@ const LoginForm = ({
      </>
    )
  }
- 
+
  export default LoginForm

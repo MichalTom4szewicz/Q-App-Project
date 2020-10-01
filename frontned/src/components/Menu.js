@@ -24,13 +24,13 @@ const appPages = [
     mdIcon: trashSharp
   },
   {
-    title: 'Quiz Create',
+    title: 'Create QUIZ',
     url: '/quizcreate',
     iosIcon: warningOutline,
     mdIcon: warningSharp
   },
   {
-    title: 'Quiz Choice',
+    title: 'Start FUN',
     url: '/quizchoice',
     iosIcon: mailOutline,
     mdIcon: mailSharp
@@ -64,30 +64,29 @@ const Menu = (props) => {
             </IonItem>
             </> : ''}
 
-          {props.user === null ? 
-          <>
-            {vis === true ? props.loginForm() : props.registerForm()}
-          </>:
-          <>
-            <IonNote>{props.user.username} logged in</IonNote>
-            <IonButton routerLink={"/"} onClick={event => {
-              window.localStorage.clear()
-              props.setUser(null)
-            }}> log out </IonButton>
+          {props.user === null ?
+            <>
+              {vis === true ? props.loginForm() : props.registerForm()}
+            </> :
+            <>
+              <IonNote>{props.user.username} logged in</IonNote>
+              <IonButton routerLink={"/"} onClick={event => {
+                window.localStorage.clear()
+                props.setUser(null)
+              }}> log out </IonButton>
 
-            {appPages.map((appPage, index) => {
-              return (
-                <IonMenuToggle key={index} autoHide={false}>
-                  <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
-                    <IonIcon slot="start" icon={appPage.iosIcon} />
-                    <IonLabel>{appPage.title}</IonLabel>
-                  </IonItem>
-                </IonMenuToggle>
-              );
-            })}
-            </>}
-
-            
+              {appPages.map((appPage, index) => {
+                return (
+                  <IonMenuToggle key={index} autoHide={false}>
+                    <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                      <IonIcon slot="start" icon={appPage.iosIcon} />
+                      <IonLabel>{appPage.title}</IonLabel>
+                    </IonItem>
+                  </IonMenuToggle>
+                );
+              })}
+            </>
+          }
         </IonList>
       </IonContent>
     </IonMenu>
