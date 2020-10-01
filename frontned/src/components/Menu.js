@@ -11,10 +11,14 @@ import {
   IonNote,
 } from '@ionic/react';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {addOutline,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import './Menu.css';
 
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+
+import loginService from '../services/login'
 
 const appPages = [
   {
@@ -37,9 +41,42 @@ const appPages = [
   }
 ];
 
-const Menu = (props) => {
+const Menu = () => {
 
   const [visibleForm, setVisibleForm] = useState('login') //login visible, registration not
+  const [user, setUser] = useState(null)
+  const [errorMsg, setErrorMsg] = useState("")
+
+  const loginForm = () => {
+    return (
+      <LoginForm
+        setErrorMsg={setErrorMsg}
+        setUser={setUser}
+      />
+    )
+  }
+
+  const registerForm = () => {
+    return (
+      <RegisterForm
+        setErrorMsg={setErrorMsg}
+      />
+    )
+  }
+
+  const logOut = () => {
+    window.localStorage.clear()
+    setUser(null)
+  }
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      loginService.setToken(user.token)
+    }
+  }, [])
 
   return (
     <IonMenu contentId="main" type="overlay">
@@ -47,26 +84,24 @@ const Menu = (props) => {
         <IonList id="inbox-list">
           <IonListHeader>QuizApp</IonListHeader>
 
-          {props.errorMsg}
+          {errorMsg}
 
-          {props.user === null ?
-            <>
+          {user === null ?
             <IonItem>
               <IonButton onClick={() => setVisibleForm('login')} color= {visibleForm === 'login' ? "dark" : "light"}>Login</IonButton>
               <IonButton onClick={() => setVisibleForm('register')} color= {visibleForm === 'login' ? "light" : "dark"}>Register</IonButton>
-            </IonItem>
-            </> : ''}
+            </IonItem> : ''
+          }
 
-          {props.user === null ?
+          {user === null ?
             <>
-              {visibleForm === 'login' ? props.loginForm() : props.registerForm()}
+              {visibleForm === 'login' ? loginForm() : registerForm()}
             </> :
             <>
-              <IonNote>{props.user.username} logged in</IonNote>
-              <IonButton routerLink={"/"} onClick={event => {
-                window.localStorage.clear()
-                props.setUser(null)
-              }}> log out </IonButton>
+              <div>
+                <IonNote>{user.username} logged in</IonNote>
+                <IonButton routerLink={"/"} onClick={logOut}>log out </IonButton>
+              </div>
 
               {appPages.map((appPage, index) => {
                 return (

@@ -28,49 +28,15 @@ import Quizchoice from './pages/Quizchoice';
 import Quiz from './pages/Quiz'
 import Quizcreate from './pages/Quizcreate';
 
-import loginService from './services/login'
-import registerService from './services/register'
-
-import Togglable from './components/Togglable';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
 
 const App: React.FC = () => {
-
-  const [user, setUser] = useState(null)
-  const [errorMsg, setErrorMsg] = useState("")
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      loginService.setToken(user.token)
-    }
-  }, [])
-
-  const loginForm = () => {
-    return (
-        <LoginForm
-          setErrorMsg={setErrorMsg}
-          setUser={setUser}
-        />
-    )
-  }
-
-  const registerForm = () => {
-    return (
-      <RegisterForm
-        setErrorMsg={setErrorMsg}
-      />
-    )
-  }
 
   return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
-          <Menu errorMsg={errorMsg} user={user} loginForm={loginForm} setUser={setUser} registerForm={registerForm}/>
+
+          <Menu />
 
           <IonRouterOutlet id="main">
             <Route path="/page/:name" component={Page} exact />
