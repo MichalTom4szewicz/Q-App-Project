@@ -37,13 +37,8 @@ import RegisterForm from './components/RegisterForm';
 
 const App: React.FC = () => {
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMsg, setErrorMsg] = useState("")
-
-  const [name, setName] = useState('')
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -52,89 +47,21 @@ const App: React.FC = () => {
       setUser(user)
       loginService.setToken(user.token)
     }
-
   }, [])
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-
-      window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
-      )
-
-
-      loginService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-
-    } catch (exception) {
-      setUsername('')
-      setPassword('')
-      setErrorMsg(JSON.parse(exception.response.request.response).error)
-      setTimeout(() => {
-        setErrorMsg(null)
-      }, 5000)
-    }
-  }
-
-  const handleRegistration = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await registerService.register({
-        username, name,  password,
-      })
-
-      setUsername('')
-      setName('')
-      setPassword('')
-
-      setErrorMsg('successful registration, now you can log in')//JSON.parse(exception.response.request.response).error
-      setTimeout(() => {
-        setErrorMsg(null)
-      }, 5000)
-
-    } catch (exception) {
-        setUsername('')
-        setName('')
-        setPassword('')
-
-        const txt = JSON.parse(exception.response.request.response).error
-        console.log(txt)
-        setErrorMsg(JSON.parse(exception.response.request.response).error)//JSON.parse(exception.response.request.response).error
-        setTimeout(() => {
-          setErrorMsg(null)
-        }, 5000)
-    }
-  }
 
   const loginForm = () => {
     return (
         <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
+          setErrorMsg={setErrorMsg}
+          setUser={setUser}
         />
     )
   }
 
-  const registerForm = (props) => {
-
+  const registerForm = () => {
     return (
       <RegisterForm
-        username={username}
-        name={name}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handleNameChange={({ target }) => setName(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleRSubmit={handleRegistration}
+        setErrorMsg={setErrorMsg}
       />
     )
   }
@@ -143,8 +70,7 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
-          <Menu errorMsg={errorMsg} user={user} loginForm={loginForm} setUser={setUser} registerForm={registerForm}
-           setusername={setUsername} setname={setName} setpassword={setPassword} />
+          <Menu errorMsg={errorMsg} user={user} loginForm={loginForm} setUser={setUser} registerForm={registerForm}/>
 
           <IonRouterOutlet id="main">
             <Route path="/page/:name" component={Page} exact />

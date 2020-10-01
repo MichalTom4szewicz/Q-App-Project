@@ -39,14 +39,7 @@ const appPages = [
 
 const Menu = (props) => {
 
-  const [vis, setVis] = useState(true) //login visible, registration not
-
-  const onVisChange = arg => {
-    props.setusername('')
-    props.setname('')
-    props.setpassword('')
-    setVis(arg)
-  }
+  const [visibleForm, setVisibleForm] = useState('login') //login visible, registration not
 
   return (
     <IonMenu contentId="main" type="overlay">
@@ -59,14 +52,14 @@ const Menu = (props) => {
           {props.user === null ?
             <>
             <IonItem>
-              <IonButton onClick={() => onVisChange(true)} color= {vis === true ? "dark" : "light"}>Login</IonButton>
-              <IonButton onClick={() => onVisChange(false)} color= {vis === true ? "light" : "dark"}>Register</IonButton>
+              <IonButton onClick={() => setVisibleForm('login')} color= {visibleForm === 'login' ? "dark" : "light"}>Login</IonButton>
+              <IonButton onClick={() => setVisibleForm('register')} color= {visibleForm === 'login' ? "light" : "dark"}>Register</IonButton>
             </IonItem>
             </> : ''}
 
           {props.user === null ?
             <>
-              {vis === true ? props.loginForm() : props.registerForm()}
+              {visibleForm === 'login' ? props.loginForm() : props.registerForm()}
             </> :
             <>
               <IonNote>{props.user.username} logged in</IonNote>
