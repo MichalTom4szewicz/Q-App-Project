@@ -15,15 +15,15 @@ import React, { useState, useEffect } from 'react';
 import {addOutline,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import './Menu.css';
 
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import LoginForm from './forms/LoginForm';
+import RegisterForm from './forms/RegisterForm';
 
 import loginService from '../services/login'
 
 const appPages = [
   {
-    title: 'Main Page',
-    url: '/page/Main',
+    title: 'Welcome to TMYK',
+    url: '/welcome',
     iosIcon: addOutline,
     mdIcon: trashSharp
   },

@@ -47,7 +47,7 @@ const QuestionForm = (props) => {
     setAnswer('')
     setAnswers([])
     setPytanie('')
-    
+
     setMessage('Dodano pytanie')
 
     setTimeout(() => {
@@ -71,17 +71,17 @@ const QuestionForm = (props) => {
 
   return(
     <IonCard>
-      
+
 
       <IonItem>
         <IonLabel position="floating">Question</IonLabel>
         <IonInput value={pytanie} placeholder="Enter Question" onIonChange={handlePytanieChange} clearInput/>
       </IonItem>
-     
+
       <IonLabel position="floating">Answers</IonLabel>
 
       <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
-            
+
 
         {answers.map(a => <IonItem style={btnStyle} key={a} button onClick={() => clk(a)} ><IonLabel>{a}</IonLabel><IonRadio slot="start" value={a}/></IonItem>)}
       </IonRadioGroup>
@@ -102,13 +102,13 @@ const QuestionForm = (props) => {
         message={message}
         position="middle"
         duration={1500}
-        color="success"       
+        color="success"
       />
 
-        
+
     </IonCard>
   )
-    
+
 }
 
 export default QuestionForm;

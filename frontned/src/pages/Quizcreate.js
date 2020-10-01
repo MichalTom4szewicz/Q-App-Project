@@ -17,17 +17,17 @@ import {IonList,IonModal,
   IonButton} from '@ionic/react';
 
 
-import QuestionForm from "../components/QuestionForm"
+import QuestionForm from "../components/forms/QuestionForm"
 
 const Quizcreate = (props) => {
   const [showPreview, setShowPreview] = useState(false);
   const [title, setTitle] = useState('')
 
   const [questions, setQuestions] = useState([])
-    
 
-  const quizForm = () => {      
-    const handleTitleChange = (event) => 
+
+  const quizForm = () => {
+    const handleTitleChange = (event) =>
     {
       setTitle(event.target.value)
     }
@@ -37,15 +37,15 @@ const Quizcreate = (props) => {
         <IonCard>
           <IonItem>
             <IonLabel position="floating">Quiz Title</IonLabel>
-            <IonInput value={title} placeholder="Enter Quiz Title" onIonChange={handleTitleChange} clearInput/>  
+            <IonInput value={title} placeholder="Enter Quiz Title" onIonChange={handleTitleChange} clearInput/>
           </IonItem>
 
           <QuestionForm addQuestion={setQuestions} questions={questions}/>
-          
+
         </IonCard>
       </IonContent>
     )
-    
+
   }
 
   const preview = () => {
@@ -70,9 +70,9 @@ const Quizcreate = (props) => {
               )})}
             </IonList>
 
-          </IonCard>          
+          </IonCard>
         </IonContent>
-        <IonButton onClick={() => setShowPreview(false)}>Close Preview</IonButton>     
+        <IonButton onClick={() => setShowPreview(false)}>Close Preview</IonButton>
 
       </IonModal>
     )
@@ -113,7 +113,7 @@ const Quizcreate = (props) => {
         <IonButton routerLink="/quizchoice" onClick={() => addQuiz()}>Finish</IonButton>
         {preview()}
 
-        
+
 
       </IonContent>
 

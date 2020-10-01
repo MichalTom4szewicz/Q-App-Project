@@ -12,7 +12,7 @@ import { IonContent,
   IonToolbar
 } from '@ionic/react';
 
-import registerService from '../services/register'
+import registerService from '../../services/register'
 
 const RegisterForm = ({
     setErrorMsg

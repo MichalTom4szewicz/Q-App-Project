@@ -1,5 +1,3 @@
-import Menu from './components/Menu';
-import Page from './pages/Page';
 import React, {useState, useEffect} from 'react';
 import { IonApp, IonRouterOutlet, IonSplitPane, IonInput, IonButton} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -24,6 +22,9 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import Menu from './components/Menu';
+
+import Welcome from './pages/Welcome';
 import Quizchoice from './pages/Quizchoice';
 import Quiz from './pages/Quiz'
 import Quizcreate from './pages/Quizcreate';
@@ -39,11 +40,11 @@ const App: React.FC = () => {
           <Menu />
 
           <IonRouterOutlet id="main">
-            <Route path="/page/:name" component={Page} exact />
+            <Route path="/welcome" component={Welcome} exact />
             <Route path='/quizchoice' component={Quizchoice} exact />
             <Route path='/quizchoice/:id' component={Quiz} exact />
             <Route path="/quizcreate" component={Quizcreate} exact={true} />
-            <Redirect from="/" to="/page/Main" exact />
+            <Redirect from="/" to="/welcome" exact />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

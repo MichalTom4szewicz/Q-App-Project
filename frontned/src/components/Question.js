@@ -6,11 +6,11 @@ import { IonCard, IonRadioGroup, IonRadio, IonicBadge, IonText, IonToggle, IonTi
 import quizService from '../services/quizes'
 
 const Question = (props) => {
-  
+
   const [choice, setChoice] = useState(-1)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [quiz, setQuiz] = useState({})
-  
+
   const [answers, setAnswers] = useState([])
 
 
@@ -22,7 +22,7 @@ const Question = (props) => {
     quizService
       .getOne(props.id)
       .then(initialQuizes => {
-        setQuiz(initialQuizes)      
+        setQuiz(initialQuizes)
       })
       .catch(e => {
           console.log('e')
@@ -39,17 +39,17 @@ const Question = (props) => {
             </IonText>
 
             <IonRadioGroup value={choice} onIonChange={e => setChoice(e.detail.value)}>
-            
+
             {questions? console.log(questions[currentQuestion].answers[1]) : "f"}
-            
+
 
           </IonRadioGroup>
-    
+
           </>
 
 
 
-        
+
       )
   }
 
@@ -58,7 +58,7 @@ const Question = (props) => {
       {page()}
 
     </IonCard>
-    
+
   )
 }
 export default Question;
