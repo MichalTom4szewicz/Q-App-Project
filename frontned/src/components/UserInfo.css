@@ -1,0 +1,22 @@
+#userImage {
+  border-radius: 50%;
+  width: 30%;
+  margin: 5% 35% 5%;
+}
+
+#usernameNote {
+  /* background-color: black; */
+  text-align: center;
+  width: 50%;
+  margin: 0% 23.5% 5%;
+}
+
+#grid {
+  text-align: center;
+}
+
+.userInfoPerks {
+
+  background: green;
+  border-radius: 10px;
+}

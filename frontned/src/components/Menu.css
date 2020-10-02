@@ -110,4 +110,18 @@ ion-note {
 
 ion-item.selected {
   --color: var(--ion-color-primary);
-} 
+}
+
+.middleMenuUserInfo {
+  position: relative;
+  margin: auto;
+}
+
+#logoutButton {
+  width: 70%;
+  margin: 5% 15% 5%;
+}
+
+#inbox-list {
+  margin-top: -10%;
+}

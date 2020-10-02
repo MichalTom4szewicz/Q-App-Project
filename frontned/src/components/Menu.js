@@ -9,6 +9,8 @@ import {
   IonMenuToggle,
   IonButton,
   IonNote,
+  IonHeader,
+  IonToolbar, IonTitle, IonRow, IonGrid, IonCol
 } from '@ionic/react';
 
 import React, { useState, useEffect } from 'react';
@@ -17,6 +19,7 @@ import './Menu.css';
 
 import LoginForm from './forms/LoginForm';
 import RegisterForm from './forms/RegisterForm';
+import UserInfo from './UserInfo'
 
 import loginService from '../services/login'
 
@@ -80,42 +83,47 @@ const Menu = () => {
 
   return (
     <IonMenu contentId="main" type="overlay">
+       <IonHeader>
+        <IonToolbar translucent>
+          {user === null ?
+            <div>
+              <IonTitle>TMYK</IonTitle>
+            </div> :
+            <UserInfo user={user}></UserInfo>
+          }
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
-        <IonList id="inbox-list">
-          <IonListHeader>QuizApp</IonListHeader>
+        {errorMsg}
 
-          {errorMsg}
+        {user === null ?
+          <IonItem>
+            <IonButton onClick={() => setVisibleForm('login')} color= {visibleForm === 'login' ? "dark" : "light"}>Login</IonButton>
+            <IonButton onClick={() => setVisibleForm('register')} color= {visibleForm === 'login' ? "light" : "dark"}>Register</IonButton>
+          </IonItem> : ''
+        }
 
-          {user === null ?
-            <IonItem>
-              <IonButton onClick={() => setVisibleForm('login')} color= {visibleForm === 'login' ? "dark" : "light"}>Login</IonButton>
-              <IonButton onClick={() => setVisibleForm('register')} color= {visibleForm === 'login' ? "light" : "dark"}>Register</IonButton>
-            </IonItem> : ''
-          }
 
-          {user === null ?
-            <>
-              {visibleForm === 'login' ? loginForm() : registerForm()}
-            </> :
-            <>
-              <div>
-                <IonNote>{user.username} logged in</IonNote>
-                <IonButton routerLink={"/"} onClick={logOut}>log out </IonButton>
-              </div>
 
-              {appPages.map((appPage, index) => {
-                return (
-                  <IonMenuToggle key={index} autoHide={false}>
-                    <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
-                      <IonIcon slot="start" icon={appPage.iosIcon} />
-                      <IonLabel>{appPage.title}</IonLabel>
-                    </IonItem>
-                  </IonMenuToggle>
-                );
-              })}
-            </>
-          }
-        </IonList>
+        {user === null ?
+          <>
+            {visibleForm === 'login' ? loginForm() : registerForm()}
+          </> :
+          <IonList id="inbox-list">
+            {appPages.map((appPage, index) => {
+              return (
+                <IonMenuToggle key={index} autoHide={false}>
+                  <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                    <IonIcon slot="start" icon={appPage.iosIcon} />
+                    <IonLabel>{appPage.title}</IonLabel>
+                  </IonItem>
+                </IonMenuToggle>
+              );
+            })}
+          </IonList>
+        }
+        <IonButton id="logoutButton" routerLink={"/"} color="warning" onClick={logOut}>log out </IonButton>
+
       </IonContent>
     </IonMenu>
   );
