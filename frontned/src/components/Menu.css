@@ -122,6 +122,9 @@ ion-item.selected {
   margin: 5% 15% 5%;
 }
 
+#con {
+  margin-top: -5%;
+}
 #inbox-list {
-  margin-top: -10%;
+  margin-top: -12%;
 }

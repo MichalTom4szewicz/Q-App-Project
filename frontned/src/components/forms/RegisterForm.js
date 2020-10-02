@@ -14,6 +14,8 @@ import { IonContent,
 
 import registerService from '../../services/register'
 
+import './RegisterForm.css'
+
 const RegisterForm = ({
     setErrorMsg
  }) => {
@@ -53,33 +55,23 @@ const RegisterForm = ({
   }
 
   return (
-    <>
+    <div id="registerForm">
       <form onSubmit={handleRegistration}>
-        <div>
-          <p>username</p>
-          <input
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          <p>name</p>
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
-        </div>
-        <div>
-          <p>password</p>
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <IonButton type="submit">register</IonButton>
+        <IonItem>
+          <IonInput required value={username} placeholder="Username" onIonChange={e => setUsername(e.detail.value)}></IonInput>
+        </IonItem>
+
+        <IonItem>
+          <IonInput required value={name} placeholder="Name" onIonChange={e => setName(e.detail.value)}></IonInput>
+        </IonItem>
+
+        <IonItem>
+          <IonInput required  type="password" value={password} placeholder="Password" onIonChange={e => setPassword(e.detail.value)}></IonInput>
+        </IonItem>
+
+        <IonButton className="log_regButton" type="submit">register</IonButton>
       </form>
-    </>
+    </div>
    )
  }
 

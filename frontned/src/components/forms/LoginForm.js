@@ -12,6 +12,7 @@ import { IonContent,
   IonToolbar
 } from '@ionic/react';
 
+import './LoginForm.css'
 
 import loginService from '../../services/login'
 
@@ -55,26 +56,19 @@ const LoginForm = ({
   }, []);
 
   return (
-    <>
+    <div id="loginForm">
       <form onSubmit={handleLogin}>
-        <div>
-          <p>username</p>
-          <input
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          <p>password</p>
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <IonButton type="submit">login</IonButton>
+        <IonItem>
+          <IonInput required value={username} placeholder="Username" onIonChange={e => setUsername(e.detail.value)}></IonInput>
+        </IonItem>
+
+        <IonItem>
+          <IonInput required  type="password" value={password} placeholder="Password" onIonChange={e => setPassword(e.detail.value)}></IonInput>
+        </IonItem>
+
+        <IonButton className="log_regButton" type="submit">login</IonButton>
       </form>
-    </>
+    </div>
   )
 }
 

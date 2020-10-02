@@ -1,0 +1,14 @@
+#loginForm {
+  padding: 5px;
+  margin: auto;
+  margin: 5% 0% -10%;
+
+  border: 1px solid lightgray;
+  border-radius: 5%;
+}
+
+.log_regButton {
+  width: 90%;
+  margin: 5% 5% 2%;
+
+}

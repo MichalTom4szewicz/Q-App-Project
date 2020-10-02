@@ -22,6 +22,7 @@ import RegisterForm from './forms/RegisterForm';
 import UserInfo from './UserInfo'
 
 import loginService from '../services/login'
+import FormChoice from './FormChoice';
 
 const appPages = [
   {
@@ -45,8 +46,6 @@ const appPages = [
 ];
 
 const Menu = () => {
-
-  const [visibleForm, setVisibleForm] = useState('login') //login visible, registration not
   const [user, setUser] = useState(null)
   const [errorMsg, setErrorMsg] = useState("")
 
@@ -87,7 +86,7 @@ const Menu = () => {
         <IonToolbar translucent>
           {user === null ?
             <div>
-              <IonTitle>TMYK</IonTitle>
+              <IonTitle>TMYK APP</IonTitle>
             </div> :
             <UserInfo user={user}></UserInfo>
           }
@@ -96,33 +95,27 @@ const Menu = () => {
       <IonContent>
         {errorMsg}
 
-        {user === null ?
-          <IonItem>
-            <IonButton onClick={() => setVisibleForm('login')} color= {visibleForm === 'login' ? "dark" : "light"}>Login</IonButton>
-            <IonButton onClick={() => setVisibleForm('register')} color= {visibleForm === 'login' ? "light" : "dark"}>Register</IonButton>
-          </IonItem> : ''
-        }
+        <div id="con">
+          {user === null ?
+            < >
+              <FormChoice login={loginForm} register={registerForm}/>
+            </> :
+            <IonList id="inbox-list">
+              {appPages.map((appPage, index) => {
+                return (
+                  <IonMenuToggle key={index} autoHide={false}>
+                    <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                      <IonIcon slot="start" icon={appPage.iosIcon} />
+                      <IonLabel>{appPage.title}</IonLabel>
+                    </IonItem>
+                  </IonMenuToggle>
+                );
+              })}
+            </IonList>
+          }
+        </div>
 
-
-
-        {user === null ?
-          <>
-            {visibleForm === 'login' ? loginForm() : registerForm()}
-          </> :
-          <IonList id="inbox-list">
-            {appPages.map((appPage, index) => {
-              return (
-                <IonMenuToggle key={index} autoHide={false}>
-                  <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
-                    <IonIcon slot="start" icon={appPage.iosIcon} />
-                    <IonLabel>{appPage.title}</IonLabel>
-                  </IonItem>
-                </IonMenuToggle>
-              );
-            })}
-          </IonList>
-        }
-        <IonButton id="logoutButton" routerLink={"/"} color="warning" onClick={logOut}>log out </IonButton>
+        {user === null ? '' :<IonButton id="logoutButton" routerLink={"/"} color="warning" onClick={logOut}>log out </IonButton>}
 
       </IonContent>
     </IonMenu>
