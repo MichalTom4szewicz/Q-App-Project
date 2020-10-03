@@ -33,7 +33,7 @@ app.use(middleware.requestLogger)
 app.use('/api/users', usersRouter)
 app.use('/api/notes', notesRouter)
 app.use('/api/login', loginRouter)
-app.use('/api/qqq', quizPreviewsRouter)
+app.use('/api/quizpreviews', quizPreviewsRouter)
 app.use('/api/quizes', quizesRouter)
 
 app.use(middleware.unknownEndpoint)

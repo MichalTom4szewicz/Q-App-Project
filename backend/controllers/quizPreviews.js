@@ -9,7 +9,7 @@ quizPreviewsRouter.get('/', async (request, response) => {
         response.json(q)
       })
 
-  response.json(quizPreviews.map(q => q.toJSON()))
+  // response.json(quizPreviews.map(q => q.toJSON()))
 })
 
 /*

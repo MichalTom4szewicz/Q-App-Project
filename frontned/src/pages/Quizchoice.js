@@ -14,26 +14,17 @@ import { IonContent,
   IonToolbar} from '@ionic/react';
 
 const Quizchoice = (props) => {
-  
-  const [quizes, setQuizes] = useState([])
 
-  /*useEffect(() => {
-    quizService
-      .getAll()
-      .then(initialQuizes => {
-        setQuizes(initialQuizes)      
-      })
-  }, [])*/
+  const [quizes, setQuizes] = useState([])
 
   useEffect(() => {
     quizPreviewService
       .getAll()
       .then(initialQuizes => {
-        setQuizes(initialQuizes)      
+        setQuizes(initialQuizes)
       })
-  }, []) 
+  }, [])
 
-  
   return (
     <IonPage>
       <IonHeader>
@@ -46,13 +37,13 @@ const Quizchoice = (props) => {
       </IonHeader>
 
       <IonContent>
-        
+
         {quizes.map( q => { return (
-          <IonItem button routerLink={"quizchoice/"+q.ref} key={q.id}> 
+          <IonItem button routerLink={"quizchoice/"+q.ref} key={q.id}>
             <IonText>{q.title}</IonText>
           </IonItem>
         )})}
-        
+
 
       </IonContent>
 

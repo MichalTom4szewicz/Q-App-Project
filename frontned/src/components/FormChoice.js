@@ -8,6 +8,7 @@ const FormChoice = ({login, register}) => {
 
   return (
     <>
+      <img src="https://images-cdn.9gag.com/photo/anMD9Q5_700b.jpg"></img>
       <IonSegment value={visibleForm} onIonChange={e => setVisibleForm(e.detail.value)}>
         <IonSegmentButton value="login">
           <IonLabel>Login</IonLabel>

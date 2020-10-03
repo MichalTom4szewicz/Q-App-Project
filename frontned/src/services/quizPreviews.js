@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://192.168.1.19:3001/api/qqq'
+const baseUrl = 'http://192.168.1.19:3001/api/quizpreviews'
 //const baseUrl = 'localhost/api/quizes'
 
 
@@ -23,6 +23,6 @@ const create = async newObject => {
 }
 
 
-export default { 
+export default {
     getAll, getOne, update, create
   }

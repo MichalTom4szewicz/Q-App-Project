@@ -18,34 +18,25 @@ import {IonList,IonModal,
 
 
 import QuestionForm from "../components/forms/QuestionForm"
+import QuizPreview from '../components/QuizPreview'
 
 const Quizcreate = (props) => {
   const [showPreview, setShowPreview] = useState(false);
   const [title, setTitle] = useState('')
-
   const [questions, setQuestions] = useState([])
 
 
   const quizForm = () => {
-    const handleTitleChange = (event) =>
-    {
-      setTitle(event.target.value)
-    }
-
     return(
-      <IonContent>
-        <IonCard>
-          <IonItem>
-            <IonLabel position="floating">Quiz Title</IonLabel>
-            <IonInput value={title} placeholder="Enter Quiz Title" onIonChange={handleTitleChange} clearInput/>
-          </IonItem>
+      <>
+        <IonItem>
+          <IonLabel position="floating">Quiz Title</IonLabel>
+          <IonInput value={title} placeholder="Enter Quiz Title" onIonChange={e => setTitle(e.target.value)} clearInput/>
+        </IonItem>
 
-          <QuestionForm addQuestion={setQuestions} questions={questions}/>
-
-        </IonCard>
-      </IonContent>
+        <QuestionForm addQuestion={setQuestions} questions={questions}/>
+      </>
     )
-
   }
 
   const preview = () => {
@@ -84,8 +75,6 @@ const Quizcreate = (props) => {
         questions: questions
     }
 
-    console.log(quiz)
-
     quizService
       .create(quiz)
       .then(()=>{
@@ -108,15 +97,16 @@ const Quizcreate = (props) => {
 
       <IonContent>
 
-        {quizForm()}
-        <IonButton onClick={() => setShowPreview(true)}>Preview</IonButton>
-        <IonButton routerLink="/quizchoice" onClick={() => addQuiz()}>Finish</IonButton>
-        {preview()}
+        <IonCard>
+          {quizForm()}
 
+          <IonButton onClick={() => setShowPreview(true)}>Preview</IonButton>
+          <IonButton routerLink="/quizchoice" onClick={() => addQuiz()}>Finish</IonButton>
+        </IonCard>
 
+        {showPreview ? <QuizPreview title={title} questions={questions} setShowPreview={setShowPreview} /> :"" }
 
       </IonContent>
-
     </IonPage>
   );
 };

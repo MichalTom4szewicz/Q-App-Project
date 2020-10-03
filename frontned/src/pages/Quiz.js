@@ -39,21 +39,21 @@ const Quiz = (props) => {
   const [done, setDone] = useState(false)      //czyukonczono quiz
 
   const [history, setHistory] = useState([])
-  
+
   useEffect(() => {
 
-    const id = props.match.params.id 
+    const id = props.match.params.id
 
     quizService
       .getOne(id)
       .then(initialQuiz => {
-        setQuiz(initialQuiz)  
+        setQuiz(initialQuiz)
         setCQ(initialQuiz.questions[c])
         setAnswers(initialQuiz.questions[c].answers)
         setOdp(initialQuiz.questions[c].valid)
-        setQ(initialQuiz.questions.length)   
-      })    
-  }, [])  
+        setQ(initialQuiz.questions.length)
+      })
+  }, [])
 
   const question = () => {
 
@@ -89,17 +89,17 @@ const Quiz = (props) => {
   }
 
 
-  const apply = () => {    
+  const apply = () => {
     if(!applied) {
-      
+
       setPts(selected === odp ? pts+1 : pts)
       setApplied(true)
       setHistory(history.concat({'selected': selected, 'valid': odp}))
     }
-  } 
+  }
 
   const next = () => {
-    
+
     if(c === (q-1)){
       setDone(true)
     } else if(applied) {
@@ -141,12 +141,12 @@ const Quiz = (props) => {
         return(
           <IonItem key={h.valid} lines="none" detail={false}>
             <IonLabel>{licznik}: {h.selected} --- {h.valid}</IonLabel>
-            <IonIcon slot="start" name={checkmarkOutline}></IonIcon>       
-            
+            <IonIcon slot="start" name={checkmarkOutline}></IonIcon>
+
           </IonItem>
         )})}
       </IonList>
-      
+
       <center>
         <IonText>
           <h2>Twój wynik to:</h2>
@@ -172,7 +172,7 @@ const Quiz = (props) => {
       </IonHeader>
 
       <IonContent>
-        
+
         { done ? score() : question()}
 
       </IonContent>
