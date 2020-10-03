@@ -19,8 +19,8 @@ import {IonList,IonModal,
 } from '@ionic/react';
 
 
-import QuestionForm from "../components/forms/QuestionForm"
-import QuizPreview from '../components/QuizPreview'
+import QuestionForm from "../components/quizcreate/QuestionForm"
+import QuizPreview from '../components/quizcreate/QuizPreview'
 
 const Quizcreate = (props) => {
   const [showPreview, setShowPreview] = useState(false);

@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import { IonCard, IonRadioGroup, IonRadio, IonicBadge, IonText, IonToggle, IonTitle, IonItemDivider, IonContent, IonCardContent, IonItem, IonIcon, IonButton, IonLabel, IonBadge} from '@ionic/react';
 
 
-import quizService from '../services/quizes'
+import quizService from '../../services/quizes'
 
 const Question = (props) => {
 

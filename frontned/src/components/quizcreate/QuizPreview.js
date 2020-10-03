@@ -15,6 +15,8 @@ import {IonList,IonModal,
   IonButton
 } from '@ionic/react';
 
+import './QuizPreview.css'
+
 const QuizPreview = ({questions, title, setShowPreview}) => {
 
   return (

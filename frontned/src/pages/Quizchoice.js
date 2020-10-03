@@ -11,18 +11,21 @@ import { IonContent,
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar} from '@ionic/react';
+  IonToolbar
+} from '@ionic/react';
+
+import './Quizchoice.css'
 
 const Quizchoice = (props) => {
 
-  const [quizes, setQuizes] = useState([])
+  const [quizShorts, setQuizShorts] = useState([])
 
   useEffect(() => {
     quizPreviewService
-      .getAll()
-      .then(initialQuizes => {
-        setQuizes(initialQuizes)
-      })
+    .getAll()
+    .then(initialQuizes => {
+      setQuizShorts(initialQuizes)
+    })
   }, [])
 
   return (
@@ -32,18 +35,19 @@ const Quizchoice = (props) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Quiz Choice</IonTitle>
+          <IonTitle>Solve QUIZ</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
 
-        {quizes.map( q => { return (
-          <IonItem button routerLink={"quizchoice/"+q.ref} key={q.id}>
-            <IonText>{q.title}</IonText>
-          </IonItem>
-        )})}
-
+        {quizShorts.map( q => {
+          return (
+            <IonItem button routerLink={"quizchoice/"+q.ref} key={q.id}>
+              <IonText>{q.title}</IonText>
+            </IonItem>
+          )})
+        }
 
       </IonContent>
 

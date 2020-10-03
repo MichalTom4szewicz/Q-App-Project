@@ -15,14 +15,15 @@ import {
 
 import React, { useState, useEffect } from 'react';
 import {addOutline,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
-import './Menu.css';
 
-import LoginForm from './forms/LoginForm';
-import RegisterForm from './forms/RegisterForm';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 import UserInfo from './UserInfo'
-
-import loginService from '../services/login'
 import FormChoice from './FormChoice';
+
+import loginService from '../../services/login'
+
+import './Menu.css';
 
 const appPages = [
   {
