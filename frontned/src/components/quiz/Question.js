@@ -32,25 +32,17 @@ const Question = (props) => {
   //console.log(answers)
 
   const page = () => {
-      return(
-          <>
-            <IonText>
-                <h2>{questions? questions[currentQuestion].pytanie : "ehh"}</h2>
-            </IonText>
+    return(
+      <>
+        <IonText>
+            <h2>{questions? questions[currentQuestion].pytanie : "ehh"}</h2>
+        </IonText>
 
-            <IonRadioGroup value={choice} onIonChange={e => setChoice(e.detail.value)}>
-
-            {questions? console.log(questions[currentQuestion].answers[1]) : "f"}
-
-
-          </IonRadioGroup>
-
-          </>
-
-
-
-
-      )
+        <IonRadioGroup value={choice} onIonChange={e => setChoice(e.detail.value)}>
+          {questions? console.log(questions[currentQuestion].answers[1]) : "f"}
+        </IonRadioGroup>
+      </>
+    )
   }
 
   return(

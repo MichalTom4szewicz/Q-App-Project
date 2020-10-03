@@ -14,7 +14,10 @@ import {IonList,
   IonLabel,
   IonItem,
   IonText,
-  IonButton} from '@ionic/react';
+  IonButton,
+  IonMenuButton,
+  IonButtons
+} from '@ionic/react';
 
 import React, {useState, useEffect} from 'react';
 
@@ -59,7 +62,6 @@ const Quiz = (props) => {
 
     return(
       <IonCard>
-
         <IonCardHeader>
           <IonText>
             <h4>{cQ.pytanie}</h4>
@@ -160,9 +162,11 @@ const Quiz = (props) => {
 
   return (
     <IonPage>
-
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>{ done ? "Podsumowanie" : "Quiz:"+quiz.title}</IonTitle>
           {done ? " " : <IonText>
             <p>points:{pts}</p>
