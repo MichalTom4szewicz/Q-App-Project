@@ -12,7 +12,8 @@ import {IonList,IonModal,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButton} from '@ionic/react';
+  IonButton
+} from '@ionic/react';
 
 const QuizPreview = ({questions, title, setShowPreview}) => {
 
@@ -25,17 +26,23 @@ const QuizPreview = ({questions, title, setShowPreview}) => {
                 <IonLabel>Title: {title}</IonLabel>
               </IonItem>
 
-              {Array.from(questions).map((q, i )=> {return(
-                <IonItem key={i}>
-                  <IonLabel>{q.pytanie}</IonLabel>
-                  <IonLabel>{q.valid}</IonLabel>
+              {Array.from(questions).map((q, i )=> {
+                return(
+                <IonCard key={i}>
+                  <IonLabel id="questionPreview">{q.pytanie}</IonLabel>
                   <IonList>
-                    {q.answers.map((a, i)=> <IonItem key={i}>{a}</IonItem>)}
+                    {q.answers.map((a, i)=> {
+                      return (
+                        <IonItem>
+                          <IonLabel className="it" style={q.valid === a ? {background: 'lime'} : {}} key={i}>{a}</IonLabel>
+                        </IonItem>
+                      )
+                    })}
                   </IonList>
-                </IonItem>
-              )})}
+                  </IonCard>
+                )})
+              }
             </IonList>
-
             <IonButton onClick={() => setShowPreview(false)}>Close Preview</IonButton>
 
           </IonCard>

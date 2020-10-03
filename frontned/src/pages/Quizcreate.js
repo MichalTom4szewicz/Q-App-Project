@@ -43,7 +43,7 @@ const Quizcreate = (props) => {
       setToastVisible(false)
       setToastColor('')
 
-    }, 5000)
+    }, 2000)
   }
 
   const quizForm = () => {

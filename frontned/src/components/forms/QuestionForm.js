@@ -39,7 +39,7 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
       setToastVisible(false)
       setToastColor('')
 
-    }, 5000)
+    }, 2000)
   }
 
   const addAnswer = () => {
@@ -52,6 +52,14 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
     // setAnswers(a => a.concat(answer))
     setAnswers(a => a.add(answer))
     setAnswer('')
+  }
+
+  const deleteAnswer = (an) => {
+
+    setAnswers(answers => new Set(Array.from(answers).filter(a => {return a != an })))
+    setAnswer('')
+    setCorrect('')
+    setSelectedRadio('')
   }
 
   const addQuestion = () => {
@@ -105,9 +113,10 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
           <IonRadioGroup id="answersRadio" value={selectedRadio} onIonChange={e => setSelectedRadio(e.detail.value)}>
             {Array.from(answers).map((a, i) => {
               return (
-                <IonItem key={i} button onClick={() => selectCorrect(a)} >
-                  <IonLabel className="answerLabel">{a}</IonLabel>
-                  <IonRadio slot="start" value={a}/>
+                <IonItem key={i} button>
+                  <IonLabel onClick={() => selectCorrect(a)} className="answerLabel">{a}</IonLabel>
+                  <IonRadio onClick={() => selectCorrect(a)} slot="start" value={a}/>
+                  <IonButton color="danger" id="del" onClick={() => deleteAnswer(a)}>X</IonButton>
                 </IonItem>
               )
             })}
@@ -120,7 +129,7 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
         <IonButton type="submit" className="addAnswer" onClick={addAnswer}>+</IonButton>
       </IonItem>
 
-
+      {/* <IonButton id="resetQuestion" onClick={addQuestion}>Add question</IonButton> */}
       <IonButton id="addQuestion" onClick={addQuestion}>Add question</IonButton>
 
       <IonToast
