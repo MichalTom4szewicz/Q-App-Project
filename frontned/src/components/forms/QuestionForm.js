@@ -8,103 +8,128 @@ import {
   IonInput,
   IonItem,
   IonCard,
-  IonButton} from '@ionic/react';
+  IonButton, IonBadge
+} from '@ionic/react';
 
-const QuestionForm = (props) => {
+import './QuestionForm.css'
 
-  const [pytanie, setPytanie] = useState('')
+
+const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
+
+  const [question, setQuestion] = useState('')
 
   const [answer, setAnswer] = useState('')
-  const [answers, setAnswers] = useState([])
+  const [answers, setAnswers] = useState(new Set())
 
   const [correct, setCorrect]= useState('')
 
-  const [message, setMessage] = useState('')
-  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('')
+  const [toastColor, setToastColor] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
 
-  const [selected, setSelected] = useState('');
+  const [selectedRadio, setSelectedRadio] = useState('');
 
+  const setTimeoutedToast = (message, color) => {
+    setToastMessage(message)
+    setToastColor(color)
+    setToastVisible(true)
 
-  const handlePytanieChange = (event) => {
-    setPytanie(event.target.value)
+    setTimeout(() => {
+      setToastMessage('')
+      setToastVisible(false)
+      setToastColor('')
+
+    }, 5000)
   }
-  const handleAnswerChange = (event) => {
-    setAnswer(event.target.value)
-  }
+
   const addAnswer = () => {
-    setAnswers(answers.concat(answer))
+
+    if(answer === '') {
+      setTimeoutedToast('Cannot add empty answer', 'danger')
+      return
+    }
+
+    // setAnswers(a => a.concat(answer))
+    setAnswers(a => a.add(answer))
     setAnswer('')
   }
 
   const addQuestion = () => {
-    const q = {
-      pytanie: pytanie,
-      valid: correct,
-      answers: answers
+
+    if(question === '') {
+      setTimeoutedToast('Question cannot be empty', 'danger')
+      return
+    }
+    if(Array.from(answers).length < 2) {
+      setTimeoutedToast('Question must contain at least 2 answers', 'danger')
+      return
+    }
+    if(correct === '') {
+      setTimeoutedToast('Choose correct answer', 'warning')
+      return
     }
 
-    props.addQuestion(props.questions.concat(q))
+    const q = {
+      pytanie: question,
+      valid: correct,
+      answers: Array.from(answers)
+    }
+
+    if(Array.from(questions).length === 1) setCanRedirect(true)
+
+    setQuestions(questions => questions.add(q))
     setAnswer('')
-    setAnswers([])
-    setPytanie('')
+    setAnswers(new Set())
+    setQuestion('')
+    setCorrect('')
 
-    setMessage('Dodano pytanie')
-
-    setTimeout(() => {
-      setMessage('')
-    }, 5000)
-
-    setShowToast(true)
-
+    setTimeoutedToast('Dodano pytanie', 'success')
   }
 
-  const clk = (a) => {
+  const selectCorrect = (a) => {
     setCorrect(a)
-    setMessage(a+" is set as correct answer")
-    setShowToast(true)
-  }
-
-  const btnStyle = {
-    //color: "lightgrey",
-    backgroundColor: "yellow"
+    setTimeoutedToast(`${a} is set as correct answer`, 'success')
+    setSelectedRadio(a)
   }
 
   return(
     <IonCard>
-
-
-      <IonItem>
-        <IonLabel position="floating">Question</IonLabel>
-        <IonInput value={pytanie} placeholder="Enter Question" onIonChange={handlePytanieChange} clearInput/>
-      </IonItem>
-
-      <IonLabel position="floating">Answers</IonLabel>
-
-      <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
-
-
-        {answers.map(a => <IonItem style={btnStyle} key={a} button onClick={() => clk(a)} ><IonLabel>{a}</IonLabel><IonRadio slot="start" value={a}/></IonItem>)}
-      </IonRadioGroup>
-
-      {/*answers.map(a => <IonItem style={btnStyle} key={a} button onClick={() => clk(a)} >{a}</IonItem>)*/}
+          <IonBadge color={Array.from(questions).length < 2 ? 'warning' : 'success'}>{`${Array.from(questions).length} questions`}</IonBadge>
 
       <IonItem>
-        <IonLabel position="floating">Answer</IonLabel>
-        <IonInput value={answer} placeholder="Enter Answer" onIonChange={handleAnswerChange} clearInput/>
-        <IonButton onClick={() => addAnswer() }>Add!</IonButton>
+        <IonInput value={question} placeholder="Question" onIonChange={e => setQuestion(e.target.value)} clearInput/>
       </IonItem>
 
-      <IonButton onClick={()=> addQuestion()}>Add Item</IonButton>
+      <IonItem>
+        {Array.from(answers).length === 0 ?  <IonLabel position="stacked">No answers for that question yet</IonLabel> :
+          <IonRadioGroup id="answersRadio" value={selectedRadio} onIonChange={e => setSelectedRadio(e.detail.value)}>
+            {Array.from(answers).map((a, i) => {
+              return (
+                <IonItem key={i} button onClick={() => selectCorrect(a)} >
+                  <IonLabel className="answerLabel">{a}</IonLabel>
+                  <IonRadio slot="start" value={a}/>
+                </IonItem>
+              )
+            })}
+          </IonRadioGroup>
+        }
+      </IonItem>
+
+      <IonItem>
+        <IonInput className="addAnswer" value={answer} placeholder="Answer" onIonChange={e =>setAnswer(e.target.value)} />
+        <IonButton type="submit" className="addAnswer" onClick={addAnswer}>+</IonButton>
+      </IonItem>
+
+
+      <IonButton id="addQuestion" onClick={addQuestion}>Add question</IonButton>
 
       <IonToast
-        isOpen={showToast}
-        onDidDismiss={() => setShowToast(false)}
-        message={message}
+        isOpen={toastVisible}
+        onDidDismiss={() => setToastVisible(false)}
+        message={toastMessage}
         position="middle"
-        duration={1500}
-        color="success"
+        color={toastColor}
       />
-
 
     </IonCard>
   )

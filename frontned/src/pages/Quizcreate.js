@@ -14,7 +14,9 @@ import {IonList,IonModal,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButton} from '@ionic/react';
+  IonButton,
+  IonToast, IonBadge
+} from '@ionic/react';
 
 
 import QuestionForm from "../components/forms/QuestionForm"
@@ -23,64 +25,66 @@ import QuizPreview from '../components/QuizPreview'
 const Quizcreate = (props) => {
   const [showPreview, setShowPreview] = useState(false);
   const [title, setTitle] = useState('')
-  const [questions, setQuestions] = useState([])
+  const [questions, setQuestions] = useState(new Set())
 
+  const [toastMessage, setToastMessage] = useState('')
+  const [toastColor, setToastColor] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
+
+  const [canRedirect, setCanRedirect] = useState(false);
+
+  const setTimeoutedToast = (message, color) => {
+    setToastMessage(message)
+    setToastColor(color)
+    setToastVisible(true)
+
+    setTimeout(() => {
+      setToastMessage('')
+      setToastVisible(false)
+      setToastColor('')
+
+    }, 5000)
+  }
 
   const quizForm = () => {
     return(
       <>
         <IonItem>
-          <IonLabel position="floating">Quiz Title</IonLabel>
-          <IonInput value={title} placeholder="Enter Quiz Title" onIonChange={e => setTitle(e.target.value)} clearInput/>
+          {/* <IonLabel position="floating">Quiz Title</IonLabel> */}
+          <IonInput value={title} placeholder="Quiz Title" onIonChange={e => setTitle(e.target.value)} clearInput/>
         </IonItem>
 
-        <QuestionForm addQuestion={setQuestions} questions={questions}/>
+        <QuestionForm setQuestions={setQuestions} setCanRedirect={setCanRedirect} questions={questions} />
       </>
     )
   }
 
-  const preview = () => {
-    return(
-      <IonModal isOpen={showPreview}>
-        <IonContent>
-
-          <IonCard>
-            <IonList>
-              <IonItem>
-                <IonLabel>Title: {title}</IonLabel>
-              </IonItem>
-
-              {questions.map(q => {return(
-                <IonItem key={q.pytanie}>
-                  <IonLabel>{q.pytanie}</IonLabel>
-                  <IonLabel>{q.valid}</IonLabel>
-                  <IonList>
-                    {q.answers.map(a=> <IonItem key={a}>{a}</IonItem>)}
-                  </IonList>
-                </IonItem>
-              )})}
-            </IonList>
-
-          </IonCard>
-        </IonContent>
-        <IonButton onClick={() => setShowPreview(false)}>Close Preview</IonButton>
-
-      </IonModal>
-    )
-  }
 
   const addQuiz = () => {
+
+    if(title === '') {
+      setTimeoutedToast('Enter title of your quiz', 'danger')
+      return
+    }
+    if(Array.from(questions).length < 2) {
+      setTimeoutedToast('Quiz must contain at least 2 questions', 'danger')
+      return
+    }
+
+    setCanRedirect(true)
+
     const quiz = {
-        title: title,
-        questions: questions
+      title: title,
+      questions: Array.from(questions)
     }
 
     quizService
-      .create(quiz)
-      .then(()=>{
-        //props.history.push('/quizchoice')
-        window.location.reload(false);
-      })
+    .create(quiz)
+    .then(()=>{
+      //props.history.push('/quizchoice')
+      setCanRedirect(false)
+      window.location.reload(false);
+    })
   }
 
 
@@ -91,20 +95,32 @@ const Quizcreate = (props) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Quiz Create</IonTitle>
+          <IonTitle>Create QUIZ</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
-
         <IonCard>
           {quizForm()}
 
           <IonButton onClick={() => setShowPreview(true)}>Preview</IonButton>
-          <IonButton routerLink="/quizchoice" onClick={() => addQuiz()}>Finish</IonButton>
+          {canRedirect ? <IonButton routerLink="/quizchoice" onClick={addQuiz}>Finish</IonButton> :
+            <IonButton onClick={addQuiz}>Finish</IonButton>
+          }
+
+          {/* {Array.from(questions).length} */}
         </IonCard>
 
         {showPreview ? <QuizPreview title={title} questions={questions} setShowPreview={setShowPreview} /> :"" }
+
+        <IonToast
+          isOpen={toastVisible}
+          onDidDismiss={() => setToastVisible(false)}
+          message={toastMessage}
+          position="middle"
+          duration={1500}
+          color={toastColor}
+        />
 
       </IonContent>
     </IonPage>

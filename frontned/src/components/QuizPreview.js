@@ -25,7 +25,7 @@ const QuizPreview = ({questions, title, setShowPreview}) => {
                 <IonLabel>Title: {title}</IonLabel>
               </IonItem>
 
-              {questions.map((q, i )=> {return(
+              {Array.from(questions).map((q, i )=> {return(
                 <IonItem key={i}>
                   <IonLabel>{q.pytanie}</IonLabel>
                   <IonLabel>{q.valid}</IonLabel>

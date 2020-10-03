@@ -1,0 +1,23 @@
+.addAnswer {
+  width: 15%;
+  /* height: 10%; */
+  margin: 2% 10% 2%;
+  /* display: block; */
+}
+
+.odp {
+  width: 80%;
+}
+
+#addQuestion {
+  margin: 2% 10% 2%;
+  width: 80%;
+}
+
+.answerLabel {
+  width: 70%;
+}
+
+#answersRadio {
+  width: 100%;
+}
