@@ -6,6 +6,8 @@ import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, w
 
 import quizService from '../../services/quizes'
 
+import './Questions.css'
+
 const Questions = ({id, setView}) => {
   const [questions, setQuestions] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -88,7 +90,7 @@ const Questions = ({id, setView}) => {
           <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
             {!loading ? questions[counter].answers.map( a => {return (
               <IonItem key={a}>
-                <div styles={{wordWrap: 'break-word'}}>
+                <div style={answerChecked ? questions[counter].valid === a ? {background: 'springgreen'} : {background: 'lightcoral'} : {}} className="questionsText">
                   {a}
                 </div>
                 <IonRadio slot="start" value={a}/>
@@ -120,7 +122,7 @@ const Questions = ({id, setView}) => {
 
                 <IonCardHeader>
                   <IonItem lines="full">
-                    <div styles={{height: 'auto', wordWrap: 'break-word'}}>
+                    <div className="questionsText">
                       {h.pytanie}
                     </div>
                   </IonItem>
@@ -130,14 +132,14 @@ const Questions = ({id, setView}) => {
                   {h.valid === h.selected ?
                     <IonItem lines="none" detail={false}>
                       <IonIcon slot="start" icon={checkmark} />
-                      <div styles={{wordWrap: 'break-word'}}>
+                      <div className="questionsText">
                         <IonText >{h.selected}</IonText>
                       </div>
                     </IonItem> :
                     <>
                       <IonItem lines="none" detail={false}>
                         <IonIcon slot="start" icon={checkmark} />
-                        <div styles={{height: 'auto', wordWrap: 'break-word'}}>
+                        <div className="questionsText">
                           <IonText >{h.valid}</IonText>
                         </div>
                       </IonItem>
@@ -145,7 +147,7 @@ const Questions = ({id, setView}) => {
                       {/* <IonItemDivider></IonItemDivider> */}
                       <IonItem lines="none" detail={false}>
                         <IonIcon slot="start" icon={close} />
-                        <div style={{wordWrap: 'break-word', textAlign: 'middle'}}>
+                        <div className="questionsText">
                           <IonText >{h.selected}</IonText>
                         </div>
                       </IonItem>
