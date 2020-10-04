@@ -33,7 +33,7 @@ const Welcome: React.FC = () => {
             <IonCardTitle>Welcome to TMYK</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            The more you know... the more you know. Yes. That's it. Simple truth that nobody cares about.
+            The more you know... the more you know. Yes. That's it. Create quizes,solve them, gain points and the most important learn new information!.
           </IonCardContent>
         </IonCard>
       </IonContent>
