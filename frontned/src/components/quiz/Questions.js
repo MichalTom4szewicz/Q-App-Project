@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 
 import { IonCard, IonRadioGroup, IonRadio, IonicBadge, IonText, IonToggle, IonTitle, IonItemDivider, IonContent, IonCardContent, IonItem, IonIcon, IonButton, IonLabel, IonBadge, IonCardHeader} from '@ionic/react';
 
+import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 
 import quizService from '../../services/quizes'
 
@@ -31,40 +32,27 @@ const Questions = ({id, setView}) => {
   }, [])
 
   const apply = () => {
-
     if(selected === questions[counter].valid) {
       setPoints(p => p+1)
     }
 
     const historyItem ={
+      pytanie: questions[counter].pytanie,
       selected: selected,
       valid: questions[counter].valid
     }
 
     setAnswerChecked(true)
-
     setHistory(h => h.concat(historyItem))
-
-    // if(counter+1 !== questions.length) {
-
-    //   setCounter(c => c+1)
-    //   setHistory(h => h.concat(historyItem))
-    //   setSelected("")
-    // } else {
-    //   setHistory(h => h.concat(historyItem))
-    //   setQuizOver(true)
-    // }
   }
 
   const next = () => {
     if(counter+1 !== questions.length) {
 
       setCounter(c => c+1)
-      // setHistory(h => h.concat(historyItem))
       setSelected("")
       setAnswerChecked(false)
     } else {
-      // setHistory(h => h.concat(historyItem))
       setQuizOver(true)
     }
   }
@@ -100,7 +88,9 @@ const Questions = ({id, setView}) => {
           <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
             {!loading ? questions[counter].answers.map( a => {return (
               <IonItem key={a}>
-                <IonLabel>{a}</IonLabel>
+                <div styles={{wordWrap: 'break-word'}}>
+                  {a}
+                </div>
                 <IonRadio slot="start" value={a}/>
               </IonItem>
             )}) : 'loading'}
@@ -125,10 +115,43 @@ const Questions = ({id, setView}) => {
         <IonCardContent>
           {history.map((h, i) => {
             return(
-              <IonItem key={i}>
-                <IonLabel>selected{h.selected}</IonLabel>
-                <IonLabel>valid{h.valid}</IonLabel>
-              </IonItem>
+              <IonCard style={h.valid === h.selected ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
+
+                <IonCardHeader>
+                  <IonItem lines="full">
+                    <div styles={{height: 'auto', wordWrap: 'break-word'}}>
+                      {h.pytanie}
+                    </div>
+                  </IonItem>
+                </IonCardHeader>
+
+                <IonCardContent>
+
+                  {h.valid === h.selected ?
+                    <IonItem lines="none" detail={false}>
+                      <IonIcon slot="start" icon={checkmark} />
+                      <div styles={{wordWrap: 'break-word'}}>
+                        <IonText >{h.selected}</IonText>
+                      </div>
+                    </IonItem> :
+                    <>
+                      <IonItem lines="none" detail={false}>
+                        <IonIcon slot="start" icon={checkmark} />
+                        <div styles={{height: 'auto', wordWrap: 'break-word'}}>
+                          <IonText >{h.valid}</IonText>
+                        </div>
+                      </IonItem>
+                      <IonItemDivider></IonItemDivider>
+                      <IonItem lines="none" detail={false}>
+                        <IonIcon slot="start" icon={close} />
+                        <div style={{wordWrap: 'break-word', textAlign: 'middle'}}>
+                          <IonText >{h.selected}</IonText>
+                        </div>
+                      </IonItem>
+                    </>
+                  }
+                </IonCardContent>
+              </IonCard>
             )
           })}
 
