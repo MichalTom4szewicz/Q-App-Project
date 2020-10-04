@@ -106,13 +106,14 @@ const Questions = ({id, setView}) => {
     return (
       <>
         <IonCardHeader>
-          <IonText>{points}pkt</IonText>
-          <IonText>
-            <h4>Summary</h4>
-          </IonText>
+            {/* <IonText>{points}pkt</IonText> */}
+            <IonTitle>{`Your score: ${Math.round((points/questions.length*100 + Number.EPSILON) * 100) / 100}%`}</IonTitle>
+            <IonText>For that quiz you received 10 points!</IonText>
         </IonCardHeader>
 
         <IonCardContent>
+
+
           {history.map((h, i) => {
             return(
               <IonCard style={h.valid === h.selected ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
@@ -126,7 +127,6 @@ const Questions = ({id, setView}) => {
                 </IonCardHeader>
 
                 <IonCardContent>
-
                   {h.valid === h.selected ?
                     <IonItem lines="none" detail={false}>
                       <IonIcon slot="start" icon={checkmark} />
@@ -141,7 +141,8 @@ const Questions = ({id, setView}) => {
                           <IonText >{h.valid}</IonText>
                         </div>
                       </IonItem>
-                      <IonItemDivider></IonItemDivider>
+                      <hr></hr>
+                      {/* <IonItemDivider></IonItemDivider> */}
                       <IonItem lines="none" detail={false}>
                         <IonIcon slot="start" icon={close} />
                         <div style={{wordWrap: 'break-word', textAlign: 'middle'}}>
