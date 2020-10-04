@@ -1,6 +1,24 @@
 import React, {useState, useEffect} from 'react'
 
-import { IonCard, IonRadioGroup, IonRadio, IonicBadge, IonText, IonToggle, IonTitle, IonItemDivider, IonContent, IonCardContent, IonItem, IonIcon, IonButton, IonLabel, IonBadge, IonCardHeader} from '@ionic/react';
+import {
+  IonCard,
+  IonRadioGroup,
+  IonRadio,
+  IonicBadge,
+  IonText,
+  IonToggle,
+  IonTitle,
+  IonItemDivider,
+  IonContent,
+  IonCardContent,
+  IonItem,
+  IonIcon,
+  IonButton,
+  IonLabel,
+  IonBadge,
+  IonCardHeader,
+  IonToast
+} from '@ionic/react';
 
 import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 
@@ -15,12 +33,13 @@ const Questions = ({id, setView}) => {
   const [points, setPoints] = useState(0);
 
   const [history, setHistory] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
   const [quizOver, setQuizOver] = useState(false);
-
   const [answerChecked, setAnswerChecked] = useState(false);
+
+  const [toastMessage, setToastMessage] = useState('')
+  const [toastColor, setToastColor] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
     quizService
@@ -33,9 +52,27 @@ const Questions = ({id, setView}) => {
 
   }, [])
 
+  const setTimeoutedToast = (message, color) => {
+    setToastMessage(message)
+    setToastColor(color)
+    setToastVisible(true)
+
+    setTimeout(() => {
+      setToastMessage('')
+      setToastVisible(false)
+      setToastColor('')
+
+    }, 2000)
+  }
+
   const apply = () => {
     if(selected === questions[counter].valid) {
       setPoints(p => p+1)
+    }
+
+    if(selected === '') {
+      setTimeoutedToast('Check answer', 'danger' )
+      return
     }
 
     const historyItem ={
@@ -70,7 +107,7 @@ const Questions = ({id, setView}) => {
   const nextButton = () => {
     return (
       <IonButton onClick={next}>
-        next
+        {counter+1 === questions.length ? 'go to summary' : 'next'}
       </IonButton>
     )
   }
@@ -80,7 +117,7 @@ const Questions = ({id, setView}) => {
     return (
       <>
         <IonCardHeader>
-          <IonText>{points}pkt</IonText>
+          <IonText>{`${counter+1}/${questions.length}`}</IonText>
           <IonText>
             <h4>{!loading ? questions[counter].pytanie : 'loading'}</h4>
           </IonText>
@@ -159,7 +196,7 @@ const Questions = ({id, setView}) => {
           })}
 
         </IonCardContent>
-        <IonButton onClick={() => setView('info')}>
+        <IonButton routerLink={"/quizchoice"} onClick={() => setView('info')}>
           Go back to quizes
         </IonButton>
       </>
@@ -169,6 +206,13 @@ const Questions = ({id, setView}) => {
   return(
     <IonCard>
       {quizOver ? summary() : quiz()}
+      <IonToast
+        isOpen={toastVisible}
+        onDidDismiss={() => setToastVisible(false)}
+        message={toastMessage}
+        position="middle"
+        color={toastColor}
+      />
     </IonCard>
   )
 }

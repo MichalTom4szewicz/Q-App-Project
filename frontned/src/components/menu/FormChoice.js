@@ -14,7 +14,7 @@ const FormChoice = ({login, register}) => {
           <IonLabel>Login</IonLabel>
         </IonSegmentButton>
         <IonSegmentButton value="register">
-          <IonLabel>Register</IonLabel>
+          <IonLabel>Sign up</IonLabel>
         </IonSegmentButton>
       </IonSegment>
       {visibleForm === 'login' ? login() : register()}
