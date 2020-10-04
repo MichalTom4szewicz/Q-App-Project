@@ -32,13 +32,15 @@ quizesRouter.post('/', async (request, response) => {
 
   const savedQuizPreview = await quizPreview.save()
   //console.log("bbbbbbbbbbbbbbbbbbbbbbbbbb")
-  
-  response.json(savedQuiz.toJSON())  
+
+  response.json(savedQuiz.toJSON())
 })
 
 quizesRouter.get('/:id', async (request, response) => {
   const quiz = await Quiz.findById(request.params.id)
-  
+
+  // console.log(quiz)
+
   if (quiz) {
     response.json(quiz.toJSON())
   } else {
