@@ -23,6 +23,6 @@ const create = async newObject => {
 }
 
 
-export default { 
+export default {
     getAll, getOne, update, create
-  }
+}

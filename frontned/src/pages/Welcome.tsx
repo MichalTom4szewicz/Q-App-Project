@@ -21,9 +21,7 @@ import {Flashlight} from '@ionic-native/flashlight'
 const Welcome: React.FC = () => {
 
   const [flashOn, setFlashOn] = useState(false);
-
   const [imageUrl, setImageUrl] = useState('');
-
 
   const flashLight = () => {
 
@@ -41,10 +39,6 @@ const Welcome: React.FC = () => {
       PhotoViewer.show(imageUrl, 'My image from url', {share: false});
     }
   }
-
-  useEffect(() => {
-    console.log('hello')
-  }, []);
 
   return (
     <IonPage>
@@ -66,8 +60,8 @@ const Welcome: React.FC = () => {
             fullscreen
           </IonButton>
           <input placeholder='url' value={imageUrl} onChange={e => setImageUrl(e.target.value)}/>
-          <p>{imageUrl}</p>
-          <img onClick={fullscreen} src="https://pbs.twimg.com/profile_images/929730220902551553/Z0kv0GMx.jpg" alt="quoka"></img>
+
+          <img src="https://pbs.twimg.com/profile_images/929730220902551553/Z0kv0GMx.jpg" alt="quoka"></img>
           <IonCardHeader>
             <IonCardTitle>Welcome to TMYK</IonCardTitle>
           </IonCardHeader>

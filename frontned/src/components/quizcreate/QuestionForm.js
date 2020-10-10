@@ -8,7 +8,7 @@ import {
   IonInput,
   IonItem,
   IonCard,
-  IonButton, IonBadge
+  IonButton, IonBadge, IonCheckbox
 } from '@ionic/react';
 
 import './QuestionForm.css'
@@ -21,13 +21,15 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
   const [answer, setAnswer] = useState('')
   const [answers, setAnswers] = useState(new Set())
 
-  const [correct, setCorrect]= useState('')
+  const [correct, setCorrect]= useState(new Set())
 
   const [toastMessage, setToastMessage] = useState('')
   const [toastColor, setToastColor] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
 
   const [selectedRadio, setSelectedRadio] = useState('');
+
+  const [dummy, setDummy] = useState(false);
 
   const setTimeoutedToast = (message, color) => {
     setToastMessage(message)
@@ -58,9 +60,17 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
 
     setAnswers(answers => new Set(Array.from(answers).filter(a => {return a != an })))
     setAnswer('')
-    setCorrect('')
+    setCorrect(new Set())
     setSelectedRadio('')
   }
+
+  // const deleteQuestion = (q) => {
+
+  //   setAnswers(answers => new Set(Array.from(answers).filter(a => {return a != an })))
+  //   setAnswer('')
+  //   setCorrect(new Set())
+  //   setSelectedRadio('')
+  // }
 
   const addQuestion = () => {
 
@@ -72,14 +82,14 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
       setTimeoutedToast('Question must contain at least 2 answers', 'danger')
       return
     }
-    if(correct === '') {
-      setTimeoutedToast('Choose correct answer', 'warning')
+    if(correct.size === 0) {
+      setTimeoutedToast('Choose at least one correct answer', 'warning')
       return
     }
 
     const q = {
       pytanie: question,
-      valid: correct,
+      valid: Array.from(correct),
       answers: Array.from(answers)
     }
 
@@ -89,14 +99,22 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
     setAnswer('')
     setAnswers(new Set())
     setQuestion('')
-    setCorrect('')
+    setCorrect(new Set())
 
     setTimeoutedToast('Dodano pytanie', 'success')
   }
 
   const selectCorrect = (a) => {
-    setCorrect(a)
-    setTimeoutedToast(`${a} is set as correct answer`, 'success')
+    let newSet = correct
+    if(newSet.has(a)) {
+      newSet.delete(a)
+      setDummy(d => !d)
+    } else {
+      newSet.add(a)
+      setTimeoutedToast(`${a} is set as correct answer`, 'success')
+      setDummy(d => !d)
+    }
+    setCorrect(newSet)
     setSelectedRadio(a)
   }
 
@@ -110,17 +128,18 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
 
       <IonItem>
         {Array.from(answers).length === 0 ?  <IonLabel position="stacked">No answers for that question yet</IonLabel> :
-          <IonRadioGroup id="answersRadio" value={selectedRadio} onIonChange={e => setSelectedRadio(e.detail.value)}>
+          // <IonRadioGroup id="answersRadio" value={selectedRadio} onIonChange={e => setSelectedRadio(e.detail.value)}>
+          <>
             {Array.from(answers).map((a, i) => {
               return (
-                <IonItem key={i} button>
-                  <IonLabel onClick={() => selectCorrect(a)} className="answerLabel">{a}</IonLabel>
-                  <IonRadio onClick={() => selectCorrect(a)} slot="start" value={a}/>
+                <IonItem key={i} onClick={() => selectCorrect(a)} button>
+                  <IonLabel  className="answerLabel">{a}</IonLabel>
+                  <IonCheckbox slot="start" value={a} checked={Array.from(correct).indexOf(a) > -1 ? true : false}></IonCheckbox>
                   <IonButton color="danger" id="del" onClick={() => deleteAnswer(a)}>X</IonButton>
                 </IonItem>
               )
             })}
-          </IonRadioGroup>
+          </>
         }
       </IonItem>
 
@@ -129,8 +148,13 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
         <IonButton type="submit" className="addAnswer" onClick={addAnswer}>+</IonButton>
       </IonItem>
 
-      {/* <IonButton id="resetQuestion" onClick={addQuestion}>Add question</IonButton> */}
       <IonButton id="addQuestion" onClick={addQuestion}>Add question</IonButton>
+
+      {Array.from(correct).map((c, i) => {
+        return(
+          <p key={i}>{c}</p>
+        )
+      })}
 
       <IonToast
         isOpen={toastVisible}

@@ -17,7 +17,8 @@ import {
   IonLabel,
   IonBadge,
   IonCardHeader,
-  IonToast
+  IonToast,
+  IonCheckbox
 } from '@ionic/react';
 
 import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
@@ -29,7 +30,7 @@ import './Questions.css'
 const Questions = ({id, setView}) => {
   const [questions, setQuestions] = useState([]);
   const [counter, setCounter] = useState(0);
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState([]);
   const [points, setPoints] = useState(0);
 
   const [history, setHistory] = useState([]);
@@ -47,10 +48,23 @@ const Questions = ({id, setView}) => {
     .then(quiz => {
       setQuestions(quiz.questions)
 
+
+
+      let newSelected = []
+      for(let i=0; i<quiz.questions[counter].answers.length; i++) {
+        newSelected.push(false)
+      }
+      setSelected(newSelected)
+
       setLoading(false)
     })
 
-  }, [])
+  }, [counter])
+
+  // useEffect(() => {
+  //   const a = questions[counter].answers
+  //   console.log(a)
+  // }, [counter, questions]);
 
   const setTimeoutedToast = (message, color) => {
     setToastMessage(message)
@@ -70,7 +84,7 @@ const Questions = ({id, setView}) => {
       setPoints(p => p+1)
     }
 
-    if(selected === '') {
+    if(selected.map(s => s? 1 : 0).reduce((a, c, i, ar) => a + c) === 0) {
       setTimeoutedToast('Check answer', 'danger' )
       return
     }
@@ -89,7 +103,7 @@ const Questions = ({id, setView}) => {
     if(counter+1 !== questions.length) {
 
       setCounter(c => c+1)
-      setSelected("")
+      setSelected([])
       setAnswerChecked(false)
     } else {
       setQuizOver(true)
@@ -113,6 +127,8 @@ const Questions = ({id, setView}) => {
   }
 
 
+  const [dummy, setDummy] = useState(false);
+
   const quiz = () => {
     return (
       <>
@@ -124,17 +140,28 @@ const Questions = ({id, setView}) => {
         </IonCardHeader>
 
         <IonCardContent>
-          <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
-            {!loading ? questions[counter].answers.map( a => {return (
-              <IonItem key={a}>
-                <div style={answerChecked ? questions[counter].valid === a ? {background: 'springgreen'} : {background: 'lightcoral'} : {}} className="questionsText">
+          {!loading ? questions[counter].answers.map( (a, i) => {
+            return (
+              <IonItem onClick={() => {
+                  let newSelected = selected
+                  newSelected[i] = !newSelected[i]
+                  setSelected(newSelected)
+                  setDummy(d => !d)
+                }} key={a}>
+                <div style={answerChecked ? questions[counter].valid.indexOf(a) > -1 ? {background: 'springgreen'} : {background: 'lightcoral'} : {}} className="questionsText">
                   {a}
                 </div>
-                <IonRadio slot="start" value={a}/>
+                <IonCheckbox slot="start" value={a} checked={selected[i]}></IonCheckbox>
               </IonItem>
-            )}) : 'loading'}
-          </IonRadioGroup>
+            )
+          }) : 'loading'}
         </IonCardContent>
+
+        {selected.map((s, i) => {
+          return (
+            <p key={i}>{s? 'true' : 'false'}</p>
+          )
+        })}
 
         {answerChecked ? nextButton() : applyButton()}
       </>
