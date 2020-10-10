@@ -17,7 +17,11 @@ import {IonList,IonModal,
 
 import './QuizPreview.css'
 
-const QuizPreview = ({questions, title, setShowPreview}) => {
+const QuizPreview = ({questions, setQuestions, title, setShowPreview}) => {
+
+  const deleteQuestion = (quest) => {
+    setQuestions(q => q.delete(quest))
+  }
 
   return (
     <IonModal isOpen={true}>
@@ -41,6 +45,7 @@ const QuizPreview = ({questions, title, setShowPreview}) => {
                       )
                     })}
                   </IonList>
+                  <IonButton onClick={() => deleteQuestion(q)}>x</IonButton>
                   </IonCard>
                 )})
               }

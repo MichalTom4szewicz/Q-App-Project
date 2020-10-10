@@ -111,7 +111,7 @@ const Quizcreate = (props) => {
           {/* {Array.from(questions).length} */}
         </IonCard>
 
-        {showPreview ? <QuizPreview title={title} questions={questions} setShowPreview={setShowPreview} /> :"" }
+        {showPreview ? <QuizPreview title={title} setQuestions={setQuestions} questions={questions} setShowPreview={setShowPreview} /> :"" }
 
         <IonToast
           isOpen={toastVisible}
