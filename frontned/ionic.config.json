@@ -1,5 +1,7 @@
 {
   "name": "test_menu",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "react"
 }

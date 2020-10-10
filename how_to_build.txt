@@ -1,0 +1,5 @@
+npm run build
+npx cap add android
+npx cap open android
+
+zielona strzalka gdy urzadzenie jest podlaczone
