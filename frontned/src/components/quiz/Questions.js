@@ -80,7 +80,7 @@ const Questions = ({id, setView}) => {
   }
 
   const apply = () => {
-    if(selected === questions[counter].valid) {
+    if(questions[counter].valid.every(v => selected.map((s, i) => s ? questions[counter].answers[i] : s).indexOf(v) >= 0)) {
       setPoints(p => p+1)
     }
 
@@ -91,7 +91,7 @@ const Questions = ({id, setView}) => {
 
     const historyItem ={
       pytanie: questions[counter].pytanie,
-      selected: selected,
+      selected: selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(e => {return e ? true : false }), ////????
       valid: questions[counter].valid
     }
 
@@ -182,7 +182,7 @@ const Questions = ({id, setView}) => {
 
           {history.map((h, i) => {
             return(
-              <IonCard style={h.valid === h.selected ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
+              <IonCard style={h.valid.every(v => h.selected.indexOf(v) >= 0) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
 
                 <IonCardHeader>
                   <IonItem lines="full">
@@ -193,18 +193,18 @@ const Questions = ({id, setView}) => {
                 </IonCardHeader>
 
                 <IonCardContent>
-                  {h.valid === h.selected ?
+                  {h.valid.every(v => h.selected.indexOf(v) >= 0) ?
                     <IonItem lines="none" detail={false}>
                       <IonIcon slot="start" icon={checkmark} />
                       <div className="questionsText">
-                        <IonText >{h.selected}</IonText>
+                        <IonText >{h.selected.toString()}</IonText>
                       </div>
                     </IonItem> :
                     <>
                       <IonItem lines="none" detail={false}>
                         <IonIcon slot="start" icon={checkmark} />
                         <div className="questionsText">
-                          <IonText >{h.valid}</IonText>
+                          <IonText >{h.valid.toString()}</IonText>
                         </div>
                       </IonItem>
                       <hr></hr>
@@ -212,7 +212,7 @@ const Questions = ({id, setView}) => {
                       <IonItem lines="none" detail={false}>
                         <IonIcon slot="start" icon={close} />
                         <div className="questionsText">
-                          <IonText >{h.selected}</IonText>
+                          <IonText >{h.selected.toString()}</IonText>
                         </div>
                       </IonItem>
                     </>
@@ -232,6 +232,7 @@ const Questions = ({id, setView}) => {
 
   return(
     <IonCard>
+      <h1>{points}</h1>
       {quizOver ? summary() : quiz()}
       <IonToast
         isOpen={toastVisible}
