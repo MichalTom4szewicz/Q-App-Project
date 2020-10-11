@@ -182,7 +182,7 @@ const Questions = ({id, setView}) => {
 
           {history.map((h, i) => {
             return(
-              <IonCard style={h.valid.every(v => h.selected.indexOf(v) >= 0) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
+              <IonCard style={h.selected.every(v => h.valid.indexOf(v) >= 0) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
 
                 <IonCardHeader>
                   <img onClick={() => fullscreen(h.image)} src={h.image} alt=""></img>
@@ -194,7 +194,7 @@ const Questions = ({id, setView}) => {
                 </IonCardHeader>
 
                 <IonCardContent>
-                  {h.valid.every(v => h.selected.indexOf(v) >= 0) ?
+                  {h.selected.every(v => h.valid.indexOf(v) >= 0) ?
                     <IonItem lines="none" detail={false}>
                       <IonIcon slot="start" icon={checkmark} />
                       <div className="questionsText">
