@@ -23,6 +23,7 @@ import {
 
 import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 import quizService from '../../services/quizes'
 
 import './Questions.css'
@@ -42,13 +43,13 @@ const Questions = ({id, setView}) => {
   const [toastColor, setToastColor] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
 
+  const [dummy, setDummy] = useState(false);
+
   useEffect(() => {
     quizService
     .getOne(id)
     .then(quiz => {
       setQuestions(quiz.questions)
-
-
 
       let newSelected = []
       for(let i=0; i<quiz.questions[counter].answers.length; i++) {
@@ -60,11 +61,6 @@ const Questions = ({id, setView}) => {
     })
 
   }, [counter])
-
-  // useEffect(() => {
-  //   const a = questions[counter].answers
-  //   console.log(a)
-  // }, [counter, questions]);
 
   const setTimeoutedToast = (message, color) => {
     setToastMessage(message)
@@ -80,7 +76,8 @@ const Questions = ({id, setView}) => {
   }
 
   const apply = () => {
-    if(questions[counter].valid.every(v => selected.map((s, i) => s ? questions[counter].answers[i] : s).indexOf(v) >= 0)) {
+
+    if(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}).every(v => questions[counter].valid.indexOf(v) >= 0)) {
       setPoints(p => p+1)
     }
 
@@ -91,7 +88,8 @@ const Questions = ({id, setView}) => {
 
     const historyItem ={
       pytanie: questions[counter].pytanie,
-      selected: selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(e => {return e ? true : false }), ////????
+      image: questions[counter].image,
+      selected: selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(e => {return e ? true : false }),
       valid: questions[counter].valid
     }
 
@@ -126,14 +124,16 @@ const Questions = ({id, setView}) => {
     )
   }
 
-
-  const [dummy, setDummy] = useState(false);
+  const fullscreen = (url) => {
+    PhotoViewer.show(url, 'Image', {share: false});
+  }
 
   const quiz = () => {
     return (
       <>
         <IonCardHeader>
           <IonText>{`${counter+1}/${questions.length}`}</IonText>
+          <img onClick={() => fullscreen(!loading ? questions[counter].image : 'loading')} src={!loading ? questions[counter].image : 'loading'} alt=""></img>
           <IonText>
             <h4>{!loading ? questions[counter].pytanie : 'loading'}</h4>
           </IonText>
@@ -157,11 +157,11 @@ const Questions = ({id, setView}) => {
           }) : 'loading'}
         </IonCardContent>
 
-        {selected.map((s, i) => {
+        {/* {selected.map((s, i) => {
           return (
             <p key={i}>{s? 'true' : 'false'}</p>
           )
-        })}
+        })} */}
 
         {answerChecked ? nextButton() : applyButton()}
       </>
@@ -185,6 +185,7 @@ const Questions = ({id, setView}) => {
               <IonCard style={h.valid.every(v => h.selected.indexOf(v) >= 0) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
 
                 <IonCardHeader>
+                  <img onClick={() => fullscreen(h.image)} src={h.image} alt=""></img>
                   <IonItem lines="full">
                     <div className="questionsText">
                       {h.pytanie}
@@ -232,7 +233,6 @@ const Questions = ({id, setView}) => {
 
   return(
     <IonCard>
-      <h1>{points}</h1>
       {quizOver ? summary() : quiz()}
       <IonToast
         isOpen={toastVisible}

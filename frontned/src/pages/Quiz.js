@@ -60,7 +60,7 @@ const Quiz = (props) => {
 
       <IonContent>
 
-        {view === 'quiz' ? <Questions id={id} setView={setView}/>: 
+        {view === 'quiz' ? <Questions id={id} setView={setView}/>:
           <>
             <IonText>Jakies durne statysyki</IonText>
             {statsInfo}
