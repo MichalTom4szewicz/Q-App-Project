@@ -41,17 +41,17 @@ const QuizPreview = ({questions, setQuestions, title, setShowPreview}) => {
                 return(
                 <IonCard key={i}>
                   <img src={q.image} alt="" width="100%"></img>
-                  <IonLabel id="questionPreview">{q.pytanie}</IonLabel>
+                  <IonLabel className="questionPreview">{q.pytanie}</IonLabel>
                   <IonList>
                     {q.answers.map((a, i)=> {
                       return (
                         <IonItem>
-                          <IonLabel className="it" style={q.valid.indexOf(a) > -1 ? {background: 'lime'} : {}} key={i}>{a}</IonLabel>
+                          <IonLabel className="prevIt ion-text-wrap" style={q.valid.indexOf(a) > -1 ? {background: 'lime'} : {}} key={i}>{a}</IonLabel>
                         </IonItem>
                       )
                     })}
                   </IonList>
-                  <IonButton onClick={() => deleteQuestion(q)}>x</IonButton>
+                  <IonButton color="danger" className="deleteQuestion" onClick={() => deleteQuestion(q)}>Delete</IonButton>
                   </IonCard>
                 )})
               }

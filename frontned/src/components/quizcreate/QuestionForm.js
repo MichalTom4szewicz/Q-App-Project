@@ -123,7 +123,7 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
             {Array.from(answers).map((a, i) => {
               return (
                 <IonItem className="answerItem" key={i} onClick={() => selectCorrect(a)} button>
-                  <IonLabel  className="answerLabel">{a}</IonLabel>
+                  <IonLabel className="answerLabel ion-text-wrap">{a}</IonLabel>
                   <IonCheckbox slot="start" value={a} checked={Array.from(correct).indexOf(a) > -1 ? true : false}></IonCheckbox>
                   <IonButton slot="end" color="danger" id="del" onClick={() => deleteAnswer(a)}>X</IonButton>
                 </IonItem>
@@ -146,11 +146,11 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
 
       <IonButton id="addQuestion" onClick={addQuestion}>Add question</IonButton>
 
-      {Array.from(correct).map((c, i) => {
+      {/* {Array.from(correct).map((c, i) => {
         return(
           <p key={i}>{c}</p>
         )
-      })}
+      })} */}
 
       <IonToast
         isOpen={toastVisible}
