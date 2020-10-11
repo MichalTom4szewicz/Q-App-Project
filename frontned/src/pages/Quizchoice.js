@@ -43,7 +43,7 @@ const Quizchoice = (props) => {
 
         {quizShorts.map( q => {
           return (
-            <IonItem button routerLink={"quizchoice/"+q.ref} key={q.id}>
+            <IonItem button href={`quizchoice/${q.ref}`} key={q.id}>
               <IonText>{q.title}</IonText>
             </IonItem>
           )})

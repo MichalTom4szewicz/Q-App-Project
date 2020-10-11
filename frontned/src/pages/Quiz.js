@@ -35,8 +35,6 @@ const Quiz = (props) => {
 
   const [id, setId] = useState('');
 
-  const [dummy, setDummy] = useState(false);
-
   useEffect(() => {
     const id = props.match.params.id
 
