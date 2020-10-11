@@ -16,8 +16,13 @@
 
 .answerLabel {
   width: 70%;
+  word-wrap: break-word
 }
 
 #answersRadio {
+  width: 100%;
+}
+
+.answerItem {
   width: 100%;
 }

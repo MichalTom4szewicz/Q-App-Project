@@ -18,6 +18,8 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
 
   const [question, setQuestion] = useState('')
 
+  const [image, setImage] = useState('');
+
   const [answer, setAnswer] = useState('')
   const [answers, setAnswers] = useState(new Set())
 
@@ -26,8 +28,6 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
   const [toastMessage, setToastMessage] = useState('')
   const [toastColor, setToastColor] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
-
-  const [selectedRadio, setSelectedRadio] = useState('');
 
   const [dummy, setDummy] = useState(false);
 
@@ -51,7 +51,6 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
       return
     }
 
-    // setAnswers(a => a.concat(answer))
     setAnswers(a => a.add(answer))
     setAnswer('')
   }
@@ -61,16 +60,7 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
     setAnswers(answers => new Set(Array.from(answers).filter(a => {return a != an })))
     setAnswer('')
     setCorrect(new Set())
-    setSelectedRadio('')
   }
-
-  // const deleteQuestion = (q) => {
-
-  //   setAnswers(answers => new Set(Array.from(answers).filter(a => {return a != an })))
-  //   setAnswer('')
-  //   setCorrect(new Set())
-  //   setSelectedRadio('')
-  // }
 
   const addQuestion = () => {
 
@@ -89,6 +79,7 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
 
     const q = {
       pytanie: question,
+      image: image,
       valid: Array.from(correct),
       answers: Array.from(answers)
     }
@@ -100,6 +91,7 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
     setAnswers(new Set())
     setQuestion('')
     setCorrect(new Set())
+    setImage('')
 
     setTimeoutedToast('Dodano pytanie', 'success')
   }
@@ -115,12 +107,11 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
       setDummy(d => !d)
     }
     setCorrect(newSet)
-    setSelectedRadio(a)
   }
 
   return(
     <IonCard>
-          <IonBadge color={Array.from(questions).length < 2 ? 'warning' : 'success'}>{`${Array.from(questions).length} questions`}</IonBadge>
+      <IonBadge color={Array.from(questions).length < 2 ? 'warning' : 'success'}>{`${Array.from(questions).length} questions`}</IonBadge>
 
       <IonItem>
         <IonInput value={question} placeholder="Question" onIonChange={e => setQuestion(e.target.value)} clearInput/>
@@ -132,10 +123,10 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
           <>
             {Array.from(answers).map((a, i) => {
               return (
-                <IonItem key={i} onClick={() => selectCorrect(a)} button>
+                <IonItem className="answerItem" key={i} onClick={() => selectCorrect(a)} button>
                   <IonLabel  className="answerLabel">{a}</IonLabel>
                   <IonCheckbox slot="start" value={a} checked={Array.from(correct).indexOf(a) > -1 ? true : false}></IonCheckbox>
-                  <IonButton color="danger" id="del" onClick={() => deleteAnswer(a)}>X</IonButton>
+                  <IonButton slot="end" color="danger" id="del" onClick={() => deleteAnswer(a)}>X</IonButton>
                 </IonItem>
               )
             })}
@@ -147,6 +138,12 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
         <IonInput className="addAnswer" value={answer} placeholder="Answer" onIonChange={e =>setAnswer(e.target.value)} />
         <IonButton type="submit" className="addAnswer" onClick={addAnswer}>+</IonButton>
       </IonItem>
+
+      <IonItem>
+        <IonInput value={image} placeholder="Image - non mandatory" onIonChange={e => setImage(e.target.value)} clearInput/>
+      </IonItem>
+
+      <img src={image} alt="" width="100%"></img>
 
       <IonButton id="addQuestion" onClick={addQuestion}>Add question</IonButton>
 

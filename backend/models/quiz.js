@@ -5,6 +5,7 @@ const quizSchema = mongoose.Schema({
   questions: [
     {
         pytanie: String,
+        image: String,
         valid: [
           {
             type: String
