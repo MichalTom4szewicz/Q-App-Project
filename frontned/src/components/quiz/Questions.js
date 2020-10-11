@@ -133,6 +133,7 @@ const Questions = ({id, setView}) => {
       <>
         <IonCardHeader>
           <IonText>{`${counter+1}/${questions.length}`}</IonText>
+          {!loading ? questions[counter].valid.length > 1 ? <IonBadge id="qBadge" color="warning">Multiple choice</IonBadge> : <IonBadge id="qBadge" color="success">Single choice</IonBadge>:'loading'}
           <img onClick={() => fullscreen(!loading ? questions[counter].image : 'loading')} src={!loading ? questions[counter].image : 'loading'} alt=""></img>
           <IonText>
             <h4>{!loading ? questions[counter].pytanie : 'loading'}</h4>
