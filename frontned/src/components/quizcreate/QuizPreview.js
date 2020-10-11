@@ -19,8 +19,13 @@ import './QuizPreview.css'
 
 const QuizPreview = ({questions, setQuestions, title, setShowPreview}) => {
 
+  const [dummy, setDummy] = useState(false);
+
   const deleteQuestion = (quest) => {
-    setQuestions(q => q.delete(quest))
+    let newQuestions = questions;
+    newQuestions.delete(quest)
+    setQuestions(newQuestions)
+    setDummy(d => !d)
   }
 
   return (
@@ -35,6 +40,7 @@ const QuizPreview = ({questions, setQuestions, title, setShowPreview}) => {
               {Array.from(questions).map((q, i )=> {
                 return(
                 <IonCard key={i}>
+                  <img src={q.image} alt="" width="100%"></img>
                   <IonLabel id="questionPreview">{q.pytanie}</IonLabel>
                   <IonList>
                     {q.answers.map((a, i)=> {

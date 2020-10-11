@@ -119,7 +119,6 @@ const QuestionForm = ({setQuestions, setCanRedirect, questions}) => {
 
       <IonItem>
         {Array.from(answers).length === 0 ?  <IonLabel position="stacked">No answers for that question yet</IonLabel> :
-          // <IonRadioGroup id="answersRadio" value={selectedRadio} onIonChange={e => setSelectedRadio(e.detail.value)}>
           <>
             {Array.from(answers).map((a, i) => {
               return (
