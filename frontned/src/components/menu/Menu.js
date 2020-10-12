@@ -111,10 +111,16 @@ const Menu = () => {
               {appPages.map((appPage, index) => {
                 return (
                   <IonMenuToggle key={index} autoHide={false}>
-                    <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
-                      <IonIcon slot="start" icon={appPage.iosIcon} />
-                      <IonLabel>{appPage.title}</IonLabel>
-                    </IonItem>
+                    {appPage.title === 'Start FUN' ?
+                      <IonItem href={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                        <IonIcon slot="start" icon={appPage.iosIcon} />
+                        <IonLabel>{appPage.title}</IonLabel>
+                      </IonItem> :
+                      <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                        <IonIcon slot="start" icon={appPage.iosIcon} />
+                        <IonLabel>{appPage.title}</IonLabel>
+                      </IonItem>
+                    }
                   </IonMenuToggle>
                 );
               })}
