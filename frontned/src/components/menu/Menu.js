@@ -43,6 +43,12 @@ const appPages = [
     url: '/quizchoice',
     iosIcon: mailOutline,
     mdIcon: mailSharp
+  },
+  {
+    title: 'Admin Panel',
+    url: '/adminpanel',
+    iosIcon: warningSharp,
+    mdIcon: warningSharp
   }
 ];
 

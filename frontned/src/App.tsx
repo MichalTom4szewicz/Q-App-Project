@@ -28,6 +28,7 @@ import Welcome from './pages/Welcome';
 import Quizchoice from './pages/Quizchoice';
 import Quiz from './pages/Quiz'
 import Quizcreate from './pages/Quizcreate';
+import AdminPanel from './pages/AdminPanel'
 
 
 const App: React.FC = () => {
@@ -44,6 +45,7 @@ const App: React.FC = () => {
             <Route path='/quizchoice' component={Quizchoice} exact />
             <Route path='/quizchoice/:id' component={Quiz} exact />
             <Route path="/quizcreate" component={Quizcreate} exact={true} />
+            <Route path="/adminpanel" component={AdminPanel} exact={true} />
             <Redirect from="/" to="/welcome" exact />
           </IonRouterOutlet>
         </IonSplitPane>
