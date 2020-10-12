@@ -21,8 +21,11 @@ import {IonList,
 } from '@ionic/react';
 
 import React, {useState, useEffect} from 'react';
+import { setSyntheticLeadingComments } from 'typescript';
 
 import quizPreviewService from '../../services/quizPreviews'
+import QuizPreview from './QuizPreview';
+
 
 const AdminQuizes = (props) => {
 
@@ -31,6 +34,8 @@ const AdminQuizes = (props) => {
   const [alertVisible, setAlertVisible] = useState(false);
 
   const [choosenQuiz, setChoosenQuiz] = useState('');
+
+  const [showPreview, setShowPreview] = useState(false);
 
 
   useEffect(() => {
@@ -51,6 +56,11 @@ const AdminQuizes = (props) => {
     setChoosenQuiz({})
   }
 
+  const previewQuiz = (quiz) => {
+    setChoosenQuiz(quiz)
+    setShowPreview(true)
+  }
+
   const deleteChoosenQuiz = () => {
 
     quizPreviewService
@@ -63,16 +73,16 @@ const AdminQuizes = (props) => {
 
   return (
     <IonContent>
-      <h1>quizess from  admin view</h1>
-
       {quizPreviews.map((q, i) => {
         return (
-          <IonItem key={q.id}>
-            <IonLabel>{q.title}</IonLabel>
+          <IonItem button key={q.id}>
+            <IonLabel onClick={() => previewQuiz(q)}>{q.title}</IonLabel>
             <IonButton onClick={() => selectQuiz(q)} color="danger">Delete</IonButton>
           </IonItem>
         )
       })}
+
+      {showPreview ? <QuizPreview setShowPreview={setShowPreview} id={choosenQuiz.ref} /> : ''}
 
       <IonAlert
         isOpen={alertVisible}
