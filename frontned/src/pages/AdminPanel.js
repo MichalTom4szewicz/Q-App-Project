@@ -59,13 +59,15 @@ const AdminPanel = (props) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>{`Admin Panel / ${currentPage}`}</IonTitle>
+          <IonTitle>
+            <IonText onClick={() => setCurrentPage('')}>Admin Panel</IonText>
+            {currentPage ? <IonText>{` / ${currentPage}`}</IonText> : '' }
+          </IonTitle>
+
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
-        {/* <h1>panel hehe</h1> */}
-
         {currentPage === '' ?
           <>
             {tabs.map((t, i) => {
