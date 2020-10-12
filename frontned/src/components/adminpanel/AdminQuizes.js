@@ -41,19 +41,23 @@ const AdminQuizes = (props) => {
     })
   }, []);
 
-  const selectQuiz = (title) => {
-    setChoosenQuiz(title)
+  const selectQuiz = (quiz) => {
+    setChoosenQuiz(quiz)
     setAlertVisible(true)
   }
 
   const dismissAlert = () => {
     setAlertVisible(false)
-    setChoosenQuiz('')
+    setChoosenQuiz({})
   }
 
   const deleteChoosenQuiz = () => {
-    setQuizPreviews(qs => qs.filter(q => {return q.title !== choosenQuiz}))
-    setChoosenQuiz('')
+
+    quizPreviewService
+    .remove(choosenQuiz.id)
+
+    setQuizPreviews(qs => qs.filter(q => {return q.title !== choosenQuiz.title}))
+    setChoosenQuiz({})
     setAlertVisible(false)
   }
 
@@ -65,7 +69,7 @@ const AdminQuizes = (props) => {
         return (
           <IonItem key={q.id}>
             <IonLabel>{q.title}</IonLabel>
-            <IonButton onClick={() => selectQuiz(q.title)} color="danger">Delete</IonButton>
+            <IonButton onClick={() => selectQuiz(q)} color="danger">Delete</IonButton>
           </IonItem>
         )
       })}
@@ -75,7 +79,7 @@ const AdminQuizes = (props) => {
         onDidDismiss={dismissAlert}
         cssClass='my-custom-class'
         // header={'Confirm!'}
-        message={`U sure want to delete ${choosenQuiz}`}
+        message={`U sure want to delete ${choosenQuiz.title}`}
         buttons={[
           {
             text: 'Cancel',

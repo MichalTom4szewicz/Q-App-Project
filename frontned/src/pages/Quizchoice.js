@@ -11,7 +11,7 @@ import { IonContent,
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar, IonRefresher, IonRefresherContent
 } from '@ionic/react';
 
 import './Quizchoice.css'
@@ -19,6 +19,15 @@ import './Quizchoice.css'
 const Quizchoice = (props) => {
 
   const [quizShorts, setQuizShorts] = useState([])
+
+  const doRefresh = (event) => {
+    quizPreviewService
+    .getAll()
+    .then(initialQuizes => {
+      setQuizShorts(initialQuizes)
+      event.detail.complete();
+    })
+  }
 
   useEffect(() => {
     quizPreviewService
@@ -40,6 +49,10 @@ const Quizchoice = (props) => {
       </IonHeader>
 
       <IonContent>
+
+      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+        <IonRefresherContent></IonRefresherContent>
+      </IonRefresher>
 
         {quizShorts.map( q => {
           return (

@@ -22,7 +22,14 @@ const create = async newObject => {
   return response.data
 }
 
+const remove = id => {
+    const request = axios.delete(`${baseUrl}/${id}`)
+}
 
 export default {
-    getAll, getOne, update, create
+    getAll,
+    getOne,
+    update,
+    create,
+    remove
   }
