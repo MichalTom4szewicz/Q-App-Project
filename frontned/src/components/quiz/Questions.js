@@ -225,7 +225,7 @@ const Questions = ({id, setView}) => {
           })}
 
         </IonCardContent>
-        <IonButton routerLink={"/quizchoice"} onClick={() => setView('info')}>
+        <IonButton routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
           Go back to quizes
         </IonButton>
       </>

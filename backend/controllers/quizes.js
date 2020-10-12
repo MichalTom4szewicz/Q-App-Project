@@ -8,8 +8,6 @@ quizesRouter.get('/', async (request, response) => {
     .find({}).then(q => {
       response.json(q)
     })
-
-  //response.json(quizes.map(q => q.toJSON()))
 })
 
 
@@ -21,7 +19,6 @@ quizesRouter.post('/', async (request, response) => {
     questions: body.questions
   })
 
-  //console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
   const savedQuiz = await quiz.save()
 
@@ -31,7 +28,6 @@ quizesRouter.post('/', async (request, response) => {
   })
 
   const savedQuizPreview = await quizPreview.save()
-  //console.log("bbbbbbbbbbbbbbbbbbbbbbbbbb")
 
   response.json(savedQuiz.toJSON())
 })
@@ -39,14 +35,11 @@ quizesRouter.post('/', async (request, response) => {
 quizesRouter.get('/:id', async (request, response) => {
   const quiz = await Quiz.findById(request.params.id)
 
-  // console.log(quiz)
-
   if (quiz) {
     response.json(quiz.toJSON())
   } else {
     response.status(404).end()
   }
 })
-
 
 module.exports = quizesRouter

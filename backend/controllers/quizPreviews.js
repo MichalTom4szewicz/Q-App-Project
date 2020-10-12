@@ -12,6 +12,17 @@ quizPreviewsRouter.get('/', async (request, response) => {
   // response.json(quizPreviews.map(q => q.toJSON()))
 })
 
+quizPreviewsRouter.delete('/:id', async (request, response) => {
+
+  const quizPreview = await QuizPreview.findById(request.params.id)
+
+  const quizId = quizPreview.ref
+
+  await Quiz.findByIdAndRemove(quizId)
+  await QuizPreview.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+})
+
 /*
 quizesRouter.post('/', async (request, response) => {
   const body = request.body
