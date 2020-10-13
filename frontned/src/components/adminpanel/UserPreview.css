@@ -1,0 +1,15 @@
+.quserPreview {
+  margin: 5% 5% 2%;
+  width: 90%;
+  word-wrap: break-word;
+}
+
+.usrIt {
+  overflow: auto;
+  word-wrap: break-word;
+}
+
+.deleteUser {
+  width: 50%;
+  margin-left: 25%;
+}

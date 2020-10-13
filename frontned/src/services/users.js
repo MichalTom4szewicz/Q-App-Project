@@ -1,17 +1,24 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/users'
+const baseUrl = 'http://192.168.1.19:3001/api/users'
 
 
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
 }
+
 const getOne = (id) => {
-    const request = axios.get(`${baseUrl}/${id}`)
-    return request.then(response => response.data)
-  }
+  const request = axios.get(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
+}
+
+const remove = id => {
+  const request = axios.delete(`${baseUrl}/${id}`)
+}
 
 
-export default { 
-    getAll, getOne
+export default {
+    getAll,
+    getOne,
+    remove
   }

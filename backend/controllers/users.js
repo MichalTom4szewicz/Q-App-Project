@@ -14,7 +14,7 @@ usersRouter.get('/n=:n', async (request, response) => {
 
   const users = await User
     .find({}).limit(n)
-  
+
   console.log()
 
   response.json(users.map(u => u.toJSON()))
@@ -27,7 +27,7 @@ usersRouter.get('/s=:n&l=:m', async (request, response) => {
 
   const users = await User
     .find({}).limit(n).skip(m)
-  
+
   console.log(n, m)
 
   response.json(users.map(u => u.toJSON()))
@@ -48,6 +48,12 @@ usersRouter.post('/', async (request, response) => {
   const savedUser = await user.save()
 
   response.json(savedUser)
+})
+
+usersRouter.delete('/:id', async (request, response) => {
+
+  await User.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
 
 module.exports = usersRouter
