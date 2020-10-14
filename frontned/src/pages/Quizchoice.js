@@ -11,14 +11,26 @@ import { IonContent,
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar, IonRefresher, IonRefresherContent
+  IonToolbar,
+  IonRefresher,
+  IonRefresherContent,
+  IonSearchbar,
+  IonFooter,
+  IonButton,
+  IonIcon,
+  IonBackButton,
+  IonFab, IonFabButton
 } from '@ionic/react';
 
+import {search, chevronUpSharp } from 'ionicons/icons';
 import './Quizchoice.css'
 
 const Quizchoice = (props) => {
 
   const [quizShorts, setQuizShorts] = useState([])
+
+  const [searchBarVisible, setSearchBarVisible] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   const doRefresh = (event) => {
     quizPreviewService
@@ -44,17 +56,26 @@ const Quizchoice = (props) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
+
           <IonTitle>Solve QUIZ</IonTitle>
+
+
         </IonToolbar>
-      </IonHeader>
+          {searchBarVisible ? <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value)} showCancelButton="focus"></IonSearchbar> : ''}
+        </IonHeader>
 
       <IonContent>
+        <IonFab vertical="top" horizontal="end" slot="fixed">
+          <IonFabButton onClick={() => setSearchBarVisible(s => !s)}>
+            <IonIcon icon={searchBarVisible ? chevronUpSharp : search} />
+          </IonFabButton>
+        </IonFab>
 
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent></IonRefresherContent>
-      </IonRefresher>
+        <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
 
-        {quizShorts.map( q => {
+        {quizShorts.filter(q => {return q.title.includes(searchText)}).map( q => {
           return (
             <IonItem button href={`quizchoice/${q.ref}`} key={q.id}>
               <IonText>{q.title}</IonText>
