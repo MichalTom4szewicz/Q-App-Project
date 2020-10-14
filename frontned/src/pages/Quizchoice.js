@@ -25,6 +25,8 @@ import { IonContent,
 import {search, chevronUpSharp } from 'ionicons/icons';
 import './Quizchoice.css'
 
+import ExQuiz from '../components/quiz/ExQuiz'
+
 const Quizchoice = (props) => {
 
   const [quizShorts, setQuizShorts] = useState([])
@@ -32,10 +34,18 @@ const Quizchoice = (props) => {
   const [searchBarVisible, setSearchBarVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
 
+  const [triviaCard, setTriviaCard] = useState(false);
+
   const doRefresh = (event) => {
     quizPreviewService
     .getAll()
     .then(initialQuizes => {
+      const dummy ={
+        title: 'dummy',
+        id: 1010101010,
+        ref: 202020202020202
+      }
+      initialQuizes.unshift(dummy)
       setQuizShorts(initialQuizes)
       event.detail.complete();
     })
@@ -45,6 +55,12 @@ const Quizchoice = (props) => {
     quizPreviewService
     .getAll()
     .then(initialQuizes => {
+      const dummy ={
+        title: 'dummy',
+        id: 1010101010,
+        ref: 202020202020202
+      }
+      initialQuizes.unshift(dummy)
       setQuizShorts(initialQuizes)
     })
   }, [])
@@ -75,6 +91,10 @@ const Quizchoice = (props) => {
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
 
+        <IonItem color='medium' slot='fixed' id='triviaButton' button onClick={() => setTriviaCard(true)}>
+          <IonText>TriviaQuiz</IonText>
+        </IonItem>
+
         {quizShorts.filter(q => {return q.title.includes(searchText)}).map( q => {
           return (
             <IonItem button href={`quizchoice/${q.ref}`} key={q.id}>
@@ -82,6 +102,8 @@ const Quizchoice = (props) => {
             </IonItem>
           )})
         }
+
+        {triviaCard ? <ExQuiz setTriviaCard={setTriviaCard} /> : ''}
 
       </IonContent>
 
