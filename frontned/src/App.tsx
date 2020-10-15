@@ -29,6 +29,7 @@ import Quizchoice from './pages/Quizchoice';
 import Quiz from './pages/Quiz'
 import Quizcreate from './pages/Quizcreate';
 import AdminPanel from './pages/AdminPanel'
+import TriviaQuiz from './pages/TriviaQuiz'
 
 
 const App: React.FC = () => {
@@ -44,6 +45,7 @@ const App: React.FC = () => {
             <Route path="/welcome" component={Welcome} exact />
             <Route path='/quizchoice' component={Quizchoice} exact />
             <Route path='/quizchoice/:id' component={Quiz} exact />
+            <Route path='/triviaquiz/:category' component={TriviaQuiz} exact />
             <Route path="/quizcreate" component={Quizcreate} exact={true} />
             <Route path="/adminpanel" component={AdminPanel} exact={true} />
             <Redirect from="/" to="/welcome" exact />
