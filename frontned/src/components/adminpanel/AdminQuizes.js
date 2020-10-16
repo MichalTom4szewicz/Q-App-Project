@@ -66,7 +66,7 @@ const AdminQuizes = (props) => {
     quizPreviewService
     .remove(choosenQuiz.id)
 
-    setQuizPreviews(qs => qs.filter(q => {return q.title !== choosenQuiz.title}))
+    setQuizPreviews(qs => qs.filter(q => {return q.id !== choosenQuiz.id}))
     setChoosenQuiz({})
     setAlertVisible(false)
   }
