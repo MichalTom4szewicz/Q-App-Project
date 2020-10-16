@@ -28,7 +28,7 @@ import quizService from '../../services/quizes'
 
 import './Questions.css'
 
-const Questions = ({id, setView}) => {
+const Questions = ({quiz, id, setView,}) => {
   const [questions, setQuestions] = useState([]);
   const [counter, setCounter] = useState(0);
   const [selected, setSelected] = useState([]);
@@ -46,20 +46,15 @@ const Questions = ({id, setView}) => {
   const [dummy, setDummy] = useState(false);
 
   useEffect(() => {
-    quizService
-    .getOne(id)
-    .then(quiz => {
-      setQuestions(quiz.questions)
+    setQuestions(quiz.questions)
 
-      let newSelected = []
-      for(let i=0; i<quiz.questions[counter].answers.length; i++) {
-        newSelected.push(false)
-      }
-      setSelected(newSelected)
+    let newSelected = []
+    for(let i=0; i<quiz.questions[counter].answers.length; i++) {
+      newSelected.push(false)
+    }
+    setSelected(newSelected)
 
-      setLoading(false)
-    })
-
+    setLoading(false)
   }, [counter])
 
   const setTimeoutedToast = (message, color) => {
@@ -128,7 +123,7 @@ const Questions = ({id, setView}) => {
     PhotoViewer.show(url, 'Image', {share: false});
   }
 
-  const quiz = () => {
+  const quizz = () => {
     return (
       <>
         <IonCardHeader>
@@ -157,12 +152,6 @@ const Questions = ({id, setView}) => {
             )
           }) : 'loading'}
         </IonCardContent>
-
-        {/* {selected.map((s, i) => {
-          return (
-            <p key={i}>{s? 'true' : 'false'}</p>
-          )
-        })} */}
 
         {answerChecked ? nextButton() : applyButton()}
       </>
@@ -234,7 +223,7 @@ const Questions = ({id, setView}) => {
 
   return(
     <IonCard>
-      {quizOver ? summary() : quiz()}
+      {quizOver ? summary() : quizz()}
       <IonToast
         isOpen={toastVisible}
         onDidDismiss={() => setToastVisible(false)}

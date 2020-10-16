@@ -35,6 +35,8 @@ const Quiz = (props) => {
 
   const [id, setId] = useState('');
 
+  const [quiz, setQuiz] = useState();
+
   useEffect(() => {
     const id = props.match.params.id
 
@@ -44,6 +46,7 @@ const Quiz = (props) => {
       setTitle(quiz.title)
       setId(quiz.id)
       setStatsInfo('some data')
+      setQuiz(quiz)
     })
   }, [])
 
@@ -60,7 +63,7 @@ const Quiz = (props) => {
 
       <IonContent>
 
-        {view === 'quiz' ? <Questions id={id} setView={setView}/>:
+        {view === 'quiz' ? <Questions quiz={quiz} id={id} setView={setView}/>:
           <>
             <IonText>Jakies durne statysyki</IonText>
             {statsInfo}
