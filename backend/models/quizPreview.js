@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 
 const quizPreviewSchema = mongoose.Schema({
-  
+
   title: String,
   //refer: { type: Schema.Types.ObjectId, ref: 'Quiz' },
   ref: String,
+  timesRun: Number
 })
 
 quizPreviewSchema.set('toJSON', {

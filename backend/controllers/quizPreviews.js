@@ -5,11 +5,9 @@ const QuizPreview = require('../models/quizPreview')
 
 quizPreviewsRouter.get('/', async (request, response) => {
   const quizPreviews = await QuizPreview
-    .find({}).then(q => {
-        response.json(q)
-      })
-
-  // response.json(quizPreviews.map(q => q.toJSON()))
+  .find({}).then(q => {
+      response.json(q)
+  })
 })
 
 quizPreviewsRouter.delete('/:id', async (request, response) => {
@@ -23,30 +21,24 @@ quizPreviewsRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
-/*
-quizesRouter.post('/', async (request, response) => {
+quizPreviewsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  const quiz = new Quiz({
-    title: body.title,
-    questions: body.questions
-  })
-  
-  const savedQuiz = await quiz.save()
-  
-  response.json(savedQuiz.toJSON())  
-})
-
-quizesRouter.get('/:id', async (request, response) => {
-  const quiz = await Quiz.findById(request.params.id)
-  
-  if (quiz) {
-    response.json(quiz.toJSON())
-  } else {
-    response.status(404).end()
+  const note = {
+    content: body.content,
+    important: body.important,
   }
-})
-*/
 
+  const filter = {_id: request.params.id};
+  const update = {$inc: {timesRun: 1}};
+
+  QuizPreview.findOneAndUpdate(filter, update)
+  .then(updated => {
+    response.json({succes: true})
+  })
+  .catch(e => {
+    response.json({succes: false})
+  })
+})
 
 module.exports = quizPreviewsRouter
