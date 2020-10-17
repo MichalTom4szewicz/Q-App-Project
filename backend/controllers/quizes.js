@@ -25,6 +25,8 @@ quizesRouter.post('/', async (request, response) => {
   const quizPreview = new QuizPreview({
     title: savedQuiz.title,
     timesRun: 0,
+    ratings: 0,
+    ratingSum: 0,
     ref: savedQuiz.id
   })
 

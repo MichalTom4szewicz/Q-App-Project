@@ -33,7 +33,13 @@ quizPreviewsRouter.put('/:id', async (request, response) => {
   const qp = await QuizPreview.findOne({ref: request.params.id})
 
   const filter = {_id: qp._id};
-  const update = {$inc: {timesRun: 1}};
+
+  let update
+  if(body.rating === 0) {
+    update = {$inc: {timesRun: 1}};
+  } else {
+    update = {$inc: {timesRun: 1, ratings: 1, ratingSum: body.rating}};
+  }
 
   QuizPreview.findOneAndUpdate(filter, update)
   .then(updated => {

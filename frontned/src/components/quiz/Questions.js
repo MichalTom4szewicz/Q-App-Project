@@ -22,7 +22,7 @@ import {
 } from '@ionic/react';
 
 import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
-
+import StarRatings from 'react-star-ratings';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import quizPreviewsService from '../../services/quizPreviews'
 
@@ -38,6 +38,8 @@ const Questions = ({quiz, id, setView,}) => {
   const [loading, setLoading] = useState(true);
   const [quizOver, setQuizOver] = useState(false);
   const [answerChecked, setAnswerChecked] = useState(false);
+
+  const [rating, setRating] = useState(0);
 
   const [toastMessage, setToastMessage] = useState('')
   const [toastColor, setToastColor] = useState('');
@@ -161,10 +163,14 @@ const Questions = ({quiz, id, setView,}) => {
 
   const updateQuizStats = () => {
     quizPreviewsService
-    .update(quiz.id, {mark: 4})
+    .update(quiz.id, {rating: rating})
     .catch(e => {
       console.error(e)
     })
+  }
+
+  const changeRating = (r) => {
+    setRating(r)
   }
 
   const summary = () => {
@@ -223,6 +229,17 @@ const Questions = ({quiz, id, setView,}) => {
           })}
 
         </IonCardContent>
+        <div id='starRating'>
+          <StarRatings
+            rating={rating}
+            starRatedColor="orange"
+            changeRating={changeRating}
+            numberOfStars={5}
+            starDimension="40px"
+            starSpacing="10px"
+          />
+        </div>
+
         <IonButton onClick={updateQuizStats} routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
           Go back to quizes
         </IonButton>

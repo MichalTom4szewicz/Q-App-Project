@@ -26,6 +26,10 @@ import quizPreviewService from '../services/quizPreviews'
 
 import Questions from '../components/quiz/Questions'
 
+import StarRatings from 'react-star-ratings';
+
+import './Quiz.css'
+
 const Quiz = (props) => {
 
   const [title, setTitle] = useState('')
@@ -39,6 +43,7 @@ const Quiz = (props) => {
   const [quiz, setQuiz] = useState();
 
   const [preview, setPreview] = useState(undefined);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const id = props.match.params.id
@@ -47,6 +52,10 @@ const Quiz = (props) => {
     .getOne(id)
     .then(preview => {
       setPreview(preview)
+
+      if(preview.ratings !== 0) {
+        setRating(preview.ratingSum/preview.ratings)
+      }
     })
 
     quizService
@@ -82,6 +91,15 @@ const Quiz = (props) => {
                 </IonCardHeader>
                 <IonCardContent>
                   <IonText>{`Times played by community: ${preview.timesRun}`}</IonText>
+                  <div id='starRating'>
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="orange"
+                    numberOfStars={5}
+                    starDimension="35px"
+                    starSpacing="10px"
+                  />
+                </div>
                   <hr></hr>
                   <IonText>{'shit ima develop later'}</IonText>
                 </IonCardContent>

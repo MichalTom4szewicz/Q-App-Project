@@ -5,7 +5,9 @@ const quizPreviewSchema = mongoose.Schema({
   title: String,
   //refer: { type: Schema.Types.ObjectId, ref: 'Quiz' },
   ref: String,
-  timesRun: Number
+  timesRun: Number,
+  ratings: Number,
+  ratingSum: Number,
 })
 
 quizPreviewSchema.set('toJSON', {
