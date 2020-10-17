@@ -24,7 +24,7 @@ import {
 import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 
 import { PhotoViewer } from '@ionic-native/photo-viewer';
-import quizService from '../../services/quizes'
+import quizPreviewsService from '../../services/quizPreviews'
 
 import './Questions.css'
 
@@ -158,6 +158,15 @@ const Questions = ({quiz, id, setView,}) => {
     )
   }
 
+
+  const updateQuizStats = () => {
+    quizPreviewsService
+    .update(quiz.id, {mark: 4})
+    .catch(e => {
+      console.error(e)
+    })
+  }
+
   const summary = () => {
     return (
       <>
@@ -214,7 +223,7 @@ const Questions = ({quiz, id, setView,}) => {
           })}
 
         </IonCardContent>
-        <IonButton routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
+        <IonButton onClick={updateQuizStats} routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
           Go back to quizes
         </IonButton>
       </>

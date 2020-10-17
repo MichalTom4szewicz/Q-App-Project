@@ -24,12 +24,9 @@ quizPreviewsRouter.delete('/:id', async (request, response) => {
 quizPreviewsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  const note = {
-    content: body.content,
-    important: body.important,
-  }
+  const qp = await QuizPreview.findOne({ref: request.params.id})
 
-  const filter = {_id: request.params.id};
+  const filter = {_id: qp._id};
   const update = {$inc: {timesRun: 1}};
 
   QuizPreview.findOneAndUpdate(filter, update)

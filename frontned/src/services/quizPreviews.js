@@ -12,8 +12,8 @@ const getOne = (id) => {
     return request.then(response => response.data)
 }
 
-const update = (id, newObject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newObject)
+const update = (id, propsToUpdate) => {
+    const request = axios.put(`${baseUrl}/${id}`, propsToUpdate)
     return request.then(response => response.data)
 }
 
