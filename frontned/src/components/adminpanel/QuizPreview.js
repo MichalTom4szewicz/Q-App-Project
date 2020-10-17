@@ -12,7 +12,8 @@ import {IonList,IonModal,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButton
+  IonButton,
+  IonText
 } from '@ionic/react';
 
 import './QuizPreview.css'
@@ -67,16 +68,24 @@ const QuizPreview = ({id, setShowPreview}) => {
                 )})
               : 'loading'}
             </IonList>
-            <div id='starRating'>
-              <StarRatings
-                rating={preview ? preview.ratings === 0 ? 0 :preview.ratingSum/preview.ratings : 0}
-                starRatedColor="orange"
-                numberOfStars={5}
-                starDimension="35px"
-                starSpacing="10px"
-              />
-            </div>
-
+            {
+              preview ?
+              <>
+                <div id='starRating'>
+                  <StarRatings
+                    rating={preview ? preview.ratings === 0 ? 0 :preview.ratingSum/preview.ratings : 0}
+                    starRatedColor="orange"
+                    numberOfStars={5}
+                    starDimension="35px"
+                    starSpacing="10px"
+                  />
+                </div>
+                <hr></hr>
+                <IonText>{`Times played: ${preview.timesRun}`}</IonText>
+                <hr></hr>
+              </> :
+              <IonText>laoding...</IonText>
+            }
             <IonButton onClick={() => setShowPreview(false)}>Close Preview</IonButton>
 
           </IonCard>
