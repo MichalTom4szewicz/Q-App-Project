@@ -22,6 +22,7 @@ import {IonList,
 import React, {useState, useEffect} from 'react';
 
 import quizService from '../services/quizes'
+import quizPreviewService from '../services/quizPreviews'
 
 import Questions from '../components/quiz/Questions'
 
@@ -37,8 +38,16 @@ const Quiz = (props) => {
 
   const [quiz, setQuiz] = useState();
 
+  const [preview, setPreview] = useState(undefined);
+
   useEffect(() => {
     const id = props.match.params.id
+
+    quizPreviewService
+    .getOne(id)
+    .then(preview => {
+      setPreview(preview)
+    })
 
     quizService
     .getOne(id)
@@ -65,8 +74,20 @@ const Quiz = (props) => {
 
         {view === 'quiz' ? <Questions quiz={quiz} id={id} setView={setView}/>:
           <>
-            <IonText>Jakies durne statysyki</IonText>
-            {statsInfo}
+            {
+              preview ?
+              <IonCard>
+                <IonCardHeader>
+                  <IonTitle>Jakies durne statysyki</IonTitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonText>{`Times played by community: ${preview.timesRun}`}</IonText>
+                  <hr></hr>
+                  <IonText>{'shit ima develop later'}</IonText>
+                </IonCardContent>
+              </IonCard> :
+              <IonText>loading...</IonText>
+            }
 
             <IonButton onClick={() => setView('quiz')}>
               Start!

@@ -10,6 +10,12 @@ quizPreviewsRouter.get('/', async (request, response) => {
   })
 })
 
+quizPreviewsRouter.get('/:id', async (request, response) => {
+  const qp = await QuizPreview.findOne({ref: request.params.id})
+
+  response.json(qp)
+})
+
 quizPreviewsRouter.delete('/:id', async (request, response) => {
 
   const quizPreview = await QuizPreview.findById(request.params.id)
