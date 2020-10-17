@@ -36,16 +36,17 @@ const Quizchoice = (props) => {
 
   const [triviaCard, setTriviaCard] = useState(false);
 
+  const dummy ={
+    title: 'dummy',
+    id: 1010101010,
+    ref: 202020202020202
+  }
+  // initialQuizes.unshift(dummy)
+
   const doRefresh = (event) => {
     quizPreviewService
     .getAll()
     .then(initialQuizes => {
-      const dummy ={
-        title: 'dummy',
-        id: 1010101010,
-        ref: 202020202020202
-      }
-      initialQuizes.unshift(dummy)
       setQuizShorts(initialQuizes)
       event.detail.complete();
     })
@@ -55,12 +56,6 @@ const Quizchoice = (props) => {
     quizPreviewService
     .getAll()
     .then(initialQuizes => {
-      const dummy ={
-        title: 'dummy',
-        id: 1010101010,
-        ref: 202020202020202
-      }
-      initialQuizes.unshift(dummy)
       setQuizShorts(initialQuizes)
     })
   }, [])
@@ -93,6 +88,10 @@ const Quizchoice = (props) => {
 
         <IonItem color='medium' slot='fixed' id='triviaButton' button onClick={() => setTriviaCard(true)}>
           <IonText>TriviaQuiz</IonText>
+        </IonItem>
+
+        <IonItem style={{visibility: 'hidden'}} button >
+          <IonText>{dummy.title}</IonText>
         </IonItem>
 
         {quizShorts.filter(q => {return q.title.includes(searchText)}).map( q => {
