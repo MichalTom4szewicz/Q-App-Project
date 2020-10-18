@@ -8,6 +8,12 @@ usersRouter.get('/', async (request, response) => {
   response.json(users.map(u => u.toJSON()))
 })
 
+usersRouter.get('/:id', async (request, response) => {
+  const user = await User.findOne({_id: request.params.id})
+
+  response.json(user)
+})
+
 usersRouter.get('/n=:n', async (request, response) => {
 
   const n = parseInt(request.params.n)
