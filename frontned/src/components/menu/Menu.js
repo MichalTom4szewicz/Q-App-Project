@@ -14,7 +14,7 @@ import {
 } from '@ionic/react';
 
 import React, { useState, useEffect } from 'react';
-import {addOutline,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import {addOutline,mailOutline, mailSharp, trashSharp, warningOutline, warningSharp, personSharp } from 'ionicons/icons';
 
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -49,6 +49,12 @@ const appPages = [
     url: '/adminpanel',
     iosIcon: warningSharp,
     mdIcon: warningSharp
+  },
+  {
+    title: 'Users',
+    url: '/users',
+    iosIcon: personSharp,
+    mdIcon: personSharp
   }
 ];
 

@@ -91,6 +91,8 @@ const Quiz = (props) => {
                 </IonCardHeader>
                 <IonCardContent>
                   <IonText>{`Times played by community: ${preview.timesRun}`}</IonText>
+                  <hr></hr>
+                  <IonText>{`Users' rating:`}</IonText>
                   <div id='starRating'>
                   <StarRatings
                     rating={rating}
@@ -99,7 +101,9 @@ const Quiz = (props) => {
                     starDimension="35px"
                     starSpacing="10px"
                   />
-                </div>
+                  </div>
+                  <hr></hr>
+                  <IonItem button routerLink={`/users/${preview.author.id}`}>{`Author: ${preview.author.username}`}</IonItem>
                   <hr></hr>
                   <IonText>{'shit ima develop later'}</IonText>
                 </IonCardContent>
