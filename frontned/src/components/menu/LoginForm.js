@@ -28,11 +28,11 @@ const LoginForm = ({
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        username, password
       })
 
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedUser', JSON.stringify(user)
       )
 
       loginService.setToken(user.token)

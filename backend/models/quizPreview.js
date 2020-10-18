@@ -8,6 +8,10 @@ const quizPreviewSchema = mongoose.Schema({
   timesRun: Number,
   ratings: Number,
   ratingSum: Number,
+  author: {
+    id: String,
+    username: String
+  }
 })
 
 quizPreviewSchema.set('toJSON', {

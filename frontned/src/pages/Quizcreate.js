@@ -73,9 +73,13 @@ const Quizcreate = (props) => {
 
     setCanRedirect(true)
 
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
+
     const quiz = {
       title: title,
-      questions: Array.from(questions)
+      questions: Array.from(questions),
+      author: {id: user.id, username: user.username}
     }
 
     quizService

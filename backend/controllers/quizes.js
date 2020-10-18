@@ -19,7 +19,6 @@ quizesRouter.post('/', async (request, response) => {
     questions: body.questions
   })
 
-
   const savedQuiz = await quiz.save()
 
   const quizPreview = new QuizPreview({
@@ -27,7 +26,8 @@ quizesRouter.post('/', async (request, response) => {
     timesRun: 0,
     ratings: 0,
     ratingSum: 0,
-    ref: savedQuiz.id
+    ref: savedQuiz.id,
+    author: body.author
   })
 
   const savedQuizPreview = await quizPreview.save()
