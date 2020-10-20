@@ -36,7 +36,6 @@ const LoginForm = ({
       )
 
       loginService.setToken(user.token)
-
       setUsername('')
       setPassword('')
       setUser(user)
