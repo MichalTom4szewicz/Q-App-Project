@@ -1,0 +1,20 @@
+.questionPreview {
+  margin: 5% 5% 2%;
+  width: 90%;
+  word-wrap: break-word;
+}
+
+.prevIt {
+  overflow: auto;
+  word-wrap: break-word;
+}
+
+.deleteQuestion {
+  width: 50%;
+  margin-left: 25%;
+}
+
+#starRating{
+  width: 90%;
+  margin-left: 4%;
+}

@@ -7,6 +7,12 @@ const getAll = () => {
     const request = axios.get(baseUrl)
     return request.then(response => response.data)
 }
+
+const getSome = (userId) => {
+    const request = axios.get(`${baseUrl}/${userId}`)
+    return request.then(response => response.data)
+}
+
 const getOne = (id) => {
     const request = axios.get(`${baseUrl}/${id}`)
     return request.then(response => response.data)

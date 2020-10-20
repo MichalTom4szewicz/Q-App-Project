@@ -25,9 +25,9 @@ const UserInfo = ({user}) => {
             </IonItem>
           </IonCol>
           <IonCol>
-            <IonItem routerLink={'/welcome'} routerDirection="none"className="userInfoPerks" lines="none" detail={false}>
+            <IonItem routerLink={'/userpanel'} routerDirection="none" lines="none" className="userInfoPerks" lines="none" detail={false}>
               <IonIcon slot="start" icon={help} />
-              <IonLabel>quizes</IonLabel>
+              <IonLabel>my quizes</IonLabel>
               <IonLabel>234</IonLabel>
             </IonItem>
           </IonCol>
