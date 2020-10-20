@@ -16,6 +16,18 @@ quizPreviewsRouter.get('/:id', async (request, response) => {
   response.json(qp)
 })
 
+quizPreviewsRouter.get('/user/:username/:id', async (request, response) => {
+
+  const user ={
+    id: request.params.id,
+    username: request.params.username
+  }
+
+  const qp = await QuizPreview.find({author: user})
+
+  response.json(qp)
+})
+
 quizPreviewsRouter.delete('/:id', async (request, response) => {
 
   const quizPreview = await QuizPreview.findById(request.params.id)

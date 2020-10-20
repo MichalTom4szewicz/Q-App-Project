@@ -16,13 +16,13 @@ import {IonList,
   IonText,
   IonButton,
   IonMenuButton,
-  IonButtons
+  IonButtons,
+  IonAlert
 } from '@ionic/react';
 
 import React, {useState, useEffect} from 'react';
 
-import quizService from '../services/quizes'
-import quizPreviewService from '../../services/quizPreviews'
+import quizPreviewService from '../services/quizPreviews'
 import QuizPreview from '../components/userpanel/QuizPreview';
 
 
@@ -38,8 +38,11 @@ const UserPanel = (props) => {
 
 
   useEffect(() => {
+
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
     quizPreviewService
-    .getSome()
+    .getSome(user.username, user.id)
     .then(previews => {
       setQuizPreviews(previews)
     })

@@ -8,8 +8,8 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
-const getSome = (userId) => {
-    const request = axios.get(`${baseUrl}/${userId}`)
+const getSome = (username, userId) => {
+    const request = axios.get(`${baseUrl}/user/${username}/${userId}`)
     return request.then(response => response.data)
 }
 
@@ -34,6 +34,7 @@ const remove = id => {
 
 export default {
     getAll,
+    getSome,
     getOne,
     update,
     create,
