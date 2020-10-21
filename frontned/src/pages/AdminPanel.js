@@ -35,6 +35,10 @@ const AdminPanel = (props) => {
     {name: 'Quizes', icon: '???'}
   ]
 
+  useEffect(() => {
+    setCurrentPage('')
+  }, [])
+
 
   const currentComponent = () => {
 

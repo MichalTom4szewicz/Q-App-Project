@@ -117,7 +117,7 @@ const Menu = () => {
               {user.access !== 'user' ? appPages.map((appPage, index) => {
                 return (
                   <IonMenuToggle key={index} autoHide={false}>
-                    {appPage.title === 'Start FUN' ?
+                    {appPage.title === 'Start FUN' || appPage.title === 'Admin Panel' ?
                       <IonItem href={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
                         <IonIcon slot="start" icon={appPage.iosIcon} />
                         <IonLabel>{appPage.title}</IonLabel>

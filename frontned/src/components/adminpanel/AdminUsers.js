@@ -30,6 +30,8 @@ const AdminUsers = (props) => {
 
   const [users, setUsers] = useState([]);
 
+  const [user, setUser] = useState();
+
   const [deleteAlertVisible, setDeleteAlertVisible] = useState(false);
   const [accessAlertVisible, setAccessAlertVisible] = useState(false);
 
@@ -39,6 +41,10 @@ const AdminUsers = (props) => {
 
 
   useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
+    setUser(user)
+
     usersService
     .getAll()
     .then(users => {
@@ -62,7 +68,7 @@ const AdminUsers = (props) => {
   }
 
   const dismissAccessAlert = () => {
-    setDeleteAlertVisible(false)
+    setAccessAlertVisible(false)
     setChoosenUser({})
   }
 
@@ -102,8 +108,8 @@ const AdminUsers = (props) => {
         return (
           <IonItem button key={u.id}>
             <IonLabel onClick={() => previewUser(u)}>{u.username}</IonLabel>
-            <IonButton onClick={() => changeAccessUser(u)} color="warning">{u.access === 'user' ? 'Grant admin' : 'Degrade'}</IonButton>
-            <IonButton onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
+            <IonButton disabled={(user.access === 'uber' && u.access === 'admin') || u.id === user.id ? false : true} onClick={() => changeAccessUser(u)} color="warning">{u.access === 'user' ? 'Grant admin' : 'Degrade'}</IonButton>
+            <IonButton disabled={user.access === 'uber' && u.access === 'admin' ? false : true} onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
           </IonItem>
         )
       })}
@@ -120,7 +126,7 @@ const AdminUsers = (props) => {
           {
             text: 'Cancel',
             role: 'cancel',
-            cssClass: 'secondary'
+            cssClass: 'secondary',
           },
           {
             text: 'Delete',
