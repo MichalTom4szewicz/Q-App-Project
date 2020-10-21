@@ -16,8 +16,8 @@ const remove = id => {
   const request = axios.delete(`${baseUrl}/${id}`)
 }
 
-const changeAccess = (id, newAccess) => {
-  const request = axios.put(`${baseUrl}/${id}`, newAccess)
+const changeAccess = (id, access) => {
+  const request = axios.put(`${baseUrl}/${id}`, access)
   return request.then(response => response.data)
 }
 

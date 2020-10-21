@@ -57,6 +57,18 @@ usersRouter.post('/', async (request, response) => {
   response.json(savedUser)
 })
 
+usersRouter.put('/:id', async (request, response) => {
+  const body = request.body
+
+  const filter = {_id: request.params.id}
+  const update = {access: body.access}
+
+  User.findOneAndUpdate(filter, update, { new: true })
+  .then(alteredUser => {
+    response.json(alteredUser)
+  })
+})
+
 usersRouter.delete('/:id', async (request, response) => {
 
   await User.findByIdAndRemove(request.params.id)

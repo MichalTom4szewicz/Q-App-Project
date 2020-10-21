@@ -46,9 +46,14 @@ const AdminUsers = (props) => {
     })
   }, []);
 
-  const selectUser = (user) => {
+  const deleteUser = (user) => {
     setChoosenUser(user)
     setDeleteAlertVisible(true)
+  }
+
+  const changeAccessUser = (user) => {
+    setChoosenUser(user)
+    setAccessAlertVisible(true)
   }
 
   const dismissDeleteAlert = () => {
@@ -78,16 +83,17 @@ const AdminUsers = (props) => {
 
   const changeAccessChoosenUser = () => {
 
-    usersService
-    .changeAccess(choosenUser.id, choosenUser.access === 'user' ? 'admin' : 'user')
-    .then(alteredUser => {
-      // setNotes(notes.map(note => note.id !== id ? note : returnedNote))
-      setUsers(us => us.map(u => u.id !== choosenUser.id ? u : alteredUser))
-    })
+    const newAccess = {
+      access: choosenUser.access === 'user' ? 'admin' : 'user'
+    }
 
-    setUsers(us => us.filter(u => {return u.id !== choosenUser.id}))
-    setChoosenUser({})
-    setAccessAlertVisible(false)
+    usersService
+    .changeAccess(choosenUser.id, newAccess)
+    .then(alteredUser => {
+      setUsers(us => us.map(u => u.id !== choosenUser.id ? u : alteredUser))
+      setChoosenUser({})
+      setAccessAlertVisible(false)
+    })
   }
 
   return (
@@ -96,8 +102,8 @@ const AdminUsers = (props) => {
         return (
           <IonItem button key={u.id}>
             <IonLabel onClick={() => previewUser(u)}>{u.username}</IonLabel>
-            <IonButton onClick={() => selectUser(u)} color="warning">Grant admin</IonButton>
-            <IonButton onClick={() => selectUser(u)} color="danger">Delete</IonButton>
+            <IonButton onClick={() => changeAccessUser(u)} color="warning">{u.access === 'user' ? 'Grant admin' : 'Degrade'}</IonButton>
+            <IonButton onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
           </IonItem>
         )
       })}
