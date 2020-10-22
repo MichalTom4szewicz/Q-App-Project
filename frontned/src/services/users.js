@@ -1,6 +1,8 @@
 import axios from 'axios'
 const baseUrl = 'http://192.168.1.19:3001/api/users'
 
+let token = null;
+const setToken = newToken => {  token = `bearer ${newToken}`}
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -17,7 +19,8 @@ const remove = id => {
 }
 
 const changeAccess = (id, access) => {
-  const request = axios.put(`${baseUrl}/${id}`, access)
+  const config = {headers: {Authorization: token}}
+  const request = axios.put(`${baseUrl}/${id}`, access, config)
   return request.then(response => response.data)
 }
 
@@ -25,5 +28,6 @@ export default {
     getAll,
     getOne,
     remove,
-    changeAccess
+    changeAccess,
+    setToken
   }

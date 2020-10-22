@@ -93,6 +93,10 @@ const AdminUsers = (props) => {
       access: choosenUser.access === 'user' ? 'admin' : 'user'
     }
 
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
+    usersService.setToken(user.token)
+
     usersService
     .changeAccess(choosenUser.id, newAccess)
     .then(alteredUser => {
@@ -108,8 +112,8 @@ const AdminUsers = (props) => {
         return (
           <IonItem button key={u.id}>
             <IonLabel onClick={() => previewUser(u)}>{u.username}</IonLabel>
-            <IonButton disabled={(user.access === 'uber' && u.access === 'admin') || u.id === user.id ? false : true} onClick={() => changeAccessUser(u)} color="warning">{u.access === 'user' ? 'Grant admin' : 'Degrade'}</IonButton>
-            <IonButton disabled={user.access === 'uber' && u.access === 'admin' ? false : true} onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
+            <IonButton disabled={(user.access === 'uber') || u.id === user.id ? false : true} onClick={() => changeAccessUser(u)} color="warning">{u.access === 'user' ? 'Grant admin' : 'Degrade'}</IonButton>
+            <IonButton disabled={user.access === 'uber' ? false : true} onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
           </IonItem>
         )
       })}
