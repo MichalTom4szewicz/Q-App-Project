@@ -38,7 +38,9 @@ const LoginForm = ({
       loginService.setToken(user.token)
       setUsername('')
       setPassword('')
-      setUser(user)
+      setTimeout(() => {
+        setUser(user)
+      }, 200);
     } catch (exception) {
       setUsername('')
       setPassword('')

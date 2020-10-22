@@ -79,8 +79,10 @@ const Quizcreate = (props) => {
     const quiz = {
       title: title,
       questions: Array.from(questions),
-      author: {id: user.id, username: user.username}
+      author: {username: user.username}
     }
+
+    quizService.setToken(user.token)
 
     quizService
     .create(quiz)

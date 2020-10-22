@@ -58,7 +58,7 @@ const QuizPreview = ({id, setShowPreview}) => {
                     <IonList>
                       {q.answers.map((a, i)=> {
                         return (
-                          <IonItem>
+                          <IonItem key={i}>
                             <IonLabel className="prevIt ion-text-wrap" style={q.valid.indexOf(a) > -1 ? {background: 'lime'} : {}} key={i}>{a}</IonLabel>
                           </IonItem>
                         )
