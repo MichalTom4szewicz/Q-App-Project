@@ -2,6 +2,8 @@ import axios from 'axios'
 const baseUrl = 'http://192.168.1.19:3001/api/quizpreviews'
 //const baseUrl = 'localhost/api/quizes'
 
+let token = null;
+const setToken = newToken => {  token = `bearer ${newToken}`}
 
 const getAll = () => {
     const request = axios.get(baseUrl)
@@ -29,7 +31,8 @@ const create = async newObject => {
 }
 
 const remove = id => {
-    const request = axios.delete(`${baseUrl}/${id}`)
+    const config = {headers: {Authorization: token}}
+    const request = axios.delete(`${baseUrl}/${id}`, config)
 }
 
 export default {
@@ -38,5 +41,6 @@ export default {
     getOne,
     update,
     create,
-    remove
+    remove,
+    setToken
   }

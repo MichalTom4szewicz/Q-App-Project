@@ -1,7 +1,15 @@
 const quizPreviewsRouter = require('express').Router()
 const Quiz = require('../models/quiz')
 const QuizPreview = require('../models/quizPreview')
+const jwt = require('jsonwebtoken')
 
+const getToken = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
 
 quizPreviewsRouter.get('/', async (request, response) => {
   const quizPreviews = await QuizPreview
@@ -29,6 +37,12 @@ quizPreviewsRouter.get('/user/:username/:id', async (request, response) => {
 })
 
 quizPreviewsRouter.delete('/:id', async (request, response) => {
+
+  const token = getToken(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
 
   const quizPreview = await QuizPreview.findById(request.params.id)
 

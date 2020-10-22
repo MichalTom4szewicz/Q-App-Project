@@ -79,6 +79,10 @@ const AdminUsers = (props) => {
 
   const deleteChoosenUser = () => {
 
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
+    usersService.setToken(user.token)
+
     usersService
     .remove(choosenUser.id)
 
@@ -113,7 +117,7 @@ const AdminUsers = (props) => {
           <IonItem button key={u.id}>
             <IonLabel onClick={() => previewUser(u)}>{u.username}</IonLabel>
             <IonButton disabled={(user.access === 'uber') || u.id === user.id ? false : true} onClick={() => changeAccessUser(u)} color="warning">{u.access === 'user' ? 'Grant admin' : 'Degrade'}</IonButton>
-            <IonButton disabled={user.access === 'uber' ? false : true} onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
+            <IonButton disabled={user.access === 'uber' || u.access === 'user' ? false : true} onClick={() => deleteUser(u)} color="danger">Delete</IonButton>
           </IonItem>
         )
       })}

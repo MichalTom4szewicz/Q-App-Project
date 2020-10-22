@@ -63,6 +63,10 @@ const AdminQuizes = (props) => {
 
   const deleteChoosenQuiz = () => {
 
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
+    quizPreviewService.setToken(user.token)
+
     quizPreviewService
     .remove(choosenQuiz.id)
 

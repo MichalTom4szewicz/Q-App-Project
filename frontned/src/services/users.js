@@ -15,7 +15,8 @@ const getOne = (id) => {
 }
 
 const remove = id => {
-  const request = axios.delete(`${baseUrl}/${id}`)
+  const config = {headers: {Authorization: token}}
+  const request = axios.delete(`${baseUrl}/${id}`, config)
 }
 
 const changeAccess = (id, access) => {
