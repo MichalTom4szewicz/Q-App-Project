@@ -180,10 +180,12 @@ const Questions = ({quiz, id, setView,}) => {
       const newHistory = {
         history: Array.from(historySet)
       }
+      user.history = Array.from(historySet)
       usersService.setToken(user.token)
       usersService
       .updateHistory(newHistory)
       .then(() => {
+        window.localStorage.clear()
         window.localStorage.setItem(
           'loggedUser', JSON.stringify(user)
         )

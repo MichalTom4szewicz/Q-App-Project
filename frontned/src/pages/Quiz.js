@@ -48,6 +48,8 @@ const Quiz = (props) => {
 
   const [repetitions, setRepetitions] = useState(2);
 
+  const [canRepeat, setCanRepeat] = useState(false);
+
   useEffect(() => {
     const id = props.match.params.id
 
@@ -68,6 +70,13 @@ const Quiz = (props) => {
       setId(quiz.id)
       setStatsInfo('some data')
       setQuiz(quiz)
+
+      const loggedUserJSON = window.localStorage.getItem('loggedUser')
+      const user = JSON.parse(loggedUserJSON)
+
+      if(user.history.indexOf(quiz.id) >= 0) {
+        setCanRepeat(true)
+      }
     })
   }, [])
 
@@ -123,7 +132,7 @@ const Quiz = (props) => {
             <IonButton onClick={() => setView('quiz')}>
               Start quiz!
             </IonButton>
-            <IonButton onClick={() => setView('quiz')}>
+            <IonButton disabled={!canRepeat} onClick={() => setView('quiz')}>
               {`Start repeting with ${repetitions}`}
             </IonButton>
           </>
