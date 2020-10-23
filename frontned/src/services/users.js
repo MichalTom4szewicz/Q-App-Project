@@ -25,10 +25,17 @@ const changeAccess = (id, access) => {
   return request.then(response => response.data)
 }
 
+const updateHistory = (newHistory) => {
+  const config = {headers: {Authorization: token}}
+  const request = axios.put(`${baseUrl}/history`, newHistory, config)
+  return request.then(response => response.data)
+}
+
 export default {
     getAll,
     getOne,
     remove,
     changeAccess,
-    setToken
+    setToken,
+    updateHistory
   }

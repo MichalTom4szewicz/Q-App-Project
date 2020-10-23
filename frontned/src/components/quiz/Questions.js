@@ -25,6 +25,7 @@ import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, w
 import StarRatings from 'react-star-ratings';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import quizPreviewsService from '../../services/quizPreviews'
+import usersService from '../../services/users'
 
 import './Questions.css'
 
@@ -167,6 +168,27 @@ const Questions = ({quiz, id, setView,}) => {
     .catch(e => {
       console.error(e)
     })
+
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    let user = JSON.parse(loggedUserJSON)
+    let historySet = new Set(user.history)
+    const oldLength = historySet.size
+    historySet.add(quiz.id)
+    const newLength = historySet.size
+
+    if (oldLength !== newLength) {
+      const newHistory = {
+        history: Array.from(historySet)
+      }
+      usersService.setToken(user.token)
+      usersService
+      .updateHistory(newHistory)
+      .then(() => {
+        window.localStorage.setItem(
+          'loggedUser', JSON.stringify(user)
+        )
+      })
+    }
   }
 
   const changeRating = (r) => {

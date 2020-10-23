@@ -66,6 +66,28 @@ usersRouter.post('/', async (request, response) => {
   response.json(savedUser)
 })
 
+usersRouter.put('/history', async (request, response) => {
+
+  const body = request.body
+
+  const token = getToken(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  console.log('token id', decodedToken.id, body.history)
+
+  const filter = {_id: decodedToken.id}
+  const update = {history: body.history}
+
+
+  User.findOneAndUpdate(filter, update, { new: true })
+  .then(alteredUser => {
+    response.json(alteredUser)
+  })
+})
+
 usersRouter.put('/:id', async (request, response) => {
   const body = request.body
 

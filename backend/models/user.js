@@ -12,18 +12,7 @@ const userSchema = mongoose.Schema({
   },
   access: String,
   passwordHash: String,
-  history: [
-    {
-      type: String,
-      type: mongoose.Schema.Types.ObjectId,
-      run: [
-        {
-          type: String,
-          type: String
-        }
-      ]
-    }
-  ]
+  history: [String]
 })
 
 userSchema.set('toJSON', {

@@ -16,11 +16,12 @@ import {IonList,
   IonText,
   IonButton,
   IonMenuButton,
-  IonButtons
+  IonButtons,
+  IonRange
 } from '@ionic/react';
 
 import React, {useState, useEffect} from 'react';
-
+import { sunny } from 'ionicons/icons';
 import quizService from '../services/quizes'
 import quizPreviewService from '../services/quizPreviews'
 
@@ -44,6 +45,8 @@ const Quiz = (props) => {
 
   const [preview, setPreview] = useState(undefined);
   const [rating, setRating] = useState(0);
+
+  const [repetitions, setRepetitions] = useState(2);
 
   useEffect(() => {
     const id = props.match.params.id
@@ -105,14 +108,23 @@ const Quiz = (props) => {
                   <hr></hr>
                   <IonItem button routerLink={`/users/${preview.author.id}`}>{`Author: ${preview.author.username}`}</IonItem>
                   <hr></hr>
-                  <IonText>{'shit ima develop later'}</IonText>
+
+                  <IonText>How many successful repetitions until the end?</IonText>
+
+                  <IonItem>
+                    <IonRange min={1} max={5} step={1} snaps={true} onIonChange={e => setRepetitions(e.detail.value)} />
+                  </IonItem>
+
                 </IonCardContent>
               </IonCard> :
               <IonText>loading...</IonText>
             }
 
             <IonButton onClick={() => setView('quiz')}>
-              Start!
+              Start quiz!
+            </IonButton>
+            <IonButton onClick={() => setView('quiz')}>
+              {`Start repeting with ${repetitions}`}
             </IonButton>
           </>
         }
