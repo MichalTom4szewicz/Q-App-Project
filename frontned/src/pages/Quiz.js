@@ -26,7 +26,7 @@ import quizService from '../services/quizes'
 import quizPreviewService from '../services/quizPreviews'
 
 import Questions from '../components/quiz/Questions'
-
+import Repetitions from '../components/quiz/Repetitions'
 import StarRatings from 'react-star-ratings';
 
 import './Quiz.css'
@@ -47,6 +47,7 @@ const Quiz = (props) => {
   const [rating, setRating] = useState(0);
 
   const [repetitions, setRepetitions] = useState(2);
+  const [repArray, setRepArray] = useState([]);
 
   const [canRepeat, setCanRepeat] = useState(false);
 
@@ -71,6 +72,12 @@ const Quiz = (props) => {
       setStatsInfo('some data')
       setQuiz(quiz)
 
+      let pool = []
+      for(let i=0; i<quiz.questions.length; i++) {
+        pool.push(repetitions)
+      }
+      setRepArray(pool)
+
       const loggedUserJSON = window.localStorage.getItem('loggedUser')
       const user = JSON.parse(loggedUserJSON)
 
@@ -78,7 +85,7 @@ const Quiz = (props) => {
         setCanRepeat(true)
       }
     })
-  }, [])
+  }, [repetitions])
 
   return (
     <IonPage>
@@ -92,8 +99,8 @@ const Quiz = (props) => {
       </IonHeader>
 
       <IonContent>
-
-        {view === 'quiz' ? <Questions quiz={quiz} id={id} setView={setView}/>:
+        {view === 'quiz' ? <Questions quiz={quiz} id={id} setView={setView}/> :
+          view === 'repetitions' ? <Repetitions reps={repArray} setReps={setRepArray} quiz={quiz} id={id} setView={setView}/> :
           <>
             {
               preview ?
@@ -102,6 +109,11 @@ const Quiz = (props) => {
                   <IonTitle>Jakies durne statysyki</IonTitle>
                 </IonCardHeader>
                 <IonCardContent>
+                  {/* {repArray.map((e, i) => {
+                    return (
+                      <p key={i}>{e}</p>
+                    )
+                  })} */}
                   <IonText>{`Times played by community: ${preview.timesRun}`}</IonText>
                   <hr></hr>
                   <IonText>{`Users' rating:`}</IonText>
@@ -132,7 +144,7 @@ const Quiz = (props) => {
             <IonButton onClick={() => setView('quiz')}>
               Start quiz!
             </IonButton>
-            <IonButton disabled={!canRepeat} onClick={() => setView('quiz')}>
+            <IonButton disabled={!canRepeat} onClick={() => setView('repetitions')}>
               {`Start repeting with ${repetitions}`}
             </IonButton>
           </>
