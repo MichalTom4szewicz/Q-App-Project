@@ -32,7 +32,6 @@ import AdminPanel from './pages/AdminPanel'
 import TriviaQuiz from './pages/TriviaQuiz'
 import UsersPage from './pages/UsersPage'
 import User from './pages/User'
-import QuizRepetitions from './pages/QuizRepetitions'
 
 import UserPanel from './pages/UserPanel'
 
@@ -49,7 +48,6 @@ const App: React.FC = () => {
             <Route path="/welcome" component={Welcome} exact />
             <Route path='/quizchoice' component={Quizchoice} exact />
             <Route path='/quizchoice/:id' component={Quiz} exact />
-            <Route path='/quizchoice/:id/repetitions' component={QuizRepetitions} exact />
             <Route path='/triviaquiz/:category' component={TriviaQuiz} exact />
             <Route path="/quizcreate" component={Quizcreate} exact={true} />
             <Route path="/adminpanel" component={AdminPanel} exact={true} />

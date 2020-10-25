@@ -33,14 +33,10 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
   const [questions, setQuestions] = useState([]);
   const [counter, setCounter] = useState(0);
   const [selected, setSelected] = useState([]);
-  const [points, setPoints] = useState(0);
 
-  const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quizOver, setQuizOver] = useState(false);
   const [answerChecked, setAnswerChecked] = useState(false);
-
-  const [rating, setRating] = useState(0);
 
   const [toastMessage, setToastMessage] = useState('')
   const [toastColor, setToastColor] = useState('');
@@ -48,9 +44,6 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
 
   const [dummy, setDummy] = useState(false);
 
-  const [dum, setDum] = useState(0);
-
-  const [arr, setArr] = useState([{index: 999, left: 909090}]);
 
   useEffect(() => {
     setQuestions(quiz.questions)
@@ -80,7 +73,6 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
   const apply = () => {
 
     if(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}).every(v => questions[counter].valid.indexOf(v) >= 0)) {
-      setPoints(p => p+1)
       let newArr = [...reps];
       newArr[counter] -= 1;
       setReps(newArr);
@@ -91,15 +83,7 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
       return
     }
 
-    const historyItem ={
-      pytanie: questions[counter].pytanie,
-      image: questions[counter].image,
-      selected: selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(e => {return e ? true : false }),
-      valid: questions[counter].valid
-    }
-
     setAnswerChecked(true)
-    setHistory(h => h.concat(historyItem))
   }
 
   const next = () => {
@@ -108,10 +92,7 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
     }) > 0) {
 
       const left = reps.map((e, i) => ({left: e, index: i})).filter(e => {return e.left >0})
-
       const random = Math.floor(Math.random() * left.length);
-      setDum(random) ///////////////////////
-      setArr(left) /////////////////////
 
       setCounter(left[random].index)
       setSelected([])
@@ -178,130 +159,27 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
     )
   }
 
-
-  const updateQuizStats = () => {
-    quizPreviewsService
-    .update(quiz.id, {rating: rating})
-    .catch(e => {
-      console.error(e)
-    })
-
-    const loggedUserJSON = window.localStorage.getItem('loggedUser')
-    let user = JSON.parse(loggedUserJSON)
-    let historySet = new Set(user.history)
-    const oldLength = historySet.size
-    historySet.add(quiz.id)
-    const newLength = historySet.size
-
-    if (oldLength !== newLength) {
-      const newHistory = {
-        history: Array.from(historySet)
-      }
-      user.history = Array.from(historySet)
-      usersService.setToken(user.token)
-      usersService
-      .updateHistory(newHistory)
-      .then(() => {
-        window.localStorage.clear()
-        window.localStorage.setItem(
-          'loggedUser', JSON.stringify(user)
-        )
-      })
-    }
-  }
-
-  const changeRating = (r) => {
-    setRating(r)
-  }
-
   const summary = () => {
     return (
       <>
         <IonCardHeader>
-            {/* <IonText>{points}pkt</IonText> */}
-            <IonTitle>{`Your score: ${Math.round((points/questions.length*100 + Number.EPSILON) * 100) / 100}%`}</IonTitle>
-            <IonText>For that quiz you received 10 points!</IonText>
+          <IonTitle>{`You've finished your training!`}</IonTitle>
         </IonCardHeader>
 
         <IonCardContent>
 
+          <IonText>Now you are prepared!</IonText>
 
-          {history.map((h, i) => {
-            return(
-              <IonCard style={h.selected.every(v => h.valid.indexOf(v) >= 0) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
-
-                <IonCardHeader>
-                  <img onClick={() => fullscreen(h.image)} src={h.image} alt=""></img>
-                  <IonItem lines="full">
-                    <div className="questionsText">
-                      {h.pytanie}
-                    </div>
-                  </IonItem>
-                </IonCardHeader>
-
-                <IonCardContent>
-                  {h.selected.every(v => h.valid.indexOf(v) >= 0) ?
-                    <IonItem lines="none" detail={false}>
-                      <IonIcon slot="start" icon={checkmark} />
-                      <div className="questionsText">
-                        <IonText >{h.selected.toString()}</IonText>
-                      </div>
-                    </IonItem> :
-                    <>
-                      <IonItem lines="none" detail={false}>
-                        <IonIcon slot="start" icon={checkmark} />
-                        <div className="questionsText">
-                          <IonText >{h.valid.toString()}</IonText>
-                        </div>
-                      </IonItem>
-                      <hr></hr>
-                      {/* <IonItemDivider></IonItemDivider> */}
-                      <IonItem lines="none" detail={false}>
-                        <IonIcon slot="start" icon={close} />
-                        <div className="questionsText">
-                          <IonText >{h.selected.toString()}</IonText>
-                        </div>
-                      </IonItem>
-                    </>
-                  }
-                </IonCardContent>
-              </IonCard>
-            )
-          })}
-
+          <IonButton routerLink={"/quizchoice"}>
+            Go back to quizes
+          </IonButton>
         </IonCardContent>
-        <div id='starRating'>
-          <StarRatings
-            rating={rating}
-            starRatedColor="orange"
-            changeRating={changeRating}
-            numberOfStars={5}
-            starDimension="40px"
-            starSpacing="10px"
-          />
-        </div>
-
-        <IonButton onClick={updateQuizStats} routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
-          Go back to quizes
-        </IonButton>
       </>
     )
   }
 
   return(
     <IonCard>
-      <h1>{dum}</h1>
-      {arr.map((e, i) => {
-        return (
-          <p key={i}>{`${e.index}   ${e.left}`}</p>
-        )
-      })}
-      <hr></hr>
-      {reps.map((e, i) => {
-        return (
-          <p key={i}>{e}</p>
-        )
-      })}
       {quizOver ? summary() : quizz()}
       <IonToast
         isOpen={toastVisible}
