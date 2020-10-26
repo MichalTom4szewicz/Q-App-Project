@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import {
   IonNote,
@@ -11,6 +11,17 @@ import { happy, help  } from 'ionicons/icons';
 
 const UserInfo = ({user}) => {
 
+  const [points, setPoints] = useState(0);
+  const [quizes, setQuizes] = useState(0);
+
+  const [dummy, setDummy] = useState(false);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    let user = JSON.parse(loggedUserJSON)
+    setPoints(user.points)
+  }, [dummy]);
+
   return (
     <div id="userInfo">
       <img id="userImage" src="https://i1.wp.com/japonistyka.orient.uw.edu.pl/wp-content/uploads/2019/08/portrait-square-03.jpg"></img>
@@ -18,10 +29,11 @@ const UserInfo = ({user}) => {
       <IonGrid id="grid">
         <IonRow>
           <IonCol>
-            <IonItem routerLink={'/welcome'} routerDirection="none" className="userInfoPerks" lines="none" detail={false}>
+            {/* <IonItem routerLink={'/welcome'} routerDirection="none" className="userInfoPerks" lines="none" detail={false}> */}
+            <IonItem onClick={() => setDummy(d => !d)} className="userInfoPerks" lines="none" detail={false}>
               <IonIcon slot="start" icon={happy} />
               <IonLabel>points</IonLabel>
-              <IonLabel>234</IonLabel>
+              <IonLabel>{points}</IonLabel>
             </IonItem>
           </IonCol>
           <IonCol>
