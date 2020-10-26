@@ -58,6 +58,7 @@ usersRouter.post('/', async (request, response) => {
     username: body.username,
     name: body.name,
     access: 'user',
+    points: 0,
     passwordHash,
   })
 
@@ -76,15 +77,39 @@ usersRouter.put('/history', async (request, response) => {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
 
-  console.log('token id', decodedToken.id, body.history)
-
   const filter = {_id: decodedToken.id}
   const update = {history: body.history}
-
 
   User.findOneAndUpdate(filter, update, { new: true })
   .then(alteredUser => {
     response.json(alteredUser)
+  })
+})
+
+usersRouter.put('/points', async (request, response) => {
+  const body = request.body
+
+  const token = getToken(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const filter = {_id: decodedToken.id};
+  // const filter = {_id: "5ec10648fd0cb70810c4fb49"};
+
+  // console.log('user id', decodedToken.id)
+  // console.log(body.points, typeof(body.points))
+
+  const update = {$inc: {points: body.points}};
+
+  User.findOneAndUpdate(filter, update)
+  .then(updated => {
+    response.json({success: true})
+  })
+  .catch(e => {
+    console.log(e)
+    response.json({success: false})
   })
 })
 

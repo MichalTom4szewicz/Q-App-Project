@@ -12,7 +12,8 @@ const userSchema = mongoose.Schema({
   },
   access: String,
   passwordHash: String,
-  history: [String]
+  history: [String],
+  points: Number
 })
 
 userSchema.set('toJSON', {

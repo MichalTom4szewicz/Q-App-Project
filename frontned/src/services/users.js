@@ -31,11 +31,18 @@ const updateHistory = (newHistory) => {
   return request.then(response => response.data)
 }
 
+const updatePoints = (newPoints) => {
+  const config = {headers: {Authorization: token}}
+  const request = axios.put(`${baseUrl}/points`, newPoints, config)
+  return request.then(response => response.data)
+}
+
 export default {
     getAll,
     getOne,
     remove,
     changeAccess,
     setToken,
-    updateHistory
+    updateHistory,
+    updatePoints
   }

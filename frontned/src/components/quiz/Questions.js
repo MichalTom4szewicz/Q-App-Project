@@ -171,6 +171,24 @@ const Questions = ({quiz, id, setView,}) => {
 
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     let user = JSON.parse(loggedUserJSON)
+
+    const newPoints = {
+      points: Math.floor((points/questions.length*100))
+    }
+
+    usersService.setToken(user.token)
+    usersService
+    .updatePoints(newPoints)
+    .then((res) => {
+      if(res.success) {
+        user.points += newPoints.points
+        window.localStorage.clear()
+        window.localStorage.setItem(
+          'loggedUser', JSON.stringify(user)
+        )
+      }
+    })
+
     let historySet = new Set(user.history)
     const oldLength = historySet.size
     historySet.add(quiz.id)
@@ -181,7 +199,6 @@ const Questions = ({quiz, id, setView,}) => {
         history: Array.from(historySet)
       }
       user.history = Array.from(historySet)
-      usersService.setToken(user.token)
       usersService
       .updateHistory(newHistory)
       .then(() => {
@@ -201,9 +218,8 @@ const Questions = ({quiz, id, setView,}) => {
     return (
       <>
         <IonCardHeader>
-            {/* <IonText>{points}pkt</IonText> */}
             <IonTitle>{`Your score: ${Math.round((points/questions.length*100 + Number.EPSILON) * 100) / 100}%`}</IonTitle>
-            <IonText>For that quiz you received 10 points!</IonText>
+            <IonText>{`For that quiz you received ${Math.floor((points/questions.length*100))} points!`}</IonText>
         </IonCardHeader>
 
         <IonCardContent>
