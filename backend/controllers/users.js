@@ -59,12 +59,34 @@ usersRouter.post('/', async (request, response) => {
     name: body.name,
     access: 'user',
     points: 0,
+    friends: [],
     passwordHash,
   })
 
   const savedUser = await user.save()
 
   response.json(savedUser)
+})
+
+usersRouter.put('/friend', async (request, response) => {
+
+  const body = request.body
+
+  const token = getToken(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  console.log('lista znajomych:', body.friends)
+
+  const filter = {_id: decodedToken.id}
+  const update = {friends: body.friends}
+
+  User.findOneAndUpdate(filter, update, { new: true })
+  .then(alteredUser => {
+    response.json(alteredUser)
+  })
 })
 
 usersRouter.put('/history', async (request, response) => {

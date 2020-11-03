@@ -37,6 +37,13 @@ const updatePoints = (newPoints) => {
   return request.then(response => response.data)
 }
 
+const updateFriends = (newFriends) => {
+  const config = {headers: {Authorization: token}}
+  const request = axios.put(`${baseUrl}/friend`, newFriends, config)
+  return request.then(response => response.data)
+}
+
+
 export default {
     getAll,
     getOne,
@@ -44,5 +51,6 @@ export default {
     changeAccess,
     setToken,
     updateHistory,
-    updatePoints
+    updatePoints,
+    updateFriends
   }

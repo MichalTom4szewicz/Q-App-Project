@@ -7,12 +7,17 @@ const userSchema = mongoose.Schema({
     unique: true
   },
   name: {
-    type: String,
-    unique: true
+    type: String
   },
   access: String,
   passwordHash: String,
   history: [String],
+  friends:[
+    {
+      username: String,
+      id: String
+    }
+  ],
   points: Number
 })
 
