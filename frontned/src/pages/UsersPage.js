@@ -28,9 +28,15 @@ import {
 
 import usersService from '../services/users'
 
+import User from '../components/userpage/User'
+
 const UsersPage = (props) => {
 
+  const [choosenUser, setChoosenUser] = useState(undefined);
   const [users, setUsers] = useState();
+
+  const [user, setUser] = useState();
+  const [loggedUser, setLoggedUser] = useState();
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -43,6 +49,10 @@ const UsersPage = (props) => {
     })
   }, []);
 
+  const chooseUser = () => {
+    setChoosenUser('user')
+  }
+
   return(
     <IonPage>
       <IonHeader>
@@ -50,22 +60,26 @@ const UsersPage = (props) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Users</IonTitle>
+            <IonTitle onClick={() => setChoosenUser(undefined)}>{`Users ${choosenUser ? '/'+choosenUser.username : ''}`}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
-        {
-          users ?
+        {choosenUser === undefined ?
           <>
-            {users.map((u, i) => {
-              return (
-                <IonItem button routerLink={`/users/${u.id}`}>
-                  <IonText>{u.username}</IonText>
-                </IonItem>
-              )
-            })}
-          </> : <IonText>loading</IonText>
+            {users ?
+              <>
+                {users.map((u, i) => {
+                  return (
+                    <IonItem button onClick={() => setChoosenUser(u) }>
+                      <IonText>{u.username}</IonText>
+                    </IonItem>
+                  )
+                })}
+              </> : <IonText>loading</IonText>
+            }
+          </> :
+          <User user={choosenUser} />
         }
       </IonContent>
 

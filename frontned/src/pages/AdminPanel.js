@@ -83,8 +83,7 @@ const AdminPanel = (props) => {
             }
           </> :
           currentComponent()
-      }
-
+        }
       </IonContent>
 
     </IonPage>

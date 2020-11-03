@@ -26,32 +26,32 @@ import {
   IonCheckbox
 } from '@ionic/react';
 
-import usersService from '../services/users'
+import usersService from '../../services/users'
 
-const User = (props) => {
+const User = ({user}) => {
 
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const [loggedUser, setLoggedUser] = useState();
 
-  let id = props.match.params.id
+  // let id = props.match.params.id
 
   useEffect(() => {
-    usersService
-    .getOne(id)
-    .then(receivedUser => {
-      setUser(receivedUser)
-    })
+    // usersService
+    // .getOne(user.id)
+    // .then(receivedUser => {
+    //   setUser(receivedUser)
+    // })
 
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setLoggedUser(user)
     }
-  }, [id]);
+  }, [user.id]);
 
   const addFriend = () => {
     const newFriends = {
-      friends: loggedUser.friends.concat([{username: user.username, id: id}])
+      friends: loggedUser.friends.concat([{username: user.username, id: user.id}])
     }
 
     usersService.setToken(loggedUser.token)
@@ -68,7 +68,7 @@ const User = (props) => {
 
   const removeFriend = () => {
     const newFriends = {
-      friends: loggedUser.friends.filter(f => {return f.id !== id})
+      friends: loggedUser.friends.filter(f => {return f.id !== user.id})
     }
 
     usersService.setToken(loggedUser.token)
@@ -91,38 +91,26 @@ const User = (props) => {
   <IonButton color="danger" onClick={removeFriend}>{'Remove friend'}</IonButton>
 
   return(
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>{user ? `User: ${user.username}` : 'loading'}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
-      <IonContent>
-        {
-          user && loggedUser ?
-          <>
-            <IonCard>
-              <IonCardContent>
-                <IonText>{user.id}</IonText>
-                <hr></hr>
-                <IonText>{user.name}</IonText>
-                <hr></hr>
-                {
-                  loggedUser.friends.map(f => f.id).indexOf(user.id) >= 0 ?
-                  removeButton :
-                  addButton
-                }
-              </IonCardContent>
-            </IonCard>
-          </> : <IonText>loading</IonText>
-        }
-      </IonContent>
-
-    </IonPage>
+    <IonContent>
+      {
+        user && loggedUser ?
+        <>
+          <IonCard>
+            <IonCardContent>
+              <IonText>{user.id}</IonText>
+              <hr></hr>
+              <IonText>{user.name}</IonText>
+              <hr></hr>
+              {
+                loggedUser.friends.map(f => f.id).indexOf(user.id) >= 0 ?
+                removeButton :
+                addButton
+              }
+            </IonCardContent>
+          </IonCard>
+        </> : <IonText>loading</IonText>
+      }
+    </IonContent>
   )
 }
 
