@@ -1,3 +1,4 @@
+// process.env.UV_THREADPOOL_SIZE=12;
 const app = require('./app') // varsinainen Express-sovellus
 const http = require('http')
 const config = require('./utils/config')

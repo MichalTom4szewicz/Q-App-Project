@@ -15,6 +15,10 @@ const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 
+// const nocache = require('nocache');
+
+
+
 logger.info('connecting to', config.MONGODB_URI)
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
@@ -29,6 +33,7 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(middleware.requestLogger)
+// app.use(nocache());
 
 app.use('/api/users', usersRouter)
 app.use('/api/notes', notesRouter)
