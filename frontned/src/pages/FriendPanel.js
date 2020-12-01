@@ -30,7 +30,7 @@ import User from '../components/friend/User'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const client = new W3CWebSocket('ws://127.0.0.1:8000');
+const client = new W3CWebSocket('ws://192.168.1.19:8000');
 
 const FriendPanel = (props) => {
 
@@ -44,7 +44,7 @@ const FriendPanel = (props) => {
 
   const [messages, setMessages] = useState([]);
 
-  const [text, setText] = useState('');
+  const [yes, setYes] = useState('');
 
 
   useEffect(() => {
@@ -52,15 +52,31 @@ const FriendPanel = (props) => {
     const user = JSON.parse(loggedUserJSON)
     setFriends(user.friends)
 
-    client.onmessage = (message) => {
-      const dataFromServer = JSON.parse(message.data);
-      console.log('got reply! ', dataFromServer);
-      if (dataFromServer.type === "message") {
-        setMessages(m => m.concat(dataFromServer.msg))
-      }
-    };
+    let msgs = user.friends.map(f => ({username: f.username, mgs: []}))
+    setMessages(msgs)
 
   }, []);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const user = JSON.parse(loggedUserJSON)
+
+    client.onmessage = (message) => {
+      const dataFromServer = JSON.parse(message.data);
+      if (dataFromServer.type === "message" && dataFromServer.to === user.username) {
+        if (user.friends.map(f => f.username).indexOf(dataFromServer.user) >= 0) {
+          let newArr = messages
+          for (let i=0; i<friends.length; i++) {
+            if (newArr[i].username === dataFromServer.user) {
+              newArr[i].mgs = newArr[i].mgs.concat(dataFromServer.msg)
+              setYes(dataFromServer.msg)
+            }
+          }
+          setMessages(newArr)
+        }
+      }
+    };
+  }, [messages]);
 
   const fetchFriend = user => {
     usersService
@@ -92,20 +108,11 @@ const FriendPanel = (props) => {
       </IonHeader>
 
       <IonContent>
-
-        <IonTextarea placeholder="here..." value={text} onIonChange={e => setText(e.detail.value)}></IonTextarea>
-        {text}
-
-        <IonButton onClick={() => {
-          const loggedUserJSON = window.localStorage.getItem('loggedUser')
-          const user = JSON.parse(loggedUserJSON)
-
-          client.send(JSON.stringify({
-            type: "message",
-            msg: text,
-            user: user.username
-          }));
-        }}>click</IonButton>
+        {messages.map(m => {
+          return (
+            <p>{m.username +"   "+ m.mgs.length}</p>
+          )
+        })}
 
         <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
@@ -124,14 +131,14 @@ const FriendPanel = (props) => {
                 </> : <IonText>loadin</IonText>
               }
           </> :
-          <User fsetter={setFriends} setter={setChoosenFriend} user={choosenFriend} />
+          <User messages={messages} client={client} fsetter={setFriends} setter={setChoosenFriend} user={choosenFriend} />
         }
-
+{/*
         {messages.map(m => {
           return (
           <p>{m}</p>
           )
-        })}
+        })} */}
 
     </IonContent>
 

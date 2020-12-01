@@ -11,6 +11,7 @@ import {
   IonRadio,
   IonicBadge,
   IonText,
+  IonTextarea,
   IonToggle,
   IonTitle,
   IonItemDivider,
@@ -28,10 +29,13 @@ import {
 
 import usersService from '../../services/users'
 
-const User = ({user, setter, fsetter}) => {
+const User = ({user, setter, fsetter, messages, client}) => {
 
   // const [user, setUser] = useState();
   const [loggedUser, setLoggedUser] = useState();
+
+  const [text, setText] = useState('');
+
 
   // let id = props.match.params.id
 
@@ -85,6 +89,18 @@ const User = ({user, setter, fsetter}) => {
     })
   }
 
+  const sendMessage = () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    const userlogged = JSON.parse(loggedUserJSON)
+
+    client.send(JSON.stringify({
+      type: "message",
+      msg: text,
+      user: userlogged.username,
+      to: user.username
+    }));
+  }
+
 
   const addButton =
   <IonButton color="primary" onClick={addFriend}>{'Add friend'}</IonButton>
@@ -109,6 +125,20 @@ const User = ({user, setter, fsetter}) => {
                 addButton
               }
               <IonButton onClick={() => setter(undefined)}>Back</IonButton>
+
+              <IonTextarea placeholder="here..." value={text} onIonChange={e => setText(e.detail.value)}></IonTextarea>
+              <IonButton onClick={() => sendMessage()}>send</IonButton>
+
+              <div style={{"background": "lightgray", "padding": "5px"}}>
+                {messages.filter(m => {return m.username === user.username})[0].mgs.map(m => {
+                  return (
+                    <div style={{"background": "white", "right": "10px", "borderRadius": "5px", "margin": "5px"}}>
+                      <b>{m}!!!</b>
+                    </div>
+                  )
+                })}
+              </div>
+
             </IonCardContent>
           </IonCard>
         </> : <IonText>loading</IonText>
