@@ -13,6 +13,7 @@ const UserInfo = ({user}) => {
 
   const [points, setPoints] = useState(0);
   const [quizes, setQuizes] = useState(0);
+  const [friends, setFriends] = useState(0);
 
   const [dummy, setDummy] = useState(false);
 
@@ -20,6 +21,7 @@ const UserInfo = ({user}) => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     let user = JSON.parse(loggedUserJSON)
     setPoints(user.points)
+    setFriends(user.friends.length)
   }, [dummy]);
 
   return (
@@ -40,7 +42,13 @@ const UserInfo = ({user}) => {
             <IonItem routerLink={'/userpanel'} routerDirection="none" lines="none" className="userInfoPerks" lines="none" detail={false}>
               <IonIcon slot="start" icon={help} />
               <IonLabel>my quizes</IonLabel>
-              <IonLabel>234</IonLabel>
+            </IonItem>
+          </IonCol>
+          <IonCol>
+            <IonItem onClick={() => setDummy(d => !d)} routerLink={'/friends'} routerDirection="none" lines="none" className="userInfoPerks" lines="none" detail={false}>
+              <IonIcon slot="start" icon={help} />
+              <IonLabel>friends</IonLabel>
+              <IonLabel>{friends}</IonLabel>
             </IonItem>
           </IonCol>
         </IonRow>

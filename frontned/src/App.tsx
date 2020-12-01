@@ -31,8 +31,8 @@ import Quizcreate from './pages/Quizcreate';
 import AdminPanel from './pages/AdminPanel'
 import TriviaQuiz from './pages/TriviaQuiz'
 import UsersPage from './pages/UsersPage'
-
 import UserPanel from './pages/UserPanel'
+import FriendsPage from './pages/FriendPanel'
 
 const App: React.FC = () => {
 
@@ -52,6 +52,7 @@ const App: React.FC = () => {
             <Route path="/adminpanel" component={AdminPanel} exact={true} />
             <Route path="/userpanel" component={UserPanel} exact={true} />
             <Route path='/users' component={UsersPage} exact />
+            <Route path='/friends' component={FriendsPage} exact />
             <Redirect from="/" to="/welcome" exact />
           </IonRouterOutlet>
         </IonSplitPane>
