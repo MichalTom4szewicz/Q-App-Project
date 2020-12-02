@@ -29,12 +29,14 @@ import {
 
 import usersService from '../../services/users'
 
-const User = ({user, setter, fsetter, messages, client}) => {
+const User = ({user, setter, fsetter, messages, client, setMessages}) => {
 
   // const [user, setUser] = useState();
   const [loggedUser, setLoggedUser] = useState();
 
   const [text, setText] = useState('');
+
+  const [dummy, setDummy] = useState(false);
 
 
   // let id = props.match.params.id
@@ -99,6 +101,17 @@ const User = ({user, setter, fsetter, messages, client}) => {
       user: userlogged.username,
       to: user.username
     }));
+
+    let newM = messages;
+    console.log("hej")
+    for (let i=0; i<messages.length; i++) {
+      if (newM[i].username === user.username) {
+        console.log("dupa")
+        newM[i].mgs = newM[i].mgs.concat({txt: text, own: true})
+      }
+    }
+    setDummy(d => !d)
+    setMessages(newM)
   }
 
 
@@ -132,8 +145,8 @@ const User = ({user, setter, fsetter, messages, client}) => {
               <div style={{"background": "lightgray", "padding": "5px"}}>
                 {messages.filter(m => {return m.username === user.username})[0].mgs.map(m => {
                   return (
-                    <div style={{"background": "white", "right": "10px", "borderRadius": "5px", "margin": "5px"}}>
-                      <b>{m}!!!</b>
+                    <div style={{"background": "white", "right": "10px", "borderRadius": "5px", "margin": "5px", "width": "50%"}}>
+                      <b style={m.own ? {"background":"lightblue"}: {}}>{m.txt}!!!</b>
                     </div>
                   )
                 })}

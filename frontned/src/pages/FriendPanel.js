@@ -68,7 +68,7 @@ const FriendPanel = (props) => {
           let newArr = messages
           for (let i=0; i<friends.length; i++) {
             if (newArr[i].username === dataFromServer.user) {
-              newArr[i].mgs = newArr[i].mgs.concat(dataFromServer.msg)
+              newArr[i].mgs = newArr[i].mgs.concat({txt: dataFromServer.msg, own: false})
               setYes(dataFromServer.msg)
             }
           }
@@ -131,7 +131,7 @@ const FriendPanel = (props) => {
                 </> : <IonText>loadin</IonText>
               }
           </> :
-          <User messages={messages} client={client} fsetter={setFriends} setter={setChoosenFriend} user={choosenFriend} />
+          <User messages={messages} setMessages={setMessages} client={client} fsetter={setFriends} setter={setChoosenFriend} user={choosenFriend} />
         }
 {/*
         {messages.map(m => {
