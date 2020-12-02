@@ -24,7 +24,8 @@ import {
   IonBadge,
   IonCardHeader,
   IonToast,
-  IonCheckbox
+  IonCheckbox,
+  IonInput
 } from '@ionic/react';
 
 import usersService from '../../services/users'
@@ -112,6 +113,7 @@ const User = ({user, setter, fsetter, messages, client, setMessages}) => {
     }
     setDummy(d => !d)
     setMessages(newM)
+    setText('')
   }
 
 
@@ -128,9 +130,11 @@ const User = ({user, setter, fsetter, messages, client, setMessages}) => {
         <>
           <IonCard>
             <IonCardContent>
-              <IonText>{user.id}</IonText>
+              {/* <IonText>{user.id}</IonText> */}
               <hr></hr>
-              <IonText>{user.name}</IonText>
+              <IonText>{"username: "+user.name}</IonText>
+              <hr></hr>
+              <IonText>{"points: "+user.points}</IonText>
               <hr></hr>
               {
                 loggedUser.friends.map(f => f.id).indexOf(user.id) >= 0 ?
@@ -139,17 +143,24 @@ const User = ({user, setter, fsetter, messages, client, setMessages}) => {
               }
               <IonButton onClick={() => setter(undefined)}>Back</IonButton>
 
-              <IonTextarea placeholder="here..." value={text} onIonChange={e => setText(e.detail.value)}></IonTextarea>
-              <IonButton onClick={() => sendMessage()}>send</IonButton>
-
               <div style={{"background": "lightgray", "padding": "5px"}}>
                 {messages.filter(m => {return m.username === user.username})[0].mgs.map(m => {
                   return (
-                    <div style={{"background": "white", "right": "10px", "borderRadius": "5px", "margin": "5px", "width": "50%"}}>
-                      <b style={m.own ? {"background":"lightblue"}: {}}>{m.txt}!!!</b>
+                    <div style={m.own ? {"background": "lightblue", "display": "block", "borderRadius": "5px", "margin": "5px"}
+                    : {"background": "white", "display": "block", "borderRadius": "5px", "margin": "5px"}}>
+                      <b style={m.own ? {"background":"lightblue"}: {}}>{m.txt}</b>
                     </div>
                   )
                 })}
+              </div>
+
+              <div style={{"margin-top": "10px", "border": "1px solid black", "display":"block"}}>
+                <div style={{"float": "left"}}>
+                  <IonInput placeholder="Type here" value={text} onIonChange={e => setText(e.detail.value)}></IonInput>
+                </div>
+                <div style={{"float": "right"}}>
+                  <IonButton onClick={() => sendMessage()}>send</IonButton>
+                </div>
               </div>
 
             </IonCardContent>

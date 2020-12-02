@@ -108,11 +108,11 @@ const FriendPanel = ({client}) => {
       </IonHeader>
 
       <IonContent>
-        {messages.map(m => {
+        {/* {messages.map(m => {
           return (
             <p>{m.username +"   "+ m.mgs.length}</p>
           )
-        })}
+        })} */}
 
         <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
@@ -133,14 +133,7 @@ const FriendPanel = ({client}) => {
           </> :
           <User messages={messages} setMessages={setMessages} client={client} fsetter={setFriends} setter={setChoosenFriend} user={choosenFriend} />
         }
-{/*
-        {messages.map(m => {
-          return (
-          <p>{m}</p>
-          )
-        })} */}
-
-    </IonContent>
+      </IonContent>
 
     </IonPage>
   );
