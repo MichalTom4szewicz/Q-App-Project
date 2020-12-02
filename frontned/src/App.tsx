@@ -33,7 +33,10 @@ import TriviaQuiz from './pages/TriviaQuiz'
 import UsersPage from './pages/UsersPage'
 import UserPanel from './pages/UserPanel'
 import FriendsPage from './pages/FriendPanel'
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
+
+const client = new W3CWebSocket('ws://192.168.1.19:8000');
 const App: React.FC = () => {
 
   return (
@@ -52,7 +55,7 @@ const App: React.FC = () => {
             <Route path="/adminpanel" component={AdminPanel} exact={true} />
             <Route path="/userpanel" component={UserPanel} exact={true} />
             <Route path='/users' component={UsersPage} exact />
-            <Route path='/friends' component={FriendsPage} exact />
+            <Route path='/friends' component={() => (<FriendsPage client={client}/>)} exact />
             <Redirect from="/" to="/welcome" exact />
           </IonRouterOutlet>
         </IonSplitPane>

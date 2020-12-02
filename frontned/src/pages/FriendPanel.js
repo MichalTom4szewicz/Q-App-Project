@@ -30,9 +30,9 @@ import User from '../components/friend/User'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const client = new W3CWebSocket('ws://192.168.1.19:8000');
 
-const FriendPanel = (props) => {
+
+const FriendPanel = ({client}) => {
 
   const [friends, setFriends] = useState([]);
 
