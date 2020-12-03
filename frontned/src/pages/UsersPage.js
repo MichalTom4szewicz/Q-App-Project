@@ -45,7 +45,8 @@ const UsersPage = (props) => {
     usersService
     .getAll()
     .then(receivedUsers => {
-      setUsers(receivedUsers.filter(u => {return u.username !== user.username}))
+      // setUsers(receivedUsers.filter(u => {return u.username !== user.username}))
+      setUsers(receivedUsers)
     })
   }, []);
 
@@ -69,10 +70,10 @@ const UsersPage = (props) => {
           <>
             {users ?
               <>
-                {users.map((u, i) => {
+                {users.sort((a, b) => {return b.points - a.points}).map((u, i) => {
                   return (
                     <IonItem button onClick={() => setChoosenUser(u) }>
-                      <IonText>{u.username}</IonText>
+                      <IonText>{(i+1)+"   "+u.username+"   "+ u.points}</IonText>
                     </IonItem>
                   )
                 })}

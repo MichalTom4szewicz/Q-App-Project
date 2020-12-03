@@ -39,7 +39,7 @@ const appPages = [
     mdIcon: warningSharp
   },
   {
-    title: 'Start FUN',
+    title: 'Solve QUIZ',
     url: '/quizchoice',
     iosIcon: mailOutline,
     mdIcon: mailSharp

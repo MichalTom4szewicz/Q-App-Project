@@ -62,11 +62,11 @@ const RegisterForm = ({
         </IonItem>
 
         <IonItem>
-          <IonInput required value={name} placeholder="Name" onIonChange={e => setName(e.detail.value)}></IonInput>
+          <IonInput required value={name} placeholder="Password" onIonChange={e => setName(e.detail.value)}></IonInput>
         </IonItem>
 
         <IonItem>
-          <IonInput required  type="password" value={password} placeholder="Password" onIonChange={e => setPassword(e.detail.value)}></IonInput>
+          <IonInput required  type="password" value={password} placeholder="Repeat password" onIonChange={e => setPassword(e.detail.value)}></IonInput>
         </IonItem>
 
         <IonButton className="log_regButton" type="submit">sign up</IonButton>
