@@ -26,7 +26,7 @@ const UserInfo = ({user}) => {
 
   return (
     <div id="userInfo">
-      <img id="userImage" src="https://i1.wp.com/japonistyka.orient.uw.edu.pl/wp-content/uploads/2019/08/portrait-square-03.jpg"></img>
+      {/* <img id="userImage" src="https://i1.wp.com/japonistyka.orient.uw.edu.pl/wp-content/uploads/2019/08/portrait-square-03.jpg"></img> */}
       <IonTitle id="usernameNote">{user.username}</IonTitle>
       <IonGrid id="grid">
         <IonRow>

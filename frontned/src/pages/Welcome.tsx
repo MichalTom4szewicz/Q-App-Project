@@ -64,13 +64,13 @@ const Welcome: React.FC = () => {
           {/* <img src="https://pbs.twimg.com/profile_images/929730220902551553/Z0kv0GMx.jpg" alt="quoka"></img> */}
 
           <div style={{"background": "aliceblue"}}>
-            <h3>Regulamin:</h3>
+            <h3>Terms of service:</h3>
             <ol>
-              <li>Nie bądź niemiły</li>
-              <li>Nie utrudniaj życia administratorom</li>
-              <li>Nie wrzucaj niedopowiednich materiałów</li>
-              <li>Nie wrzucaj śmieciowych materiałów</li>
-              <li>Bądź uczciwy przy rozwiązywaniu quizów</li>
+              <li>Be kind</li>
+              <li>Don't make admin's life harder</li>
+              <li>Create family friendly content</li>
+              <li>Make sure your quizes are usefull</li>
+              <li>Be honest while solving quizes</li>
             </ol>
           </div>
           <IonCardHeader>

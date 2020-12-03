@@ -23,11 +23,11 @@ import {
   IonBadge,
   IonCardHeader,
   IonToast,
-  IonCheckbox
+  IonCheckbox, IonSearchbar, IonFab, IonFabButton
 } from '@ionic/react';
 
 import usersService from '../services/users'
-
+import {search, chevronUpSharp } from 'ionicons/icons';
 import User from '../components/userpage/User'
 
 const UsersPage = (props) => {
@@ -37,6 +37,9 @@ const UsersPage = (props) => {
 
   const [user, setUser] = useState();
   const [loggedUser, setLoggedUser] = useState();
+
+  const [searchBarVisible, setSearchBarVisible] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -63,14 +66,22 @@ const UsersPage = (props) => {
           </IonButtons>
             <IonTitle onClick={() => setChoosenUser(undefined)}>{`Users ${choosenUser ? '/'+choosenUser.username : ''}`}</IonTitle>
         </IonToolbar>
+
+        {searchBarVisible ? <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value)} showCancelButton="focus"></IonSearchbar> : ''}
       </IonHeader>
 
       <IonContent>
+        <IonFab vertical="top" horizontal="end" slot="fixed">
+          <IonFabButton onClick={() => setSearchBarVisible(s => !s)}>
+            <IonIcon icon={searchBarVisible ? chevronUpSharp : search} />
+          </IonFabButton>
+        </IonFab>
+
         {choosenUser === undefined ?
           <>
             {users ?
               <>
-                {users.sort((a, b) => {return b.points - a.points}).map((u, i) => {
+                {users.filter(q => {return q.username.includes(searchText)}).sort((a, b) => {return b.points - a.points}).map((u, i) => {
                   return (
                     <IonItem button onClick={() => setChoosenUser(u) }>
                       <IonText>{(i+1)+"   "+u.username+"   "+ u.points}</IonText>

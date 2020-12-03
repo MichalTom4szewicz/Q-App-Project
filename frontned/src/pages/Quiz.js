@@ -106,7 +106,7 @@ const Quiz = (props) => {
               preview ?
               <IonCard>
                 <IonCardHeader>
-                  <IonTitle>Jakies durne statysyki</IonTitle>
+                  <IonTitle>Quiz information</IonTitle>
                 </IonCardHeader>
                 <IonCardContent>
                   {/* {repArray.map((e, i) => {
