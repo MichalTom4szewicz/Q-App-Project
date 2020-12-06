@@ -36,7 +36,6 @@ import FriendsPage from './pages/FriendPanel'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 
-const client = new W3CWebSocket('ws://192.168.1.19:8000');
 const App: React.FC = () => {
 
   const [ddd, setDdd] = useState(false);
@@ -46,23 +45,21 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonSplitPane contentId="main">
 
-          <Menu client={client} setter={setDdd}/>
+          <Menu setter={setDdd}/>
 
           <IonRouterOutlet id="main">
             <Route path="/welcome" component={Welcome} exact />
             <Route path='/quizchoice' component={() => (<Quizchoice ddd={ddd}/>)} exact />
 
-
             <Route path='/quizchoice/:id' component={Quiz} exact/>
-
-
 
             <Route path='/triviaquiz/:category' component={TriviaQuiz} exact />
             <Route path="/quizcreate" component={Quizcreate} exact={true} />
             <Route path="/adminpanel" component={AdminPanel} exact={true} />
             <Route path="/userpanel" component={UserPanel} exact={true} />
             <Route path='/users' component={UsersPage} exact />
-            <Route path='/friends' component={() => (<FriendsPage client={client}/>)} exact />
+            {/* <Route path='/friends' component={() => (<FriendsPage client={client}/>)} exact /> */}
+            <Route path='/friends' component={FriendsPage} exact />
             <Redirect from="/" to="/welcome" exact />
           </IonRouterOutlet>
         </IonSplitPane>

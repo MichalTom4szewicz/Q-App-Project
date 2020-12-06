@@ -29,10 +29,12 @@ import usersService from '../services/users'
 import User from '../components/friend/User'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Vibration } from '@ionic-native/vibration';
+import { setTokenSourceMapRange } from 'typescript';
 
+const client = new W3CWebSocket('ws://192.168.1.19:8000');
 
-const FriendPanel = ({client}) => {
+const FriendPanel = (props) => {
 
   const [friends, setFriends] = useState([]);
 
@@ -46,16 +48,33 @@ const FriendPanel = ({client}) => {
 
   const [yes, setYes] = useState('');
 
+  const [tmp, setTmp] = useState(false);
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     const user = JSON.parse(loggedUserJSON)
-    setFriends(user.friends)
+
+    const oa = user.friends.map(f => {return {friend: f, nowe: 0}})
+    console.log(oa)
+    setFriends(oa)
 
     let msgs = user.friends.map(f => ({username: f.username, mgs: []}))
     setMessages(msgs)
 
   }, []);
+
+  const decFun = usr => {
+    let newFriends = friends
+
+    for(let i=0; i<friends.length; i++) {
+      if(newFriends[i].friend.username === usr) {
+        newFriends[i].nowe = 0
+      }
+    }
+
+    setFriends(newFriends)
+  }
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -65,7 +84,26 @@ const FriendPanel = ({client}) => {
       const dataFromServer = JSON.parse(message.data);
       if (dataFromServer.type === "message" && dataFromServer.to === user.username) {
         if (user.friends.map(f => f.username).indexOf(dataFromServer.user) >= 0) {
+
+          let newFriends = friends
+
+          for(let i=0; i<friends.length; i++) {
+            if(newFriends[i].friend.username === dataFromServer.user) {
+              if(choosenFriend !== undefined){
+                if(choosenFriend.friend.username !== dataFromServer.user) {
+                  newFriends[i].nowe += 1
+                }
+              } else {
+                newFriends[i].nowe += 1
+              }
+            }
+          }
+
+          setFriends(newFriends)
+
+
           let newArr = messages
+          Vibration.vibrate([300,100,300])
           for (let i=0; i<friends.length; i++) {
             if (newArr[i].username === dataFromServer.user) {
               newArr[i].mgs = newArr[i].mgs.concat({txt: dataFromServer.msg, own: false})
@@ -79,8 +117,9 @@ const FriendPanel = ({client}) => {
   }, [messages]);
 
   const fetchFriend = user => {
+    console.log('hej', user.friend.id)
     usersService
-    .getOne(user.id)
+    .getOne(user.friend.id)
     .then(u => {
       setChoosenFriend(u);
     })
@@ -91,6 +130,15 @@ const FriendPanel = ({client}) => {
     const user = JSON.parse(loggedUserJSON)
     setFriends(user.friends)
     event.detail.complete();
+  }
+
+
+
+  const fun = () => {
+    // LocalNotifications.schedule({
+    //   id: 1,
+    //   text: 'dupa dupa dupa'
+    // })
   }
 
   return (
@@ -123,8 +171,11 @@ const FriendPanel = ({client}) => {
                 <>
                   {friends.map((u, i) => {
                     return (
-                      <IonItem button onClick={() => fetchFriend(u)}>
-                        <IonText>{u.username}</IonText>
+                      <IonItem button onClick={() => {
+                        fetchFriend(u)
+                        decFun(u.friend.username)
+                        }}>
+                        <IonText>{u.friend.username}{" "+u.nowe}</IonText>
                       </IonItem>
                     )
                   })}

@@ -58,14 +58,13 @@ const appPages = [
   }
 ];
 
-const Menu = ({setter, client}) => {
+const Menu = ({setter}) => {
   const [user, setUser] = useState(null)
   const [errorMsg, setErrorMsg] = useState("")
 
   const loginForm = () => {
     return (
       <LoginForm
-        client={client}
         setErrorMsg={setErrorMsg}
         setUser={setUser}
       />

@@ -18,7 +18,7 @@ import loginService from '../../services/login'
 
 const LoginForm = ({
   setUser,
-  setErrorMsg, client
+  setErrorMsg
 }) => {
 
   const [username, setUsername] = useState('')
