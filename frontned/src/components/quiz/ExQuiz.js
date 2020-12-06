@@ -42,7 +42,7 @@ const ExQuiz = ({setTriviaCard}) => {
               {
                 categories.map(c => {
                   return (
-                    <IonItem button href={`triviaquiz/${c.id}`} onClick={() => setTriviaCard(false)} key={c.id}>
+                    <IonItem button routerLink={`triviaquiz/${c.id}`} onClick={() => setTriviaCard(false)} key={c.id}>
                       <IonText>{`${c.id}:`}</IonText>
                       <IonText>{c.name}</IonText>
                     </IonItem>
