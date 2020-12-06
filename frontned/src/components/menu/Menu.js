@@ -58,7 +58,7 @@ const appPages = [
   }
 ];
 
-const Menu = () => {
+const Menu = ({setter}) => {
   const [user, setUser] = useState(null)
   const [errorMsg, setErrorMsg] = useState("")
 
@@ -117,32 +117,20 @@ const Menu = () => {
               {user.access !== 'user' ? appPages.map((appPage, index) => {
                 return (
                   <IonMenuToggle key={index} autoHide={false}>
-                    {appPage.title === 'Start FUN' || appPage.title === 'Admin Panel' ?
-                      <IonItem href={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
-                        <IonIcon slot="start" icon={appPage.iosIcon} />
-                        <IonLabel>{appPage.title}</IonLabel>
-                      </IonItem> :
-                      <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                    <IonItem onClick={() => setter(w => !w)} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
                         <IonIcon slot="start" icon={appPage.iosIcon} />
                         <IonLabel>{appPage.title}</IonLabel>
                       </IonItem>
-                    }
                   </IonMenuToggle>
                 );
               }):
               appPages.filter(p => {return p.title !== 'Admin Panel'}).map((appPage, index) => {
                 return (
                   <IonMenuToggle key={index} autoHide={false}>
-                    {appPage.title === 'Start FUN' ?
-                      <IonItem href={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
-                        <IonIcon slot="start" icon={appPage.iosIcon} />
-                        <IonLabel>{appPage.title}</IonLabel>
-                      </IonItem> :
-                      <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
+                    <IonItem routerLink={appPage.url} routerDirection="none" lines="none" detail={false}> {/* routerLink nie odswieza/ nie rerenderuje */}
                         <IonIcon slot="start" icon={appPage.iosIcon} />
                         <IonLabel>{appPage.title}</IonLabel>
                       </IonItem>
-                    }
                   </IonMenuToggle>
                 );
               })}

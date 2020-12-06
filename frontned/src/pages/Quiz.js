@@ -54,6 +54,8 @@ const Quiz = (props) => {
   useEffect(() => {
     const id = props.match.params.id
 
+    setView('info')
+
     quizPreviewService
     .getOne(id)
     .then(preview => {

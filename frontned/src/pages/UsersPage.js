@@ -84,7 +84,7 @@ const UsersPage = (props) => {
                 {users.filter(q => {return q.username.includes(searchText)}).sort((a, b) => {return b.points - a.points}).map((u, i) => {
                   return (
                     <IonItem button onClick={() => setChoosenUser(u) }>
-                      <IonText>{(i+1)+"   "+u.username+"   "+ u.points}</IonText>
+                      <IonText>{(i+1)+".   "+u.username+"   points: "+ u.points}</IonText>
                     </IonItem>
                   )
                 })}

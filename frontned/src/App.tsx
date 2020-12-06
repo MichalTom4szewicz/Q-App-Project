@@ -39,17 +39,24 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 const client = new W3CWebSocket('ws://192.168.1.19:8000');
 const App: React.FC = () => {
 
+  const [ddd, setDdd] = useState(false);
+
   return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
 
-          <Menu />
+          <Menu setter={setDdd}/>
 
           <IonRouterOutlet id="main">
             <Route path="/welcome" component={Welcome} exact />
-            <Route path='/quizchoice' component={Quizchoice} exact />
-            <Route path='/quizchoice/:id' component={Quiz} exact />
+            <Route path='/quizchoice' component={() => (<Quizchoice ddd={ddd}/>)} exact />
+
+
+            <Route path='/quizchoice/:id' component={Quiz} exact/>
+
+
+
             <Route path='/triviaquiz/:category' component={TriviaQuiz} exact />
             <Route path="/quizcreate" component={Quizcreate} exact={true} />
             <Route path="/adminpanel" component={AdminPanel} exact={true} />

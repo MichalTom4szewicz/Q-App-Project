@@ -58,7 +58,7 @@ const Quizchoice = (props) => {
     .then(initialQuizes => {
       setQuizShorts(initialQuizes)
     })
-  }, [])
+  }, [props.ddd])
 
   return (
     <IonPage>
@@ -96,7 +96,7 @@ const Quizchoice = (props) => {
 
         {quizShorts.filter(q => {return q.title.includes(searchText)}).map( q => {
           return (
-            <IonItem button href={`quizchoice/${q.ref}`} key={q.id}>
+            <IonItem button routerLink={`quizchoice/${q.ref}`} key={q.id}>
               <IonText>{q.title}</IonText>
             </IonItem>
           )})
