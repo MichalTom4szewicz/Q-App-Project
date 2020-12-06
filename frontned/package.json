@@ -9,6 +9,7 @@
     "@ionic-native/core": "^5.28.0",
     "@ionic-native/flashlight": "^5.28.0",
     "@ionic-native/full-screen-image": "^5.28.0",
+    "@ionic-native/local-notifications": "^5.30.0",
     "@ionic-native/photo-viewer": "^5.28.0",
     "@ionic/pwa-elements": "^3.0.1",
     "@ionic/react": "^5.0.7",

@@ -29,7 +29,7 @@ import usersService from '../services/users'
 import User from '../components/friend/User'
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 const FriendPanel = ({client}) => {
