@@ -73,9 +73,28 @@ const Questions = ({quiz, id, setView,}) => {
     }, 2000)
   }
 
-  const apply = () => {
+  const arraysEqual = (a, b) => {
+    if (a == null || b == null)
+      return false
+    if (a.length !== b.length)
+      return false;
+    let ca = a.map(e => e)
+    let cb = b.map(e => e)
+    ca.sort()
+    cb.sort()
 
-    if(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}).every(v => questions[counter].valid.indexOf(v) >= 0)) {
+    for(let i=0; i<ca.length; i++) {
+      if(ca[i] !== cb[i])
+        return false
+    }
+
+    return true;
+  }
+
+  const apply = () => {
+    // if(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}).every(v => questions[counter].valid.indexOf(v) >= 0)) {
+    if(arraysEqual(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}), questions[counter].valid)) {
+      console.log('dobra odpowiedz')
       setPoints(p => p+1)
     }
 
@@ -208,6 +227,8 @@ const Questions = ({quiz, id, setView,}) => {
         )
       })
     }
+
+    setView('info')
   }
 
   const changeRating = (r) => {
@@ -227,7 +248,7 @@ const Questions = ({quiz, id, setView,}) => {
 
           {history.map((h, i) => {
             return(
-              <IonCard style={h.selected.every(v => h.valid.indexOf(v) >= 0) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
+              <IonCard style={arraysEqual(h.selected, h.valid) ? {background: 'springgreen'} : {background: 'lightcoral'}} key={i}>
 
                 <IonCardHeader>
                   <img onClick={() => fullscreen(h.image)} src={h.image} alt=""></img>
@@ -239,7 +260,7 @@ const Questions = ({quiz, id, setView,}) => {
                 </IonCardHeader>
 
                 <IonCardContent>
-                  {h.selected.every(v => h.valid.indexOf(v) >= 0) ?
+                  {arraysEqual(h.selected, h.valid) ?
                     <IonItem lines="none" detail={false}>
                       <IonIcon slot="start" icon={checkmark} />
                       <div className="questionsText">
@@ -289,6 +310,7 @@ const Questions = ({quiz, id, setView,}) => {
 
   return(
     <IonCard>
+      <h1>points{points}</h1>
       {quizOver ? summary() : quizz()}
       <IonToast
         isOpen={toastVisible}

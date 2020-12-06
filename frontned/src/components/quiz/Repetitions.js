@@ -57,6 +57,24 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
     setLoading(false)
   }, [counter])
 
+  const arraysEqual = (a, b) => {
+    if (a == null || b == null)
+      return false
+    if (a.length !== b.length)
+      return false;
+    let ca = a.map(e => e)
+    let cb = b.map(e => e)
+    ca.sort()
+    cb.sort()
+
+    for(let i=0; i<ca.length; i++) {
+      if(ca[i] !== cb[i])
+        return false
+    }
+
+    return true;
+  }
+
   const setTimeoutedToast = (message, color) => {
     setToastMessage(message)
     setToastColor(color)
@@ -72,7 +90,7 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
 
   const apply = () => {
 
-    if(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}).every(v => questions[counter].valid.indexOf(v) >= 0)) {
+    if(arraysEqual(selected.map((s, i) => s ? questions[counter].answers[i] : s).filter(s => {return s ? true : false}), questions[counter].valid)) {
       let newArr = [...reps];
       newArr[counter] -= 1;
       setReps(newArr);
