@@ -188,7 +188,7 @@ const Repetitions = ({reps, setReps, quiz, id, setView,}) => {
 
           <IonText>Now you are prepared!</IonText>
 
-          <IonButton routerLink={"/quizchoice"}>
+          <IonButton onClick={() => setView('info')} routerLink={"/quizchoice"}>
             Go back to quizes
           </IonButton>
         </IonCardContent>

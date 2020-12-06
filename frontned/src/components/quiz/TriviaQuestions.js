@@ -25,10 +25,12 @@ import {addOutline,checkmark, close, happy,mailOutline, mailSharp, trashSharp, w
 
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import quizService from '../../services/quizes'
+import usersService from '../../services/users'
 
 import './TriviaQuestions.css'
+import { setTokenSourceMapRange } from 'typescript';
 
-const TriviaQuestions = ({questions}) => {
+const TriviaQuestions = ({questions, setTmp}) => {
   const [counter, setCounter] = useState(0);
   const [selected, setSelected] = useState([]);
   const [points, setPoints] = useState(0);
@@ -131,13 +133,43 @@ const TriviaQuestions = ({questions}) => {
     )
   }
 
+  const addPoints = () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    let user = JSON.parse(loggedUserJSON)
+
+    const newPoints = {
+      points: Math.floor((points/questions.length*100))
+    }
+
+    usersService.setToken(user.token)
+    usersService
+    .updatePoints(newPoints)
+    .then((res) => {
+      if(res.success) {
+        user.points += newPoints.points
+        window.localStorage.clear()
+        window.localStorage.setItem(
+          'loggedUser', JSON.stringify(user)
+        )
+      }
+    })
+
+    setQuizOver(false)
+    setTmp(t => !t)
+    setCounter(0)
+    setHistory([])
+    setPoints(0)
+    setSelected([])
+    setAnswerChecked(false)
+  }
+
   const summary = () => {
     return (
       <>
         <IonCardHeader>
             {/* <IonText>{points}pkt</IonText> */}
             <IonTitle>{`Your score: ${Math.round((points/questions.length*100 + Number.EPSILON) * 100) / 100}%`}</IonTitle>
-            <IonText>{`For that quiz you received ${points} points!`}</IonText>
+            <IonText>{`For that quiz you received ${Math.floor((points/questions.length*100))} points!`}</IonText>
         </IonCardHeader>
 
         <IonCardContent>
@@ -184,7 +216,7 @@ const TriviaQuestions = ({questions}) => {
           })}
 
         </IonCardContent>
-        <IonButton routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
+        <IonButton onClick={addPoints} routerLink={"/quizchoice"} > {/*onClick={() => setView('info')}*/}
           Go back to quizes
         </IonButton>
       </>

@@ -87,7 +87,7 @@ const Quiz = (props) => {
         setCanRepeat(true)
       }
     })
-  }, [repetitions])
+  }, [repetitions, props])
 
   return (
     <IonPage>

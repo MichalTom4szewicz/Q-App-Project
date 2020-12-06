@@ -32,6 +32,7 @@ import TriviaQuestions from '../components/quiz/TriviaQuestions'
 
 const TriviaQuiz = (props) => {
   const [questions, setQuestions] = useState(undefined);
+  const [tmp, setTmp] = useState(false);
 
   useEffect(() => {
     const category = props.match.params.category
@@ -41,7 +42,8 @@ const TriviaQuiz = (props) => {
     .then(quiz => {
       setQuestions(quiz)
     })
-  }, [])
+    console.log('newquiz!')
+  }, [tmp])
 
   return(
     <IonPage>
@@ -55,7 +57,7 @@ const TriviaQuiz = (props) => {
       </IonHeader>
 
       <IonContent>
-        {questions ? <TriviaQuestions questions={questions} /> : <h1>loding</h1> }
+        {questions ? <TriviaQuestions setTmp={setTmp} setq={setQuestions} questions={questions} /> : <h1>loding</h1> }
       </IonContent>
 
     </IonPage>

@@ -46,7 +46,7 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonSplitPane contentId="main">
 
-          <Menu setter={setDdd}/>
+          <Menu client={client} setter={setDdd}/>
 
           <IonRouterOutlet id="main">
             <Route path="/welcome" component={Welcome} exact />
