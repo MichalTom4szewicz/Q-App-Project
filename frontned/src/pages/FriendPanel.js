@@ -137,7 +137,6 @@ const FriendPanel = (props) => {
   const fun = () => {
     // LocalNotifications.schedule({
     //   id: 1,
-    //   text: 'dupa dupa dupa'
     // })
   }
 
