@@ -17,7 +17,7 @@ import registerService from '../../services/register'
 import './RegisterForm.css'
 
 const RegisterForm = ({
-    setErrorMsg
+    setErrorMsg, setToastColor, setToastVisible
  }) => {
 
   const [username, setUsername] = useState('')
@@ -31,14 +31,39 @@ const RegisterForm = ({
         username, name,  password,
       })
 
-      setUsername('')
-      setName('')
-      setPassword('')
+      if (user.message) {
 
-      setErrorMsg('successful registration, now you can log in')//JSON.parse(exception.response.request.response).error
-      setTimeout(() => {
-        setErrorMsg(null)
-      }, 5000)
+        setUsername('')
+        setName('')
+        setPassword('')
+
+        setErrorMsg(user.message)//JSON.parse(exception.response.request.response).error
+        setToastColor("danger")
+        setToastVisible(true)
+
+        setTimeout(() => {
+          setToastVisible(false)
+          // setToastColor("danger")
+          setErrorMsg(null)
+        }, 5000)
+
+      } else {
+        setUsername('')
+        setName('')
+        setPassword('')
+
+        setErrorMsg('successful registration, now you can log in')//JSON.parse(exception.response.request.response).error
+
+        setToastColor("success")
+        setToastVisible(true)
+
+        setTimeout(() => {
+          setErrorMsg(null)
+          setToastVisible(false)
+        }, 5000)
+      }
+
+
 
     } catch (exception) {
       setUsername('')

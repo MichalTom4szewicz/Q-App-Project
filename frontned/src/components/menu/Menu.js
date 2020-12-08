@@ -10,7 +10,7 @@ import {
   IonButton,
   IonNote,
   IonHeader,
-  IonToolbar, IonTitle, IonRow, IonGrid, IonCol
+  IonToolbar, IonTitle, IonRow, IonGrid, IonCol, IonToast
 } from '@ionic/react';
 
 import React, { useState, useEffect } from 'react';
@@ -62,10 +62,15 @@ const Menu = ({setter}) => {
   const [user, setUser] = useState(null)
   const [errorMsg, setErrorMsg] = useState("")
 
+  const [toastColor, setToastColor] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
+
   const loginForm = () => {
     return (
       <LoginForm
         setErrorMsg={setErrorMsg}
+        setToastColor={setToastColor}
+        setToastVisible={setToastVisible}
         setUser={setUser}
       />
     )
@@ -74,6 +79,8 @@ const Menu = ({setter}) => {
   const registerForm = () => {
     return (
       <RegisterForm
+        setToastColor={setToastColor}
+        setToastVisible={setToastVisible}
         setErrorMsg={setErrorMsg}
       />
     )
@@ -106,7 +113,14 @@ const Menu = ({setter}) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {errorMsg}
+
+        <IonToast
+          isOpen={toastVisible}
+          onDidDismiss={() => setToastVisible(false)}
+          message={errorMsg}
+          position="top"
+          color={toastColor}
+        />
 
         <div id="con">
           {user === null ?

@@ -18,7 +18,7 @@ import loginService from '../../services/login'
 
 const LoginForm = ({
   setUser,
-  setErrorMsg
+  setErrorMsg, setToastColor, setToastVisible
 }) => {
 
   const [username, setUsername] = useState('')
@@ -45,8 +45,12 @@ const LoginForm = ({
       setUsername('')
       setPassword('')
       setErrorMsg(JSON.parse(exception.response.request.response).error)
+      setToastColor("danger")
+      setToastVisible(true)
+
       setTimeout(() => {
         setErrorMsg(null)
+        setToastVisible(false)
       }, 5000)
     }
   }

@@ -63,9 +63,13 @@ usersRouter.post('/', async (request, response) => {
     passwordHash,
   })
 
-  const savedUser = await user.save()
-
-  response.json(savedUser)
+  try{
+    const savedUser = await user.save()
+    response.json(savedUser)
+  } catch(e) {
+    console.log('dupa', e)
+    response.json({message: "username taken"})
+  }
 })
 
 usersRouter.put('/friend', async (request, response) => {
